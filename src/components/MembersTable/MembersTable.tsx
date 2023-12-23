@@ -1,15 +1,20 @@
-import { membersData } from '@/utils/data';
-import { Member } from '@/utils/types';
-import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
-import { Chip } from '@material-tailwind/react';
+import { membersData } from "@/utils/data";
+import { Member } from "@/utils/types";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { Chip } from "@material-tailwind/react";
 import React, { useState } from 'react'
-import { MdDelete, MdOutlineManageAccounts } from 'react-icons/md';
+
+import { MdDelete } from "react-icons/md";
+import { MdOutlineManageAccounts } from "react-icons/md";
 
 type Props = {}
+
 const TABLE_HEAD = ["Image", "Name", "Email", "Status", "Training Plan", "Edit"];
 
-const Admin = (props: Props) => {
 
+
+
+const MembersTable = (props: Props) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [members, setMembers] = useState<Member[]>(membersData);
 
@@ -110,4 +115,4 @@ const Admin = (props: Props) => {
   )
 }
 
-export default Admin
+export default MembersTable

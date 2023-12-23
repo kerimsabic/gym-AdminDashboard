@@ -48,7 +48,7 @@ export const links: MenuSection[] = [
     title: 'Apps',
     links: [
       {
-        name: 'training plans',
+        name: 'plans',
         icon: <AiOutlineCalendar />,
       },
       {
@@ -110,16 +110,16 @@ type Props = {
 const Sidebar = (props: Props) => {
 
 
-  const activeLink = "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md m-2 bg-[#e2e8f0]";
-  const normalLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 hover:bg-[#f8fafc] hover:bg-light-gray m-2';
+  const activeLink = "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md m-2 bg-[#ffffff]";
+  const normalLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-white hover:text-black dark:text-gray-200 hover:bg-[#f8fafc] hover:bg-light-gray m-2';
 
   return (
 
-    <div  className={`overflow-x-auto kerim transition-all bg-[#ffffff] duration-700 ease-in-out absolute w-[300px] left-0 top-[100px] ${props.isActive ? 'left-[-300px]' : 'left-0'}`}>
+    <div  className={`overflow-x-auto kerim transition-all bg-[#191d4f] duration-700 ease-in-out absolute w-[300px] left-0 top-[100px] bg-[#bbdeef] ${props.isActive ? 'left-[-300px]' : 'left-0'}`}>
           <div>
             {links.map((item) => (
               <div key={item.title}>
-                <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
+                <p className="text-white  m-3 mt-4 uppercase">
                   {item.title}
                 </p>
                 {item.links.map((link) => (

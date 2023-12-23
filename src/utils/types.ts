@@ -3,10 +3,33 @@ export interface Link {
   icon: JSX.Element;
 }
 
-export interface MenuSection {
+export type MenuSection = {
   title: string;
   links: Link[];
 }
 
-// Define the links array with the specified structure
+export type Member = {
+  img: string;
+  name: string;
+  email: string;
+  status: boolean;
+  plan:string;
+  id:string
+}
+
+export type Trainer = {
+  img: string;
+  name: string;
+  email: string;
+  status: boolean;
+}
+
+export type TrainingPlan ={
+  planName: string;
+  price: string;
+  numOfUsers: number;
+  status: boolean;
+}
+
+
 
