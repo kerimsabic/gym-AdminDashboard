@@ -8,27 +8,53 @@ export type MenuSection = {
   links: Link[];
 }
 
+export enum StatusType {
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
+}
+
 export type Member = {
-  img: string;
-  name: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  userType: "ADMIN" | "MEMBER" | "TRAINER";
   email: string;
-  status: boolean;
-  plan:string;
-  id:string
+  userName: string;
+  image?: string;
+  qrCode: string;
+  trainerEmail: string;
+  TrainerImage: string;
+  trainerName: string;
+  trainerId: string;
+  trainerUserType: "TRAINER";
+  address:string;
+  phone:string;
+  statusType: StatusType
+  password:string
+  trainingPlanName:string;
+  trainingPlanId:string
+
 }
 
-export type Trainer = {
-  img: string;
-  name: string;
+export interface Trainer  {
+  id: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  status: boolean;
+  userName: string;
+  address:string;
+  phone:string;
+  statusType: StatusType
+  password:string
+  members:Member[]
 }
 
-export type TrainingPlan ={
-  planName: string;
+export type TrainingPlan = {
+  id: string;
+  name: string;
+  description: string;
   price: string;
-  numOfUsers: number;
-  status: boolean;
+  statusType: "online" | "offline";
 }
 
 

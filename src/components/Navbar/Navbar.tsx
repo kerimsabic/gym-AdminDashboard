@@ -10,8 +10,8 @@ const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState<boolean>(true); 
   return (
     
-    <div className="flex px-6 z-10  bg-[#191d4f] top-0 sticky">
-      <div className='flex gap-6 items-center w-full h-[100px]'>
+    <div className="flex px-6 z-40  bg-[#191d4f] top-0 sticky">
+      <div className='flex gap-6 items-center w-full h-[90px]'>
           <button onClick={()=>setActiveMenu(!activeMenu)} className="">
             {activeMenu ? (
               <div className='text-white text-3xl max-md:text-base'>

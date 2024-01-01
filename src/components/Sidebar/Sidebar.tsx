@@ -115,7 +115,7 @@ const Sidebar = (props: Props) => {
 
   return (
 
-    <div  className={`overflow-x-auto kerim transition-all bg-[#191d4f] duration-700 ease-in-out absolute w-[300px] left-0 top-[100px]  ${props.isActive ? 'left-[-300px]' : 'left-0'}`}>
+    <div  className={`overflow-x-auto kerim transition-all bg-[#191d4f] duration-700 ease-in-out absolute w-[300px] left-0 top-[90px]  ${props.isActive ? 'left-[-300px]' : 'left-0'}`}>
           <div>
             {links.map((item) => (
               <div key={item.title}>

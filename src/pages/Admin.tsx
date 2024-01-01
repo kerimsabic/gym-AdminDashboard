@@ -1,4 +1,4 @@
-import { membersData } from '@/utils/data';
+
 import { Member } from '@/utils/types';
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { Chip } from '@material-tailwind/react';
@@ -10,7 +10,7 @@ const TABLE_HEAD = ["Image", "Name", "Email", "Status", "Training Plan", "Edit"]
 
 const Admin = (props: Props) => {
 
-  const [searchTerm, setSearchTerm] = useState('');
+  /*const [searchTerm, setSearchTerm] = useState('');
   const [members, setMembers] = useState<Member[]>(membersData);
 
   const handleDelete = (name: string) => {
@@ -24,10 +24,10 @@ const Admin = (props: Props) => {
       member.name.toLowerCase().includes(event.target.value.toLowerCase())
     );
     setMembers(filteredMembers);
-  };
+  };*/
   return (
 
-    <div className="w-[80%]  mx-auto flex md:justify-center max-md:w-[95%] mt-10 ">
+    /*<div className="w-[80%]  mx-auto flex md:justify-center max-md:w-[95%] mt-10 ">
       <div className=" w-full  max-md:overflow-x-scroll " >
         <div className="mb-4 w-full flex items-center">
           <input
@@ -103,11 +103,11 @@ const Admin = (props: Props) => {
           </tbody>
         </table>
       </div>
+    </div>*/
+    <div>
+      
     </div>
-
-
-
-  )
+    )
 }
 
 export default Admin
