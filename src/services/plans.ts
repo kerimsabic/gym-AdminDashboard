@@ -11,7 +11,7 @@ const getPlanId=async(id:string)=>{
 }
 
 const createPlan=async(plan:TrainingPlan): Promise<TrainingPlan>=>{
-    return await appAxios.post('/trainingPlan/create', plan).then((result)=>{return result.data})
+    return await appAxios.post('/trainingPlans/create', plan).then((result)=>{return result.data})
 }
 
 const deletePlan=async(id:String)=>{

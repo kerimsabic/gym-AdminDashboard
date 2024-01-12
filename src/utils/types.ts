@@ -50,12 +50,18 @@ export interface Trainer  {
 }
 
 export type TrainingPlan = {
+ 
   id: string;
   name: string;
   description: string;
   price: string;
-  statusType: "online" | "offline";
+  statusType: StatusType;
 }
 
+
+export enum FormMode {
+  ADD = 'add',
+  EDIT = 'edit',
+}
 
 

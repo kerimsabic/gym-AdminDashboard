@@ -13,6 +13,7 @@ import UserDetail from "../UserDetail";
 import { FaRegEye } from "react-icons/fa";
 import { Member, StatusType } from "@/utils/types";
 import { useQueryClient } from "react-query";
+import { useUpdateMember } from "@/hooks/useUpdateMember";
 
 type Props = {}
 
@@ -21,15 +22,23 @@ const TABLE_HEAD = ["Image", "Name", "Email", "Status", "Address", "Phone", "Edi
 const MembersTable = (props: Props) => {
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [openModal, setOpenModal] = useState(false);
+  //const [openModal, setOpenModal] = useState(false);
+
+  const [openAddMemberModal, setOpenAddMemberModal] = useState(false);
+  const [openEditMemberModal, setOpenEditMemberModal] = useState(false);
 
 
   const membersData = useMembers();
   const deleteMember = useDeleteMember();
+  //const updateMember= useUpdateMember();
 
   const handleDeleteMember = (id: string) => {
     deleteMember.mutate(id);
   };
+
+ /* const handleUpdateMember=(member:Member)=>{
+      updateMember.mutate(member)
+  }*/
 
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const userData = useMember(selectedUserId)
@@ -49,6 +58,8 @@ const MembersTable = (props: Props) => {
 
   
 
+  
+
 
   if (membersData.isLoading) {
     return <span>Data loading...</span>
@@ -62,9 +73,10 @@ const MembersTable = (props: Props) => {
   return (
     <>
 
-      {openModal && <MemberModal closeModal={setOpenModal} />}
-      <div className="w-[80%]  mx-auto flex md:justify-center max-md:w-[95%] mt-10 ">
-        <div className=" w-full  max-md:overflow-x-scroll " >
+      {openAddMemberModal && <MemberModal closeModal={setOpenAddMemberModal} />}
+      {openEditMemberModal && <MemberModal closeModal={() => setOpenEditMemberModal(false)} />}
+      <div className="w-[80%] mx-auto flex md:justify-center max-md:w-[95%] mt-10">
+        <div className=" w-full  max-md:overflow-x-scroll lg:overflow-x-scroll " >
           <div className="w-full flex  mb-5 justify-between">
             <div className="w-[50%]  max-sm:hidden flex items-center">
               <input
@@ -77,7 +89,7 @@ const MembersTable = (props: Props) => {
               <MagnifyingGlassIcon className="h-6 w-6 ml-2 text-gray-500" />
             </div>
 
-            <button onClick={() => setOpenModal(!openModal)}
+            <button onClick={() => setOpenAddMemberModal(!openAddMemberModal)}
               className="bg-blue-500 hover:bg-[#191d4f] text-white font-bold py-2 px-4 border border-blue-700 rounded flex items-center gap-3">
               <FaPlus />
               Add Member
@@ -86,16 +98,16 @@ const MembersTable = (props: Props) => {
           </div>
 
 
-          <table className="w-full min-w-max table-auto  text-center">
+          <table className="w-full min-w-max table-auto text-center shadow-2xl  rounded-lg">
             <thead className=''>
-              <tr>
+              <tr className='bg-[#191d4f]'>
                 {TABLE_HEAD.map((head) => (
                   <th
                     key={head}
                     className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                   >
                     <div
-                      className="font-normal leading-none opacity-70">
+                      className=" leading-none opacity-70 font-bold text-white">
                       {head}
                     </div>
                   </th>
@@ -143,10 +155,10 @@ const MembersTable = (props: Props) => {
                       </div>
                     </td>
                     <td className={classes}>
-                      <div className="text-3xl flex justify-between"
+                      <div className="text-3xl flex justify-between gap-2"
                       >
-                        <button className="text-red-700"onClick={() => handleDeleteMember(id)}><MdDelete /></button>
-                        <button className="text-blue-900" ><MdOutlineManageAccounts /></button>
+                        <button className="text-red-700" onClick={() => handleDeleteMember(id)}><MdDelete /></button>
+                        <button className="text-blue-900" onClick={()=>setOpenEditMemberModal(!openEditMemberModal)}><MdOutlineManageAccounts /></button>
                         <button className="text-green-900" onClick={() => { setSelectedUserId(id); setMemberDetail(true) }}><FaRegEye /></button>
 
                       </div>

@@ -6,7 +6,7 @@ import { MdDelete, MdOutlineManageAccounts } from 'react-icons/md';
 import { IoSettings } from "react-icons/io5";
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { FaPlus } from 'react-icons/fa';
-import PlansModal from '@/components/PlansModal';
+import PlansModal from '@/components/PlansForm';
 
 import { PlanService } from '@/services';
 import PlansTable from '@/components/PlansTable';

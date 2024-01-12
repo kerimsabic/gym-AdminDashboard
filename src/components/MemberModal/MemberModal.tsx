@@ -3,7 +3,7 @@ import { useMembers } from '@/hooks/useMembers';
 import { SubmitHandler, useForm } from "react-hook-form"
 import React, { useState } from 'react'
 import { IoClose } from 'react-icons/io5'
-import { Member } from '@/utils/types';
+import { FormMode, Member } from '@/utils/types';
 import { useUpdateMember } from '@/hooks/useUpdateMember';
 import { useQueryClient } from 'react-query';
 import usePlans from '@/hooks/planHooks/usePlans';
@@ -16,9 +16,11 @@ import useTrainers from '@/hooks/trainerHooks/useTrainers';
 
 type Props = {
     closeModal: (value: boolean) => void;
+    mode:FormMode;
+    initialData?: Member;
 }
 
-const MemberModal = ({ closeModal }: Props) => {
+const MemberModal = ({ closeModal, mode, initialData }: Props) => {
 
     const planData = usePlans();
     const [selectedPlanId, setSelectedPlanId] = useState<string>();
@@ -65,7 +67,7 @@ const MemberModal = ({ closeModal }: Props) => {
                         </button>
                     </div>
 
-                    <h1>Add Member</h1>
+                    <h1>{mode === 'add' ? 'Add Member' : 'Edit Member'}</h1>
 
 
                     <form className="max-w-md mx-auto bg-[#ffffff]" onSubmit={handleSubmit(handleCreateMemberSubmit)}>
@@ -109,7 +111,7 @@ const MemberModal = ({ closeModal }: Props) => {
                         </div>
 
                         <div className="relative z-0 w-full mb-5 group pt-5">
-                            <label className="pb-5 peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Training Plan</label>
+                            <label className="pb-5 peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Training Plan</label>
                             <select onChange={(e) => {
                                 const result = planData.data?.find((x) => x.id === e.target.value);
                                 console.log(result)
@@ -128,7 +130,7 @@ const MemberModal = ({ closeModal }: Props) => {
                         </div>
 
                         <div className="relative z-0 w-full mb-5 group pt-5">
-                            <label className="pb-5 peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Trainer</label>
+                            <label className="pb-5 peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Trainer</label>
                             <select onChange={(e) => {
                                 const result = trainerData.data?.find((trainer) => trainer.id === e.target.value);
                                 console.log(result)
@@ -147,9 +149,9 @@ const MemberModal = ({ closeModal }: Props) => {
                         </div>
 
                         <div className="relative z-0 w-full mb-5 group">
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Image</label>
                             <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" />
-                            <div className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help">A profile picture is useful to confirm your are logged into your account</div>
+                            <div className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help">A profile picture is optional</div>
                         </div>
 
                         <div className='flex justify-between'>
