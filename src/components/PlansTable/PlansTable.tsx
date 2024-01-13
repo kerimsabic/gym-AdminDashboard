@@ -22,7 +22,6 @@ const PlansTable = (props: Props) => {
     const plansData = usePlans();
 
     const deletePlans = useDeletePlans();
-
     const handleDeletePlan=(id:string)=>{
       deletePlans.mutate(id)
     }
@@ -57,7 +56,7 @@ const PlansTable = (props: Props) => {
 
     return (
         <>
-        {openModal && <PlansForm closeModal={setOpenModal} addPlan={handleSubmit} />}
+        {openModal && <PlansForm closeModal={setOpenModal}  />}
         <div className="w-[80%]  mx-auto flex md:justify-center max-md:w-[95%] mt-10 ">
           <div className=" w-full  max-md:overflow-x-scroll  " >
             <div className="w-full flex  mb-5 justify-between ">
@@ -128,7 +127,7 @@ const PlansTable = (props: Props) => {
                         >
                           <button className="text-red-700" onClick={() => handleDeletePlan(id)}><MdDelete /></button>
                           <button className="text-blue-900" onClick={()=>{}}><MdOutlineManageAccounts /></button>
-                          <button className="text-green-900" onClick={() => { setSelectedId(id); setMemberDetail(true) }}><FaRegEye /></button>
+                          <button className="text-green-900" onClick={() => {}}><FaRegEye /></button>
   
                         </div>
                       </td>

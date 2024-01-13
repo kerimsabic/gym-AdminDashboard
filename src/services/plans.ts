@@ -15,7 +15,7 @@ const createPlan=async(plan:TrainingPlan): Promise<TrainingPlan>=>{
 }
 
 const deletePlan=async(id:String)=>{
-    return await appAxios.delete(`/trainingPlans/${id}`)
+    return await appAxios.delete(`/trainingPlans/${id}`);
 }
 
 const updatePlan=async(plan:TrainingPlan)=>{
