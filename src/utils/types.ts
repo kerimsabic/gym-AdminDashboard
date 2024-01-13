@@ -50,7 +50,7 @@ export interface Trainer  {
 }
 
 export type TrainingPlan = {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   price: string;

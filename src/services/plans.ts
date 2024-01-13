@@ -19,7 +19,7 @@ const deletePlan=async(id:String)=>{
 }
 
 const updatePlan=async(plan:TrainingPlan)=>{
-    return await appAxios.put(`/trainingPlan/${plan.id}`, plan);
+    return await appAxios.put(`/trainingPlans/${plan.id}`, plan);
 }
 
 export default { getPlans,getPlanId,createPlan,deletePlan,updatePlan};

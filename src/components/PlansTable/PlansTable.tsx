@@ -35,28 +35,18 @@ const PlansTable = (props: Props) => {
       setFilteredPlans(filteredMembers!);
     };
 
-    const [openModal, setOpenModal] = useState(false);
+    const [openForm, setOpenForm] = useState(false);
 
-    const countActiveTrainingPlans = (plans: TrainingPlan[]): number => {
-        return plans.reduce((count, plan) => (plan.statusType ? count + 1 : count), 0);
+ 
+    const [selectedPlan, setSelectedPlan] = useState<TrainingPlan | null>(null);
+    const handleEditPlan = (plan: TrainingPlan) => {
+      setSelectedPlan(plan);
+      setOpenForm(true);
     };
-    const countInactiveTrainingPlans = (plans: TrainingPlan[]): number => {
-        return plans.reduce((count, plan) => (!plan.statusType ? count + 1 : count), 0);
-    };
-    // const activePlansCount: number = countActiveTrainingPlans(plans);
-    // const inactivePlansCount: number = countInactiveTrainingPlans(plans);
-
-    const [shouldRefreshTable, setShouldRefreshTable] = useState(false);
-
-    const [search, setSearch] = useState("");
-
-    function handleSubmit(value: any): void {
-        throw new Error('Function not implemented.')
-    }
 
     return (
         <>
-        {openModal && <PlansForm closeModal={setOpenModal}  />}
+        {openForm && <PlansForm closeForm={setOpenForm} initialData={selectedPlan} />}
         <div className="w-[80%]  mx-auto flex md:justify-center max-md:w-[95%] mt-10 ">
           <div className=" w-full  max-md:overflow-x-scroll  " >
             <div className="w-full flex  mb-5 justify-between ">
@@ -71,7 +61,7 @@ const PlansTable = (props: Props) => {
                 <MagnifyingGlassIcon className="h-6 w-6 ml-2 text-gray-500 shadow-sm" />
               </div>
   
-              <button onClick={() => setOpenModal(!openModal)}
+              <button onClick={() => {setOpenForm(!openForm); setSelectedPlan(null)}}
                 className="bg-blue-500 hover:bg-[#191d4f] text-white font-bold py-2 px-4 border border-blue-700 rounded flex items-center gap-3">
                 <FaPlus />
                 Add Plan
@@ -123,11 +113,11 @@ const PlansTable = (props: Props) => {
                         />
                       </td>
                       <td className={classes}>
-                        <div className="text-3xl flex justify-between"
+                        <div className="text-3xl flex justify-evenly"
                         >
                           <button className="text-red-700" onClick={() => handleDeletePlan(id)}><MdDelete /></button>
-                          <button className="text-blue-900" onClick={()=>{}}><MdOutlineManageAccounts /></button>
-                          <button className="text-green-900" onClick={() => {}}><FaRegEye /></button>
+                          <button className="text-blue-900" onClick={()=>handleEditPlan({ id, name, description, price, statusType })}><MdOutlineManageAccounts /></button>
+                        
   
                         </div>
                       </td>
