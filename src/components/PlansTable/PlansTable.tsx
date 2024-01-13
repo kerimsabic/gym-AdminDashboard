@@ -1,14 +1,12 @@
-import { PlanService } from '@/services'
+
 import { StatusType, TrainingPlan } from '@/utils/types'
-import React, { useEffect, useState } from 'react'
-import { IoSettings } from 'react-icons/io5'
+import React, {  useState } from 'react'
 import { MdDelete, MdOutlineManageAccounts } from 'react-icons/md'
 import PlansForm from '../PlansForm'
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
-import { FaPlus, FaRegEye } from 'react-icons/fa'
+import { FaPlus } from 'react-icons/fa'
 import { Chip } from '@material-tailwind/react'
 import usePlans from '@/hooks/usePlans'
-import useCreatePlans from '@/hooks/planHooks/useCreatePlans'
 import useDeletePlans from '@/hooks/planHooks/useDeletePlans'
 
 
@@ -30,9 +28,9 @@ const PlansTable = (props: Props) => {
     const [filteredPlans, setFilteredPlans] = useState<TrainingPlan[] | null>(null);
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(event.target.value);
-      const filteredMembers = plansData.data?.filter(plan =>
+      const filteredPlans = plansData.data?.filter(plan =>
         plan.name.toLowerCase().includes(event.target.value.toLowerCase()));
-      setFilteredPlans(filteredMembers!);
+      setFilteredPlans(filteredPlans!);
     };
 
     const [openForm, setOpenForm] = useState(false);
@@ -115,7 +113,7 @@ const PlansTable = (props: Props) => {
                       <td className={classes}>
                         <div className="text-3xl flex justify-evenly"
                         >
-                          <button className="text-red-700" onClick={() => handleDeletePlan(id)}><MdDelete /></button>
+                          <button className="text-red-700" onClick={() => handleDeletePlan(id!)}><MdDelete /></button>
                           <button className="text-blue-900" onClick={()=>handleEditPlan({ id, name, description, price, statusType })}><MdOutlineManageAccounts /></button>
                         
   

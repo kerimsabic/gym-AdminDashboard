@@ -57,6 +57,15 @@ export type TrainingPlan = {
   statusType: StatusType;
 }
 
+export type Equipments={
+  id:string;
+  name:string;
+  type:string;
+  manufacturer:string;
+  image:string;
+  serviceHistroy:Date[];
+}
+
 
 export enum FormMode {
   ADD = 'add',
