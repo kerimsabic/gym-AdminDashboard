@@ -8,6 +8,7 @@ import Trainers from "./pages/Trainers"
 import  Plans  from "./pages/Plans"
 import Admin from "./pages/Admin"
 import Equipment from "./pages/Equipment"
+import { LogIn } from "./pages"
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route path="/members" element={<Members />} />
             <Route path="/trainers" element={<Trainers />} />
             <Route path="/admins" element={<Admin />} />
+            <Route path="/login" element={<LogIn />} />
 
             {/* apps  */}
             <Route path="/plans" element={<Plans />} />
