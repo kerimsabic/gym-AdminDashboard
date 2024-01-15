@@ -1,8 +1,8 @@
 import { Admin } from '@/utils/types';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect } from 'react';
+
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+
 import * as yup from 'yup';
 import { useAddAdminMutation, useUpdateAdminMutation, } from "@/store/adminSlice";
 import { IoClose } from 'react-icons/io5';
@@ -45,10 +45,10 @@ const AdminsForm = ({ onSubmit, onCancel }: Props) => {
     });
 
     
+    
 
-    const handleFormSubmit: SubmitHandler<Admin> = (data:Admin) => {
+    const handleFormSubmit: SubmitHandler<AdminsRegistrationForm> = (data:AdminsRegistrationForm) => {
         onSubmit(data);
-        console.log(data)
     };
 
 

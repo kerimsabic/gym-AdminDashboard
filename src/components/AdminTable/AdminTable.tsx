@@ -24,7 +24,7 @@ const AdminTable = (props: Props) => {
 
     const handleDeleteClick = async (id: string, firstName: string, lastName: string) => {
         try {
-            if (window.confirm(`Are you sure you want to delete this ADMIN:   "${firstName + " " + lastName}"`)) {
+            if (window.confirm(`Are you sure you want to delete this ADMIN:   "${firstName.toUpperCase() + " " + lastName.toUpperCase()}"`)) {
                 await deleteAdmin({ id: id })
             }
         } catch (error) {
@@ -150,7 +150,7 @@ const AdminTable = (props: Props) => {
                                     <td className={classes}>
                                         <div className="text-3xl flex justify-evenly"
                                         >
-                                            <button className="text-red-700" onClick={() => handleDeleteClick(admin.id, admin.firstName, admin.lastName)}><MdDelete /></button>
+                                            <button className="text-red-700" onClick={() => handleDeleteClick(admin.id!, admin.firstName, admin.lastName)}><MdDelete /></button>
                                             <button className="text-blue-900" onClick={() => { }}><MdOutlineManageAccounts /></button>
 
 

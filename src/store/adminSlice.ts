@@ -12,8 +12,6 @@ export const adminSlice = createApi({
         baseUrl: BASE_URL,
         headers: {
             Authorization: `Bearer ${BEARER_TOKEN}`,
-            // You can include other headers if needed
-            // 'Content-Type': 'application/json',
         },
     }),
     tagTypes: ["admins"],
@@ -23,10 +21,10 @@ export const adminSlice = createApi({
             providesTags: ["admins"],
         }),
         addAdmin: builder.mutation({
-            query: (todo) => ({
+            query: (data) => ({
                 url: "/auth/registerAdmin",
                 method: "POST",
-                body: todo,
+                body: data,
             }),
             invalidatesTags: ["admins"],
         }),

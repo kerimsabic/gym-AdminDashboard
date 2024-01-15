@@ -37,7 +37,7 @@ export type Member = {
 }
 
 export type Admin = {
-  id: string;
+  id?: string;
   firstName: string;
   lastName: string;
   userType: "ADMIN";
@@ -51,7 +51,7 @@ export type Admin = {
 
 }
 
-export interface Trainer  {
+export type Trainer = {
   id: string;
   firstName: string;
   lastName: string;
@@ -59,9 +59,10 @@ export interface Trainer  {
   userName: string;
   address:string;
   phone:string;
-  statusType: StatusType
+  statusType?: StatusType
   password:string
   members:Member[]
+  image?:string
 }
 
 export type TrainingPlan = {
