@@ -1,8 +1,6 @@
 import useCreatePlans from '@/hooks/planHooks/useCreatePlans';
-import useDeletePlans from '@/hooks/planHooks/useDeletePlans';
-import usePlans from '@/hooks/usePlans';
 import { StatusType, TrainingPlan } from '@/utils/types';
-import React, { useEffect, useState } from 'react';
+import  { useEffect, } from 'react';
 import { IoClose } from 'react-icons/io5';
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"

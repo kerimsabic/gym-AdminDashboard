@@ -4,7 +4,7 @@ const appAxios = axios.create({
     baseURL: BASE_URL,
     timeout: 10000,
     headers: {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrZXJpbTIiLCJpYXQiOjE3MDUxNDYzMDAsImV4cCI6MTcwNTE4MjMwMH0.9eTqN-tUYOQFfl9oee9uvqToeoZxgT5JpV-70hRffDE"
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrZXJpbTIiLCJpYXQiOjE3MDUzMTkzMzEsImV4cCI6MTcwNTM1NTMzMX0.CP742_LKQgCRZKGyUe7zRVLoQgtU6U009yRUGMghMpA"
     }
 });
 

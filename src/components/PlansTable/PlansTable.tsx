@@ -20,8 +20,10 @@ const PlansTable = (props: Props) => {
     const plansData = usePlans();
 
     const deletePlans = useDeletePlans();
-    const handleDeletePlan=(id:string)=>{
+    const handleDeletePlan=(id:string,name:string)=>{
+      if (window.confirm(`Are you sure you want to delete this plan?   "${name}"`)) {
       deletePlans.mutate(id)
+    }
     }
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -113,7 +115,7 @@ const PlansTable = (props: Props) => {
                       <td className={classes}>
                         <div className="text-3xl flex justify-evenly"
                         >
-                          <button className="text-red-700" onClick={() => handleDeletePlan(id!)}><MdDelete /></button>
+                          <button className="text-red-700" onClick={() => handleDeletePlan(id!,name)}><MdDelete /></button>
                           <button className="text-blue-900" onClick={()=>handleEditPlan({ id, name, description, price, statusType })}><MdOutlineManageAccounts /></button>
                         
   

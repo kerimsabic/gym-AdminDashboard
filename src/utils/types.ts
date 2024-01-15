@@ -36,6 +36,21 @@ export type Member = {
 
 }
 
+export type Admin = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  userType: "ADMIN";
+  email: string;
+  userName: string;
+  image?: string;
+  address:string;
+  phone:string;
+  statusType: StatusType
+  password:string
+
+}
+
 export interface Trainer  {
   id: string;
   firstName: string;
