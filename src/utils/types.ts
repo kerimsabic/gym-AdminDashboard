@@ -22,7 +22,7 @@ export type Member = {
   id: string;
   firstName: string;
   lastName: string;
-  userType: "ADMIN" | "MEMBER" | "TRAINER";
+  userType: UserType
   email: string;
   userName: string;
   image?: string;
@@ -31,7 +31,7 @@ export type Member = {
   TrainerImage: string;
   trainerName: string;
   trainerId: string;
-  trainerUserType: "TRAINER";
+  trainerUserType: UserType.TRAINER;   //ovo mozda samo treba UserType pa poslije staviti trener
   address:string;
   phone:string;
   statusType: StatusType
@@ -45,7 +45,7 @@ export type Admin = {
   id?: string;
   firstName: string;
   lastName: string;
-  userType: UserType.ADMIN;
+  userType: UserType;
   email: string;
   userName: string;
   image?: string;
@@ -68,7 +68,7 @@ export type Trainer = {
   password:string
   members:Member[]
   image?:string
-  userType:UserType.TRAINER;
+  userType:UserType;
 }
 
 export type TrainingPlan = {

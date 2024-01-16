@@ -1,8 +1,8 @@
 import { BASE_URL, token } from "@/utils/data";
 import { Trainer } from "@/utils/types";
 import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
-import { RootState, createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";  //ovje treabao dodati /react poslije query
-import { useQuery } from "react-query";
+import {  createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";  //ovje treabao dodati /react poslije query
+
 
 const BEARER_TOKEN = `${token}`;
 
@@ -30,10 +30,10 @@ export const trainerApi=createApi({
           invalidatesTags: ["trainerApi"],
         }),
         updateTrainer: builder.mutation({
-          query: ({ id, data }) => ({ 
+          query: ({ id, data:{firstName, lastName, email, address, phone} }) => ({ 
               url: `/trainers/${id}`,
               method: "PUT",
-              body: data,
+              body: {firstName, lastName, email, address, phone}
           }),
           invalidatesTags: ["trainerApi"],
       }),

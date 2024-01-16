@@ -44,11 +44,11 @@ const TrainersTable = (props: Props) => {
 };
 
 
-    
-
    const filteredTrainers=useMemo(()=>(
     (data||[]).filter((trainer)=>trainer.firstName.toLowerCase().includes(search.toLowerCase())||trainer.lastName.toLowerCase().includes(search.toLowerCase()))
    ), [data,search])
+
+
   return (
     <>
     {isAddFormVisible && (
@@ -84,7 +84,7 @@ const TrainersTable = (props: Props) => {
                         placeholder="Search..."
                         value={search}
                         onChange={(event)=>{
-                            dispatch(setSearch(event?.target.value))
+                            dispatch(setSearch(event.target.value))
                         }}
                         className="border p-2 w-full"
                     />

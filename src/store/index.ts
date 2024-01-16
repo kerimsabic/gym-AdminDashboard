@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authSlice"
 import adminSlice from "./adminSlice";
 import  { trainerApi,searchSlice } from "./trainersSlice";
+import membersApi from "./memberSlice";
 
 
 const store = configureStore({
@@ -9,9 +10,10 @@ const store = configureStore({
         auth:authReducer,
         admins:adminSlice.reducer,
         trainerApi:trainerApi.reducer,
+        membersApi:membersApi.reducer,
         search:searchSlice.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(trainerApi.middleware,adminSlice.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat( membersApi.middleware,trainerApi.middleware, adminSlice.middleware,),
    
 })
 

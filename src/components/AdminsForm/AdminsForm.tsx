@@ -1,4 +1,4 @@
-import { Admin } from '@/utils/types';
+import { Admin, UserType } from '@/utils/types';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -6,17 +6,20 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
 import {  useUpdateAdminMutation, } from "@/store/adminSlice";
 import { IoClose } from 'react-icons/io5';
+import { useEffect } from 'react';
 
 
 type Props = {
     onCancel: () => void;
-    onSubmit: (formData: AdminsRegistrationForm) => void;
+    onSubmitAdmin: (formData: AdminsRegistrationForm) => void;
+    onUpdateAdmin:(formData:Admin)=>void;
+    initialData?:Admin|null|undefined
 }
 
 export type AdminsRegistrationForm = {
     firstName: string;
     lastName: string;
-    userType: "ADMIN";
+    //userType: UserType
     email: string;
     userName: string;
     image?: string;
@@ -28,7 +31,7 @@ const phoneRegExp: RegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|
 const schema = yup.object({
     firstName: yup.string().required("First name is required"),
     lastName: yup.string().required("Last name is required"),
-    userType: yup.string().oneOf(["ADMIN"], "User Type ADMIN"),
+    //userType: yup.string().oneOf(["ADMIN"], "User Type ADMIN"),
     email: yup.string().email().required('Email is required'),
     userName: yup.string().required('Username is required'),
     password: yup.string().min(6),
@@ -37,22 +40,44 @@ const schema = yup.object({
 
 })
 
-const AdminsForm = ({  onCancel }: Props) => {
+const AdminsForm = ({ onCancel, onSubmitAdmin,onUpdateAdmin,initialData }: Props) => {
    
 
-    const { register, handleSubmit, formState: { errors } } = useForm<AdminsRegistrationForm>({
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm<AdminsRegistrationForm>({
        // resolver: yupResolver(schema),
     });
 
-    
+    useEffect(() => {
+        if (initialData) {
+          Object.keys(initialData).forEach((key) => {
+            const validKey = key as keyof AdminsRegistrationForm;
+            setValue(validKey, initialData[validKey]);
+          });
+        }
+      }, [initialData, setValue]);
     
 
-    const handleFormSubmit: SubmitHandler<AdminsRegistrationForm> = (data:AdminsRegistrationForm) => {
-        console.log(data);
+      const handleFormSubmit: SubmitHandler<AdminsRegistrationForm> = (data) => {
+        const formDataWithUserType= {
+            ...data,
+            userType: UserType.ADMIN,  
+             
+        };
+        try{
+            if(initialData){
+                 const updatedAdmin = { ...initialData, ...formDataWithUserType };
+                 onUpdateAdmin(updatedAdmin);
+              }
+              else{
+                onSubmitAdmin(formDataWithUserType);
+              }
+        }
+        catch(error){
+            console.error("Error updating trainer:", error);
+        }
+        
+
     };
-
-
-
 
 
     return (
@@ -107,7 +132,7 @@ const AdminsForm = ({  onCancel }: Props) => {
                             {errors.phone && <small style={{ color: "red" }}>{errors.phone.message}</small>}
                             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone Number</label>
                         </div>
-                        <div className="relative z-0 w-full mb-5 group pt-5">
+                        {/*<div className="relative z-0 w-full mb-5 group pt-5">
                             <label className="peer-focus:font-medium absolute text-lg text-gray-500  transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4">ADMIN</label>
                             <select
                                 id="floating_userType"
@@ -118,7 +143,7 @@ const AdminsForm = ({  onCancel }: Props) => {
                                 <option value="ADMIN" className='text-green-600 font-bold '>ADMIN</option>
 
                             </select>
-                        </div>
+                        </div>*/}
                         <div className="relative z-0 w-full mb-5 group">
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Image</label>
                             <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" />

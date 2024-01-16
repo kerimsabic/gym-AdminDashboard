@@ -8,8 +8,8 @@ import * as yup from 'yup'
 type Props = {
     onCancel: () => void;
     onSubmitTrainer: (formData: TrainerRegistrationForm) => void;
-    onUpdateTrainer:(formData:Trainer)=>void;
-    initialData?:Trainer|null|undefined
+    onUpdateTrainer: (formData: Trainer) => void;
+    initialData?: Trainer | null | undefined
 }
 
 export type TrainerRegistrationForm = {
@@ -33,7 +33,7 @@ const schema = yup.object({
     phone: yup.string().matches(phoneRegExp, "Phone number is not valid").required("Phone number is required"),
     password: yup.string().min(6).required(),
     address: yup.string().required(),
-    
+
 
 
 })
@@ -47,36 +47,40 @@ const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData 
 
     useEffect(() => {
         if (initialData) {
-          Object.keys(initialData).forEach((key) => {
-            const validKey = key as keyof TrainerRegistrationForm;
-            setValue(validKey, initialData[validKey]);
-          });
+            Object.keys(initialData).forEach((key) => {
+                const validKey = key as keyof TrainerRegistrationForm;
+                setValue(validKey, initialData[validKey]);
+            });
         }
-      }, [initialData, setValue]);
+    }, [initialData, setValue]);
 
 
     const handleFormSubmit: SubmitHandler<TrainerRegistrationForm> = (data) => {
-        const formDataWithUserType= {
+        const formDataWithUserType = {
             ...data,
-            userType: UserType.TRAINER,   
+            userType: UserType.TRAINER,
         };
-       /* console.log(formDataWithUserType);
-        console.log("helo")*/
-        try{
-            if(initialData){
-                 const updatedTrainer = { ...initialData, ...formDataWithUserType };
-                 onUpdateTrainer(updatedTrainer);
-              }
-              else{
+        /* console.log(formDataWithUserType);
+         console.log("helo")*/
+        try {
+            if (initialData && !data.password) {
+                // Set the existing password
+                formDataWithUserType.password = initialData.password;
+            }
+            if (initialData) {
+                const updatedTrainer = { ...initialData, ...formDataWithUserType };
+                updatedTrainer.password= formDataWithUserType.password||initialData.password;
+                onUpdateTrainer(updatedTrainer);
+            }
+            else {
                 onSubmitTrainer(formDataWithUserType);
-              }
+            }
         }
-        catch(error){
+        catch (error) {
             console.error("Error updating trainer:", error);
         }
-        
-
     };
+
 
     return (
         <>
@@ -110,12 +114,12 @@ const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData 
                             {errors.email && <small style={{ color: "red" }}>{errors.email.message}</small>}
                             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email</label>
                         </div>
-
-                        <div className="relative z-0 w-full mb-5 group">
+                        {initialData ? null :(<div className="relative z-0 w-full mb-5 group">
                             <input type="password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-non focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("password")} />
                             {errors.password && <small style={{ color: "red" }}>{errors.password.message}</small>}
                             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
-                        </div>
+                        </div>)}
+                        
 
                         <div className="relative z-0 w-full mb-5 group">
                             <input type="text" id="floating_description" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("address")} />
@@ -129,7 +133,7 @@ const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData 
                             {errors.phone && <small style={{ color: "red" }}>{errors.phone.message}</small>}
                             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone Number</label>
                         </div>
-                        
+
                         <div className="relative z-0 w-full mb-5 group">
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Image</label>
                             <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" />

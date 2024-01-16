@@ -19,14 +19,14 @@ export const adminSlice = createApi({
             query: () => "/users/admins",
             providesTags: ["admins"],
         }),
-        /*addAdmin: builder.mutation({
+        addAdmin: builder.mutation({
             query: (data) => ({
                 url: "/auth/registerAdmin",
                 method: "POST",
                 body: data,
             }),
             invalidatesTags: ["admins"],
-        }),*/
+        }),
         updateAdmin: builder.mutation({
             query: ({ id, data }) => ({
                 url: `/users/${id}`,
@@ -45,7 +45,7 @@ export const adminSlice = createApi({
 
 
 // Export hooks for usage in components
-export const { useGetAdminsQuery, /*useAddAdminMutation*/ useUpdateAdminMutation, useDeleteAdminMutation } = adminSlice;
+export const { useGetAdminsQuery, useAddAdminMutation, useUpdateAdminMutation, useDeleteAdminMutation } = adminSlice;
 
 
 export default adminSlice;
