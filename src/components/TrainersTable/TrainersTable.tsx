@@ -1,13 +1,14 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { FaPlus } from 'react-icons/fa';
 import { useDispatch, useSelector } from "react-redux";
-import {setSearch, useDeleteTrainerMutation, useTrainerQuery} from '@/store/trainersSlice'
+import {setSearch, useDeleteTrainerMutation, useTrainerQuery, useUpdateTrainerMutation} from '@/store/trainersSlice'
 import { Trainer } from '@/utils/types';
 import { MdDelete, MdOutlineManageAccounts } from 'react-icons/md';
-import { useEffect, useMemo, useState } from 'react';
+import {  useMemo, useState } from 'react';
 import { selectSearch } from '@/store';
 import TrainersForm from '../TrainersForm';
 import { useAddTrainerMutation } from '@/store/trainersSlice';
+import { TrainerRegistrationForm } from '../TrainersForm/TrainersForm';
 
 type Props = {}
 const TABLE_HEAD = ["Image", "Name", "Email", "Number","Address", "Edit"];
@@ -19,21 +20,31 @@ const TrainersTable = (props: Props) => {
    const dispatch= useDispatch();
    const [deleteTrainer]= useDeleteTrainerMutation();
    const [addTrainer]=useAddTrainerMutation();
+   const [updateTrainer]=useUpdateTrainerMutation();
 
    const [isAddFormVisible, setAddFormVisible] = useState(false);
    const handleCancelAdd = () => { setAddFormVisible(false);};
 
+   const [selectedTrainer, setSelectedTrainer] = useState<TrainerRegistrationForm | null>(null);
+
+    const handleEditTrainer = (trainer: Trainer) => {
+      setSelectedTrainer(trainer);
+      setAddFormVisible(true);
+    };
 
 
    const handleDeleteClick = async (id: string, firstName: string, lastName: string) => {
     try {
-        if (window.confirm(`Are you sure you want to delete this ADMIN:   "${firstName.toUpperCase() + " " + lastName.toUpperCase()}"`)) {
+        if (window.confirm(`Are you sure you want to delete this TRAINER:   "${firstName.toUpperCase() + " " + lastName.toUpperCase()}"`)) {
             await deleteTrainer({ id: id })
         }
     } catch (error) {
         console.error('Error deleting trainer:', error);
     }
 };
+
+
+    
 
    const filteredTrainers=useMemo(()=>(
     (data||[]).filter((trainer)=>trainer.firstName.toLowerCase().includes(search.toLowerCase())||trainer.lastName.toLowerCase().includes(search.toLowerCase()))
@@ -49,8 +60,17 @@ const TrainersTable = (props: Props) => {
                 }catch(error){
                     console.log(error)
                 }
-               
-                console.log('Adding trainer:', formData);
+                setAddFormVisible(false);
+            }}
+            
+            initialData={selectedTrainer}
+            onUpdateTrainer={async (formData)=>{
+                console.log(formData.id)
+                try{
+                    await updateTrainer({id:formData.id, data:formData})
+                } catch(error){
+                    console.log(error)
+                }
                 setAddFormVisible(false);
             }}
         />
@@ -71,7 +91,7 @@ const TrainersTable = (props: Props) => {
                     <MagnifyingGlassIcon className="h-6 w-6 ml-2 text-gray-500 shadow-sm" />
                 </div>
 
-                <button onClick={() => setAddFormVisible(true)}
+                <button onClick={() => {setAddFormVisible(true);setSelectedTrainer(null)}}
                     className="bg-blue-500 hover:bg-[#191d4f] text-white font-bold py-2 px-4 border border-blue-700 rounded flex items-center gap-3">
                     <FaPlus />
                     Add Trainer
@@ -129,8 +149,8 @@ const TrainersTable = (props: Props) => {
                                 <td className={classes}>
                                     <div className="text-3xl flex justify-evenly"
                                     >
-                                        <button className="text-red-700" onClick={() => handleDeleteClick(trainer.id, trainer.firstName, trainer.lastName)}><MdDelete /></button>
-                                        <button className="text-blue-900" onClick={() => { }}><MdOutlineManageAccounts /></button>
+                                        <button className="text-red-700" onClick={() => handleDeleteClick(trainer.id!, trainer.firstName, trainer.lastName)}><MdDelete /></button>
+                                        <button className="text-blue-900" onClick={() => {handleEditTrainer(trainer!)}}><MdOutlineManageAccounts /></button>
                                     </div>
                                 </td>
 

@@ -55,6 +55,7 @@ const PlansForm = ({ closeForm, initialData }: Props) => {
   }, [initialData, setValue]);
 
   const handleFormSubmittion: SubmitHandler<PlanRegisterForm> = async (data) => {
+    
     try {
       if(initialData){
         const updatedPlan = { ...initialData, ...data };

@@ -1,5 +1,6 @@
-import { UserType } from '@/utils/types';
+import { Trainer, UserType } from '@/utils/types';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { IoClose } from 'react-icons/io5';
 import * as yup from 'yup'
@@ -7,6 +8,8 @@ import * as yup from 'yup'
 type Props = {
     onCancel: () => void;
     onSubmitTrainer: (formData: TrainerRegistrationForm) => void;
+    onUpdateTrainer:(formData:Trainer)=>void;
+    initialData?:Trainer|null|undefined
 }
 
 export type TrainerRegistrationForm = {
@@ -36,20 +39,42 @@ const schema = yup.object({
 })
 
 
-const TrainersForm = ({ onSubmitTrainer, onCancel }: Props) => {
+const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData }: Props) => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm<TrainerRegistrationForm>({
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm<TrainerRegistrationForm>({
         //resolver: yupResolver(schema),
     });
 
-    const handleFormSubmit: SubmitHandler<TrainerRegistrationForm> = (data:TrainerRegistrationForm) => {
-        const formDataWithUserType = {
+    useEffect(() => {
+        if (initialData) {
+          Object.keys(initialData).forEach((key) => {
+            const validKey = key as keyof TrainerRegistrationForm;
+            setValue(validKey, initialData[validKey]);
+          });
+        }
+      }, [initialData, setValue]);
+
+
+    const handleFormSubmit: SubmitHandler<TrainerRegistrationForm> = (data) => {
+        const formDataWithUserType= {
             ...data,
-            userType: UserType.TRAINER,
+            userType: UserType.TRAINER,   
         };
        /* console.log(formDataWithUserType);
         console.log("helo")*/
-        onSubmitTrainer(formDataWithUserType);
+        try{
+            if(initialData){
+                 const updatedTrainer = { ...initialData, ...formDataWithUserType };
+                 onUpdateTrainer(updatedTrainer);
+              }
+              else{
+                onSubmitTrainer(formDataWithUserType);
+              }
+        }
+        catch(error){
+            console.error("Error updating trainer:", error);
+        }
+        
 
     };
 
