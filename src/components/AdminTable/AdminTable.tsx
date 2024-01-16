@@ -1,4 +1,4 @@
-import { useGetAdminsQuery, useDeleteAdminMutation, useAddAdminMutation, } from '@/store/adminSlice';
+import { useGetAdminsQuery, useDeleteAdminMutation } from '@/store/adminSlice';
 import { Admin } from '@/utils/types';
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { useState } from 'react';
@@ -18,7 +18,7 @@ const AdminTable = (props: Props) => {
 
     const { data: admins, error, isLoading } = useGetAdminsQuery();
     const [deleteAdmin] = useDeleteAdminMutation();
-    const [addAdmin]=useAddAdminMutation();
+    //const [addAdmin]=useAddAdminMutation();
     const [isAddFormVisible, setAddFormVisible] = useState(false);
 
 
@@ -69,7 +69,7 @@ const AdminTable = (props: Props) => {
                 onCancel={handleCancelAdd}
                 onSubmit={async (formData) => {
                     try{
-                        await addAdmin(formData)
+                        //await addAdmin(formData)
                     }catch(error){
                         console.log(error)
                     }

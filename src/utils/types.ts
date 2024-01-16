@@ -12,6 +12,11 @@ export enum StatusType {
   ONLINE = 'ONLINE',
   OFFLINE = 'OFFLINE',
 }
+export enum UserType{
+  ADMIN='ADMIN',
+  TRAINER='TRAINER',
+  MEMBER='MEMBER'
+}
 
 export type Member = {
   id: string;
@@ -40,7 +45,7 @@ export type Admin = {
   id?: string;
   firstName: string;
   lastName: string;
-  userType: "ADMIN";
+  userType: UserType.ADMIN;
   email: string;
   userName: string;
   image?: string;
@@ -63,6 +68,7 @@ export type Trainer = {
   password:string
   members:Member[]
   image?:string
+  userType:UserType.TRAINER;
 }
 
 export type TrainingPlan = {

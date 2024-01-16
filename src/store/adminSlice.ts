@@ -1,9 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BASE_URL } from "@/utils/data";
-import { Admin } from "@/utils/types";
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { BASE_URL, token } from "@/utils/data";
 
-const BEARER_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrZXJpbTIiLCJpYXQiOjE3MDUzMTkzMzEsImV4cCI6MTcwNTM1NTMzMX0.CP742_LKQgCRZKGyUe7zRVLoQgtU6U009yRUGMghMpA';
+
+const BEARER_TOKEN = `${token}`;
 
 
 export const adminSlice = createApi({
@@ -20,14 +19,14 @@ export const adminSlice = createApi({
             query: () => "/users/admins",
             providesTags: ["admins"],
         }),
-        addAdmin: builder.mutation({
+        /*addAdmin: builder.mutation({
             query: (data) => ({
                 url: "/auth/registerAdmin",
                 method: "POST",
                 body: data,
             }),
             invalidatesTags: ["admins"],
-        }),
+        }),*/
         updateAdmin: builder.mutation({
             query: ({ id, data }) => ({
                 url: `/users/${id}`,
@@ -46,7 +45,7 @@ export const adminSlice = createApi({
 
 
 // Export hooks for usage in components
-export const { useGetAdminsQuery, useAddAdminMutation, useUpdateAdminMutation, useDeleteAdminMutation } = adminSlice;
+export const { useGetAdminsQuery, /*useAddAdminMutation*/ useUpdateAdminMutation, useDeleteAdminMutation } = adminSlice;
 
 
 export default adminSlice;

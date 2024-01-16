@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authSlice"
 import adminSlice from "./adminSlice";
-import  { trainerApi } from "./trainersSlice";
-import {searchSlice} from "./trainersSlice"
+import  { trainerApi,searchSlice } from "./trainersSlice";
+
 
 const store = configureStore({
     reducer:{
@@ -11,7 +11,7 @@ const store = configureStore({
         trainerApi:trainerApi.reducer,
         search:searchSlice.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(adminSlice.middleware, trainerApi.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(trainerApi.middleware,adminSlice.middleware),
    
 })
 

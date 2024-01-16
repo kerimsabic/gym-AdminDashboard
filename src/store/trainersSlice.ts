@@ -1,10 +1,10 @@
-import { BASE_URL } from "@/utils/data";
+import { BASE_URL, token } from "@/utils/data";
 import { Trainer } from "@/utils/types";
 import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState, createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";  //ovje treabao dodati /react poslije query
 import { useQuery } from "react-query";
 
-const BEARER_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrZXJpbTIiLCJpYXQiOjE3MDUzMTkzMzEsImV4cCI6MTcwNTM1NTMzMX0.CP742_LKQgCRZKGyUe7zRVLoQgtU6U009yRUGMghMpA';
+const BEARER_TOKEN = `${token}`;
 
 
 export const trainerApi=createApi({
@@ -15,15 +15,38 @@ export const trainerApi=createApi({
             Authorization: `Bearer ${BEARER_TOKEN}`,
         },
     }),
+    tagTypes: ["trainerApi"],
     endpoints:(builder)=>({
         getTrainers : builder.query<Trainer[], undefined>({
             query:()=> "/trainers/",
-        })
+            providesTags: ["trainerApi"],
+        }),
+        addTrainer: builder.mutation({
+          query:(data)=>({
+            url: '/auth/register',
+            method:'POST',
+            body: data
+          }),
+          invalidatesTags: ["trainerApi"],
+        }),
+        updateTrainer: builder.mutation({
+          query: ({ id, data }) => ({
+              url: `/users/${id}`,
+              method: "PUT",
+              body: data,
+          }),
+          invalidatesTags: ["trainerApi"],
+      }),
+      deleteTrainer: builder.mutation({
+        query: ({ id }) => ({ url: `/trainers/${id}`, method: "DELETE" }),
+        invalidatesTags: ["trainerApi"],
+    }),
     })
 })
 
 export const useTrainerQuery=trainerApi.endpoints.getTrainers.useQuery;
 //export const {useGetTrainersQuery}=trainerApi ovo je druga opcija
+export const {useAddTrainerMutation,useDeleteTrainerMutation,useUpdateTrainerMutation }= trainerApi;
 
 export const searchSlice = createSlice({
     name: "search",
@@ -50,6 +73,6 @@ export const { setSearch } = searchSlice.actions;
         )
        
   );*/
-
+export default trainerApi;
 
 
