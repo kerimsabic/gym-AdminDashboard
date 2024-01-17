@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BASE_URL, token } from "@/utils/data";
+import { BASE_URL,  } from "@/utils/data";
 
 
-const BEARER_TOKEN = `${token}`;
+
+const userToken = localStorage.getItem('userToken') || '';
 
 
 export const adminSlice = createApi({
@@ -10,7 +11,7 @@ export const adminSlice = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: BASE_URL,
         headers: {
-            Authorization: `Bearer ${BEARER_TOKEN}`,
+            Authorization: `Bearer ${userToken}`,
         },
     }),
     tagTypes: ["admins"],
@@ -26,6 +27,7 @@ export const adminSlice = createApi({
                 body: data,
             }),
             invalidatesTags: ["admins"],
+            
         }),
         updateAdmin: builder.mutation({
             query: ({ id, data }) => ({

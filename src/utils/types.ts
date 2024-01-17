@@ -19,7 +19,7 @@ export enum UserType{
 }
 
 export type Member = {
-  id: string;
+  id?: string;
   firstName: string;
   lastName: string;
   userType: UserType
@@ -38,6 +38,7 @@ export type Member = {
   password:string
   trainingPlanName:string;
   trainingPlanId:string
+  numberOfMonths:number
 
 }
 

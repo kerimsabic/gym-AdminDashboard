@@ -8,8 +8,9 @@ import AdminsForm from '../AdminsForm';
 import { SubmitHandler } from 'react-hook-form';
 import { AdminsRegistrationForm } from '../AdminsForm/AdminsForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSearch } from '@/store';
+import { AppDispatch, RootState, selectSearch } from '@/store';
 import { setSearch } from '@/store/trainersSlice';
+import { registerAdmin } from '@/store/authSlice';
 
 
 
@@ -22,7 +23,7 @@ const AdminTable = (props: Props) => {
     const { data: admins, error, isLoading } = useGetAdminsQuery();
     
    const search = useSelector(selectSearch);
-   const dispatch= useDispatch();
+   const dispatch2= useDispatch();
    const [deleteAdmin]= useDeleteAdminMutation();
    const [addAdmin]=useAddAdminMutation();
    const [updateAdmin]=useUpdateAdminMutation();
@@ -55,6 +56,19 @@ const AdminTable = (props: Props) => {
 
 
 
+
+
+
+   const { loading, userToken,  success } = useSelector(
+    (state: RootState) => state.auth
+)
+    const dispatch = useDispatch<AppDispatch>()
+
+
+
+
+
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -70,7 +84,8 @@ const AdminTable = (props: Props) => {
             onCancel={handleCancelAdd}
             onSubmitAdmin={async (formData) => {
                 try{
-                    await addAdmin(formData)
+                    //await addAdmin(formData)
+                    await dispatch(registerAdmin(formData))
                 }catch(error){
                     console.log(error)
                 }
@@ -98,7 +113,7 @@ const AdminTable = (props: Props) => {
                             placeholder="Search..."
                             value={search}
                             onChange={(event)=>{
-                                dispatch(setSearch(event?.target.value))
+                                dispatch2(setSearch(event?.target.value))
                             }}
                             className="border p-2 w-full"
                         />

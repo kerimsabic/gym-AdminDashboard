@@ -1,19 +1,33 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BASE_URL, token } from "@/utils/data";
+import { BASE_URL,  } from "@/utils/data";
 import { Member } from "@/utils/types";
+import { useSelector, useStore } from "react-redux";
+import { RootState } from ".";
 
 
-const BEARER_TOKEN = `${token}`;
+
 
 
 export const membersApi = createApi({
     reducerPath: 'membersApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: BASE_URL,
-        headers: {
-            Authorization: `Bearer ${BEARER_TOKEN}`,
-        },
-    }),
+    baseQuery: (args, api, extraOptions) => {
+        const { userToken } = api.getState().auth; // Assuming the auth slice has userToken
+    
+        const headers = {
+          'authorization':`Bearer ${userToken}`
+          // Add your other headers if needed
+        };
+    
+        /*if (userToken) {
+          headers.Authorization = `Bearer ${userToken}`;
+        }*/
+        console.log(`Bearer ${userToken}`)
+    
+        return fetchBaseQuery({
+          baseUrl: BASE_URL,
+          headers,
+        })(args, api, extraOptions);
+      },
     tagTypes: ["membersApi"],
     endpoints: (builder) => ({
         getMembers: builder.query<Member[], void>({

@@ -5,10 +5,11 @@ import Home from "./pages/Home"
 import Navbar from "./components/Navbar"
 import Members from "./pages/Members"
 import Trainers from "./pages/Trainers"
-import  Plans  from "./pages/Plans"
+import Plans from "./pages/Plans"
 import Admin from "./pages/Admin"
 import Equipment from "./pages/Equipment"
 import { LogIn } from "./pages"
+import ProtectedRoutes from "./utils/ProtectedRoutes"
 
 
 function App() {
@@ -17,28 +18,33 @@ function App() {
 
   return (
     <div className="flex flex-col">
-        <Navbar />
-        <div className="z-0 w-[80wv] ml-36 mr-36 max-md:mx-10">
-          <Routes>
-            {/* dashboard  */}
+      <Navbar />
+      <div className="z-0 w-[80wv] ml-36 mr-36 max-md:mx-10">
+        <Routes>
+
+          {/* dashboard  */}
+          <Route element={<ProtectedRoutes />}>
             <Route path="/" element={(<Home />)} />
-
-            {/* pages  */}
-            <Route path="/home" element={<Home />} />
-            <Route path="/members" element={<Members />} />
-            <Route path="/trainers" element={<Trainers />} />
-            <Route path="/admins" element={<Admin />} />
-            <Route path="/login" element={<LogIn />} />
-
-            {/* apps  */}
-            <Route path="/plans" element={<Plans />} />
-            <Route path="/equipment" element={<Equipment />} />
-            <Route path="/attendance" element={<Equipment />} />
+          </Route>
+          {/* pages  */}
+          <Route element={<ProtectedRoutes />}>
+          <Route path="/home" element={<Home />} />
+          <Route path="/members" element={<Members />} />
+          <Route path="/trainers" element={<Trainers />} />
+          <Route path="/admins" element={<Admin />} />
+          </Route>
+          <Route path="/login" element={<LogIn />} />
+          
 
 
-            {/* charts  */}
-          </Routes>
-        </div>
+          <Route path="/plans" element={<Plans />} />
+          <Route path="/equipment" element={<Equipment />} />
+          <Route path="/attendance" element={<Equipment />} />
+
+
+          {/* charts  */}
+        </Routes>
+      </div>
     </div>
 
 

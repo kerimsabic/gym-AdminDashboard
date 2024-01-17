@@ -1,20 +1,27 @@
-import { BASE_URL, token } from "@/utils/data";
+import { BASE_URL, /*token*/ } from "@/utils/data";
 import { Trainer } from "@/utils/types";
 import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
 import {  createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";  //ovje treabao dodati /react poslije query
+import { useSelector } from "react-redux";
+import { RootState } from ".";
 
 
-const BEARER_TOKEN = `${token}`;
+/*const BEARER_TOKEN = `${token}`;*/
+
 
 
 export const trainerApi=createApi({
     reducerPath:"trainerApi",
-    baseQuery:fetchBaseQuery({
+    baseQuery: (args, api, extraOptions) => {
+      const { userToken } = api.getState().auth; // Assuming the auth slice has userToken
+      const headers = {
+        'authorization':`Bearer ${userToken}`
+      };    
+      return fetchBaseQuery({
         baseUrl: BASE_URL,
-        headers: {
-            Authorization: `Bearer ${BEARER_TOKEN}`,
-        },
-    }),
+        headers,
+      })(args, api, extraOptions);
+    },
     tagTypes: ["trainerApi"],
     endpoints:(builder)=>({
         getTrainers : builder.query<Trainer[], undefined>({

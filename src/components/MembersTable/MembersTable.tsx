@@ -97,6 +97,7 @@ const MembersTable = (props: Props) => {
           onSubmitMember={async (formData: any) => {
             try {
               await addMember(formData)
+              console.log(typeof(formData.numberOfMonths))
             } catch (error) {
               console.log(error)
             }
@@ -200,9 +201,9 @@ const MembersTable = (props: Props) => {
                     <td className={classes}>
                       <div className="text-3xl flex justify-between gap-2"
                       >
-                        <button className="text-red-700" onClick={() => handleDeleteClick(member.id,member.firstName,member.lastName)}><MdDelete /></button>
+                        <button className="text-red-700" onClick={() => handleDeleteClick(member.id!,member.firstName,member.lastName)}><MdDelete /></button>
                         <button className="text-blue-900" onClick={() => handleEditMember(member)}><MdOutlineManageAccounts /></button>
-                        <button className="text-green-900" onClick={() => { setSelectedUserId(member.id); setMemberDetail(true) }}><FaRegEye /></button>
+                        <button className="text-green-900" onClick={() => { setSelectedUserId(member.id!); setMemberDetail(true) }}><FaRegEye /></button>
 
                       </div>
                     </td>

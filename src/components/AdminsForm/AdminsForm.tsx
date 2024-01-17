@@ -83,7 +83,7 @@ const AdminsForm = ({ onCancel, onSubmitAdmin,onUpdateAdmin,initialData }: Props
     return (
 
         <>
-            <div className="fixed bottom-0 max-sm:top-[10px] md:top-[30px] left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-30 overflow-x-auto">
+            <div className="fixed bottom-0 max-sm:top-10 max-sm:mt-[-100px] md:top-[30px] left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-30 overflow-x-auto">
                 <div className="bg-white p-8 rounded shadow-lg w-full max-w-lg overflow-x-auto z-30 h-[60%] md:h-[85%] ">
                     <div className="flex justify-end">
                         <button onClick={onCancel}>
