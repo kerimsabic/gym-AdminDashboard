@@ -34,12 +34,12 @@ export const equipmentApi = createApi({
             invalidatesTags: ["equipmentApi"],
            
         }),
-        getAttendanceId: builder.query<any, string>({
+        getEquipmentId: builder.query<any, string>({
             query: (id) => `/equipment/${id}`,
             providesTags: (result, error, id) => [{ type: "equipmentApi", id }],
         }),
         
-        updateAttendace: builder.mutation({
+        updateEquipment: builder.mutation({
             query: ({ id, data }) => ({
                 url: `/equipment/add/${id}`,
                 method: "PUT",
@@ -47,7 +47,7 @@ export const equipmentApi = createApi({
             }),
             invalidatesTags: ["equipmentApi"],
         }),
-        deleteAttendace: builder.mutation({
+        deleteEquipment: builder.mutation({
             query: ({ id }) => ({ url: `/equipment/${id}`, method: "DELETE" }),
             invalidatesTags: ["equipmentApi"],
         }),
@@ -57,7 +57,7 @@ export const equipmentApi = createApi({
 
 
 // Export hooks for usage in components
-export const { useGetEquipmentsQuery, useAddAttendanceMutation, useUpdateAttendaceMutation, useGetAttendanceIdQuery, useDeleteAttendaceMutation } = equipmentApi;
+export const { useGetEquipmentsQuery, useAddAttendanceMutation, useUpdateEquipmentMutation, useGetEquipmentIdQuery, useDeleteEquipmentMutation } = equipmentApi;
 
 
 export default equipmentApi;

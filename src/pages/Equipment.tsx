@@ -1,36 +1,26 @@
-import EquipmentCard from '@/components/EquipmentCard'
-import useEquipment from '@/hooks/equipmentHooks/useEquipment';
-import equipment from '@/services/equipment';
+import EquipmentCard from '@/components/EquipmentCard';
 import { useGetEquipmentsQuery } from '@/store/equipmentSlice';
 import { Equipments } from '@/utils/types';
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
-
-type Props = {}
+type Props = {};
 
 const Equipment = (props: Props) => {
-
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredEquipment, setFilteredEquipment] = useState<Equipments[]>();
+  const { data: equipment, isError, isLoading } = useGetEquipmentsQuery();
+
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-    const filteredEquipment = equipment?.filter(machine => machine.name.toLowerCase().includes(event.target.value.toLowerCase()));
-    setFilteredEquipment(filteredEquipment);
-  }
+  };
 
-
-  //const equipmentData = useEquipment();
-  const {data:equipment, isError}=useGetEquipmentsQuery();
-  console.log(equipment)
-
-  console.log(useGetEquipmentsQuery());
+  const filteredEquipment = (equipment || []).filter((machine: Equipments) =>
+    machine.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <>
-      
-      <div className="pt-10  flex justify-center shadow-sm">
+      <div className="pt-10 flex justify-center shadow-sm">
         <input
           type="text"
           placeholder="Search..."
@@ -42,21 +32,26 @@ const Equipment = (props: Props) => {
       </div>
       <section className="bg-gray-2 pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px] flex justify-center">
         <div className="container">
-          <div className="grid gap-5 sm:grid-cols-4 lg:grid-cols-3">
-            {((filteredEquipment || equipment || [])).map((machine:Equipments) => (
-              <EquipmentCard
-                key={machine.id} 
-                image={machine.image || "https://i.ibb.co/r2zns1m/image-01.jpg"} 
-                CardTitle={machine.name || "Default Title"} 
-                CardManufacturer={machine.manufacturer || "Default Description"} 
-                CardType={machine.type}
-              />
-            ))}
-          </div>
+          {isLoading && <p>Loading...</p>}
+          {isError && <p>Error loading equipment data.</p>}
+          {!isLoading && !isError && (
+            <div className="grid gap-5 sm:grid-cols-4 lg:grid-cols-3">
+              {filteredEquipment.map((machine: Equipments) => (
+                <EquipmentCard
+                  key={machine.id}
+                  image={machine.image || 'https://i.ibb.co/r2zns1m/image-01.jpg'}
+                  CardTitle={machine.name || 'Default Title'}
+                  CardManufacturer={machine.manufacturer || 'Default Description'}
+                  CardType={machine.type}
+                  id={machine.id.toString()}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default Equipment
+export default Equipment;
