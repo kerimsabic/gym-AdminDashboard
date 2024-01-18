@@ -5,12 +5,11 @@ import { useMemo, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { MdDelete, MdOutlineManageAccounts } from 'react-icons/md';
 import AdminsForm from '../AdminsForm';
-import { SubmitHandler } from 'react-hook-form';
-import { AdminsRegistrationForm } from '../AdminsForm/AdminsForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, selectSearch } from '@/store';
 import { setSearch } from '@/store/trainersSlice';
 import { registerAdmin } from '@/store/authSlice';
+
 
 
 
@@ -31,7 +30,7 @@ const AdminTable = (props: Props) => {
    const [isAddFormVisible, setAddFormVisible] = useState(false);
    const handleCancelAdd = () => { setAddFormVisible(false);};
 
-   const [selectedAdmin, setSelectedAdmin] = useState<AdminsRegistrationForm | null>(null);
+   const [selectedAdmin, setSelectedAdmin] = useState<Admin | null>(null);
 
     const handleEditAdmin = (admin: Admin) => {
       setSelectedAdmin(admin);
@@ -41,11 +40,11 @@ const AdminTable = (props: Props) => {
 
    const handleDeleteClick = async (id: string, firstName: string, lastName: string) => {
     try {
-        if (window.confirm(`Are you sure you want to delete this TRAINER:   "${firstName.toUpperCase() + " " + lastName.toUpperCase()}"`)) {
+        if (window.confirm(`Are you sure you want to delete this ADMIN:   "${firstName.toUpperCase() + " " + lastName.toUpperCase()}"`)) {
             await deleteAdmin({ id: id })
         }
     } catch (error) {
-        console.error('Error deleting trainer:', error);
+        console.error('Error deleting admin:', error);
     }
 };
 
@@ -59,7 +58,7 @@ const AdminTable = (props: Props) => {
 
 
 
-   const { loading, userToken,  success } = useSelector(
+   const {  } = useSelector(
     (state: RootState) => state.auth
 )
     const dispatch = useDispatch<AppDispatch>()
@@ -85,6 +84,7 @@ const AdminTable = (props: Props) => {
             onSubmitAdmin={async (formData) => {
                 try{
                     //await addAdmin(formData)
+                   // console.log(formData);
                     await dispatch(registerAdmin(formData))
                 }catch(error){
                     console.log(error)

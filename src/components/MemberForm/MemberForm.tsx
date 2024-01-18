@@ -36,7 +36,7 @@ export type MemebrRegistrationForm = {
     password: string;
     trainingPlanName: string;
     trainingPlanId: string;
-    numberOfMonths:number;
+    numOfMonths:number;
 
 }
 
@@ -63,7 +63,7 @@ const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: P
             userType: UserType.MEMBER,
             trainingPlanId:selectedPlanId,
             trainerId:selectedTrainerId,
-            numberOfMonths:selectedNumber, 
+            numOfMonths:selectedNumber, 
         };
         try {
             if (initialData && !data.password) {
@@ -74,7 +74,7 @@ const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: P
                 updatedMember.password = formDataWithUserType.password || initialData.password;
                // setSelectedPlanId(updatedMember.trainingPlanId);
               //  setSelectedTrainerId(updatedMember.trainerId);
-                onUpdateMember(updatedMember);
+                onUpdateMember(updatedMember);       //mogu stavit '?'
             }
             else {
                 onSubmitMember(formDataWithUserType);

@@ -4,3 +4,4 @@ export { default as Trainers } from './Trainers'
 export { default as Members } from './Members'
 export { default as Equipent } from './Equipment'
 export { default as LogIn } from "./LogIn"
+export {default as Membership} from "./Membership"

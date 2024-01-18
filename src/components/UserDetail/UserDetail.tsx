@@ -1,17 +1,18 @@
 import { useMember } from '@/hooks/useMember';
+import { useGetMemberIdQuery } from '@/store/memberSlice';
 import { StatusType } from '@/utils/types';
 import React, { useState } from 'react'
 import { IoClose } from 'react-icons/io5';
 
 type Props = {
-    selectedUserId: string | null;
+    selectedUserId: string;
     closeUserDetail: (value: boolean) => void;
 }
 
 const UserDetail = ({ selectedUserId, closeUserDetail }: Props) => {
-
-    const userData = useMember(selectedUserId)
-    const [memberDetail, setMemberDetail] = useState(false);
+    const { data: member, error } = useGetMemberIdQuery(selectedUserId);
+    //const userData = useMember(selectedUserId)
+   
 
 
     return (
@@ -27,13 +28,13 @@ const UserDetail = ({ selectedUserId, closeUserDetail }: Props) => {
                     <div className="mb-5">
                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
                         <div id="large-input" className="text-center block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
-                            {userData.data?.firstName}
+                            {member?.firstName}
                         </div>
                     </div>
                     <div className="mb-5">
                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
                         <div id="large-input" className="text-center block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
-                            {userData.data?.lastName}
+                            {member?.lastName}
                         </div>
                     </div>
                 </div>
@@ -41,7 +42,7 @@ const UserDetail = ({ selectedUserId, closeUserDetail }: Props) => {
                 <div className="mb-5">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                     <div id="large-input" className=" text-center block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
-                        {userData.data?.email}
+                        {member?.email}
                     </div>
 
                 </div>
@@ -49,37 +50,37 @@ const UserDetail = ({ selectedUserId, closeUserDetail }: Props) => {
                     <div className="mb-5">
                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
                         <div id="large-input" className="text-center block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
-                            {userData.data?.address}
+                            {member?.address}
                         </div>
                     </div>
                     <div className="mb-5">
                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
                         <div id="large-input" className="text-center block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
-                            {userData.data?.phone}
+                            {member?.phone}
                         </div>
                     </div>
                 </div>
                 <div className="grid md:grid-cols-2 md:gap-6">
-                <div className="mb-5">
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Trainer Name</label>
-                    <div id="large-input" className="text-center block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
-                        {userData.data?.trainerName}
+                    <div className="mb-5">
+                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Trainer Name</label>
+                        <div id="large-input" className="text-center block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                            {member?.trainerName}
+                        </div>
                     </div>
-                </div>
-                <div className="mb-5">
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Training Plan</label>
-                    <div id="large-input" className="text-center block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
-                        {userData.data?.trainingPlanName}
+                    <div className="mb-5">
+                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Training Plan</label>
+                        <div id="large-input" className="text-center block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                            {member?.trainingPlanName}
+                        </div>
                     </div>
-                </div>
                 </div>
                 <div className="mb-5">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-                    <div className={`mb-5 text-center block w-full p-4 text-gray-900 border rounded-lg sm:text-md focus:ring focus:border ${userData.data?.statusType === StatusType.ONLINE ? 'bg-green-100 border-green-500' : 'bg-red-100 border-red-500'} dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring dark:focus:border`}>
-                        {userData.data?.statusType === StatusType.ONLINE ? 'Online' : 'Offline'}
+                    <div className={`mb-5 text-center block w-full p-4 text-gray-900 border rounded-lg sm:text-md focus:ring focus:border ${member?.statusType === StatusType.ONLINE ? 'bg-green-100 border-green-500' : 'bg-red-100 border-red-500'} dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring dark:focus:border`}>
+                        {member?.statusType === StatusType.ONLINE ? 'Online' : 'Offline'}
                     </div>
                 </div>
-                
+
 
             </div>
 

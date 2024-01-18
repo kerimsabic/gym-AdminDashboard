@@ -4,7 +4,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import * as yup from 'yup';
-import {  useUpdateAdminMutation, } from "@/store/adminSlice";
 import { IoClose } from 'react-icons/io5';
 import { useEffect } from 'react';
 
@@ -22,30 +21,32 @@ export type AdminsRegistrationForm = {
     //userType: UserType
     email: string;
     userName: string;
-    image?: string;
+   // image?: string;
     address: string;
     phone: string;
     password: string
 }
 const phoneRegExp: RegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-const schema = yup.object({
+const schema = yup.object().shape({
     firstName: yup.string().required("First name is required"),
     lastName: yup.string().required("Last name is required"),
     //userType: yup.string().oneOf(["ADMIN"], "User Type ADMIN"),
     email: yup.string().email().required('Email is required'),
     userName: yup.string().required('Username is required'),
-    password: yup.string().min(6),
-    addres: yup.string(),
+    password: yup.string().min(6).required(),
+    address: yup.string().required(),
     phone: yup.string().matches(phoneRegExp, "Phone number is not valid").required("Phone number is required"),
+   // image:yup.string().optional()
 
-})
+}).required()
 
 const AdminsForm = ({ onCancel, onSubmitAdmin,onUpdateAdmin,initialData }: Props) => {
    
 
     const { register, handleSubmit, formState: { errors }, setValue } = useForm<AdminsRegistrationForm>({
-       // resolver: yupResolver(schema),
+        resolver: yupResolver(schema),
     });
+    console.log(errors);
 
     useEffect(() => {
         if (initialData) {
@@ -57,16 +58,18 @@ const AdminsForm = ({ onCancel, onSubmitAdmin,onUpdateAdmin,initialData }: Props
       }, [initialData, setValue]);
     
 
-      const handleFormSubmit: SubmitHandler<AdminsRegistrationForm> = (data) => {
+      const handleFormSubmit: SubmitHandler<AdminsRegistrationForm> =  (data) => {   
+         
         const formDataWithUserType= {
             ...data,
-            userType: UserType.ADMIN,  
+            userType: UserType.ADMIN
+           
              
         };
         try{
             if(initialData){
                  const updatedAdmin = { ...initialData, ...formDataWithUserType };
-                 onUpdateAdmin(updatedAdmin);
+                  onUpdateAdmin(updatedAdmin);
               }
               else{
                 onSubmitAdmin(formDataWithUserType);
@@ -107,6 +110,11 @@ const AdminsForm = ({ onCancel, onSubmitAdmin,onUpdateAdmin,initialData }: Props
                             {errors.lastName && <small style={{ color: "red" }}>{errors.lastName.message}</small>}
                             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last Name</label>
                         </div>
+                        <div className="relative z-0 w-full mb-5 group">
+                            <input type="text" id="floating_username" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-non focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("userName")} />
+                            {errors.userName && <small style={{ color: "red" }}>{errors.userName.message}</small>}
+                            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Username</label>
+                        </div>
 
                         <div className="relative z-0 w-full mb-5 group">
                             <input type="text" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-non focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("email")} />
@@ -144,11 +152,11 @@ const AdminsForm = ({ onCancel, onSubmitAdmin,onUpdateAdmin,initialData }: Props
 
                             </select>
                         </div>*/}
-                        <div className="relative z-0 w-full mb-5 group">
+                        {/*<div className="relative z-0 w-full mb-5 group">
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Image</label>
                             <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" />
                             <div className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help">A profile picture is optional</div>
-                        </div>
+                        </div>*/}
 
                         <div className="flex justify-between">
                             <button

@@ -56,6 +56,7 @@ const TrainersTable = (props: Props) => {
             onCancel={handleCancelAdd}
             onSubmitTrainer={async (formData) => {
                 try{
+                    
                     await addTrainer(formData)
                 }catch(error){
                     console.log(error)

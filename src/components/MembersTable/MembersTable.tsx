@@ -72,7 +72,7 @@ const MembersTable = (props: Props) => {
 
 
 
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>('');
   const userData = useMember(selectedUserId)
   const [memberDetail, setMemberDetail] = useState(false);
 
@@ -96,6 +96,7 @@ const MembersTable = (props: Props) => {
           onCancel={handleCancelAdd}
           onSubmitMember={async (formData: any) => {
             try {
+              console.log(formData)
               await addMember(formData)
               console.log(typeof(formData.numberOfMonths))
             } catch (error) {
@@ -215,7 +216,7 @@ const MembersTable = (props: Props) => {
         </div>
       </div>
 
-      {memberDetail && <UserDetail selectedUserId={selectedUserId} closeUserDetail={setMemberDetail} />}
+      {memberDetail && <UserDetail selectedUserId={selectedUserId!} closeUserDetail={setMemberDetail} />}
 
 
     </>

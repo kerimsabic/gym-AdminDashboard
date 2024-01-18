@@ -9,7 +9,7 @@ type Props = {
     onCancel: () => void;
     onSubmitTrainer: (formData: TrainerRegistrationForm) => void;
     onUpdateTrainer: (formData: Trainer) => void;
-    initialData?: Trainer | null | undefined
+    initialData?: Trainer |TrainerRegistrationForm| null | undefined
 }
 
 export type TrainerRegistrationForm = {
@@ -33,6 +33,7 @@ const schema = yup.object({
     phone: yup.string().matches(phoneRegExp, "Phone number is not valid").required("Phone number is required"),
     password: yup.string().min(6).required(),
     address: yup.string().required(),
+    image:yup.string().optional(),
 
 
 
@@ -42,7 +43,7 @@ const schema = yup.object({
 const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData }: Props) => {
 
     const { register, handleSubmit, formState: { errors }, setValue } = useForm<TrainerRegistrationForm>({
-        //resolver: yupResolver(schema),
+        resolver: yupResolver(schema),
     });
 
     useEffect(() => {
@@ -134,11 +135,11 @@ const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData 
                             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone Number</label>
                         </div>
 
-                        <div className="relative z-0 w-full mb-5 group">
+                      {/*  <div className="relative z-0 w-full mb-5 group">
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Image</label>
                             <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" />
                             <div className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help">A profile picture is optional</div>
-                        </div>
+                        </div>*/}
 
                         <div className="flex justify-between">
                             <button

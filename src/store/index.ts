@@ -3,6 +3,7 @@ import authReducer from "./authSlice"
 import adminSlice from "./adminSlice";
 import  { trainerApi,searchSlice } from "./trainersSlice";
 import membersApi from "./memberSlice";
+import membershipApi from "./membershipSlice";
 
 
 const store = configureStore({
@@ -12,8 +13,9 @@ const store = configureStore({
         trainerApi:trainerApi.reducer,
         membersApi:membersApi.reducer,
         search:searchSlice.reducer,
+        membershipApi:membershipApi.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat( membersApi.middleware,trainerApi.middleware, adminSlice.middleware,),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat( membersApi.middleware,trainerApi.middleware, adminSlice.middleware, membershipApi.middleware),
    
 })
 

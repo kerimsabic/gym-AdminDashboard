@@ -2,6 +2,7 @@ import { AdminsRegistrationForm } from "@/components/AdminsForm/AdminsForm"
 import { LogInFormData } from "@/pages/LogIn"
 import appAxios from "@/services/appAxios"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { useGetAdminsQuery } from "./adminSlice"
 import { userInfo } from "os"
 //import { useAddAdminMutation } from "./adminSlice"
 
@@ -19,14 +20,16 @@ const userToken = localStorage.getItem('userToken')
     ? localStorage.getItem('userToken')
     : null
 
+
     export const registerAdmin = createAsyncThunk(
-        'auth/register',
+        'auth/registerAdmin',
         async (data: AdminsRegistrationForm, { rejectWithValue }) => {
             try {
                 await appAxios.post(
                     '/auth/registerAdmin',
                     data,
-                )
+                );
+                
             } catch (error: any) {
                 // return custom error message from backend if present
                 if (error.response && error.response.data.message) {
@@ -37,6 +40,15 @@ const userToken = localStorage.getItem('userToken')
             }
         }
     )
+
+    export const fetchAdmins = createAsyncThunk('admin/fetchAdmins', async () => {
+        try {
+            const response = await appAxios.get('/api/admins');
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    });
 
 export const login = createAsyncThunk(
     'auth/login',

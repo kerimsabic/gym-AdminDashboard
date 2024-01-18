@@ -8,12 +8,16 @@ const userToken = localStorage.getItem('userToken') || '';
 
 export const adminSlice = createApi({
     reducerPath: 'admins',
-    baseQuery: fetchBaseQuery({
-        baseUrl: BASE_URL,
-        headers: {
-            Authorization: `Bearer ${userToken}`,
-        },
-    }),
+    baseQuery: (args, api, extraOptions) => {
+        const { userToken } = api.getState().auth; // Assuming the auth slice has userToken
+        const headers = {
+          'authorization':`Bearer ${userToken}`
+        };    
+        return fetchBaseQuery({
+          baseUrl: BASE_URL,
+          headers,
+        })(args, api, extraOptions);
+      },
     tagTypes: ["admins"],
     endpoints: (builder) => ({
         getAdmins: builder.query<any, void>({

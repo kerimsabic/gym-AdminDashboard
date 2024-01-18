@@ -12,17 +12,9 @@ export const membersApi = createApi({
     reducerPath: 'membersApi',
     baseQuery: (args, api, extraOptions) => {
         const { userToken } = api.getState().auth; // Assuming the auth slice has userToken
-    
         const headers = {
           'authorization':`Bearer ${userToken}`
-          // Add your other headers if needed
-        };
-    
-        /*if (userToken) {
-          headers.Authorization = `Bearer ${userToken}`;
-        }*/
-        console.log(`Bearer ${userToken}`)
-    
+        };    
         return fetchBaseQuery({
           baseUrl: BASE_URL,
           headers,
@@ -42,6 +34,11 @@ export const membersApi = createApi({
             }),
             invalidatesTags: ["membersApi"],
         }),
+        getMemberId: builder.query<Member, string>({
+            query: (id) => `/members/${id}`,
+            providesTags: (result, error, id) => [{ type: "membersApi", id }],
+        }),
+        
         updateMember: builder.mutation({
             query: ({ id, data }) => ({
                 url: `/members/${id}`,
@@ -60,7 +57,7 @@ export const membersApi = createApi({
 
 
 // Export hooks for usage in components
-export const { useGetMembersQuery, useAddMemberMutation, useUpdateMemberMutation, useDeleteMemberMutation } = membersApi;
+export const { useGetMembersQuery, useAddMemberMutation, useUpdateMemberMutation, useDeleteMemberMutation, useGetMemberIdQuery } = membersApi;
 
 
 export default membersApi;
