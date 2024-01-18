@@ -17,7 +17,7 @@ import { MemebrRegistrationForm } from "../MemberForm/MemberForm";
 
 type Props = {}
 
-const TABLE_HEAD = ["Image", "Name", "Email", "Status", "Address", "Phone", "Edit"];
+const TABLE_HEAD = ["Image", "Name", "Email", "Status","Phone", "Edit"];
 
 const MembersTable = (props: Props) => {
 
@@ -187,12 +187,7 @@ const MembersTable = (props: Props) => {
                         className={member.statusType === StatusType.ONLINE ? "text-green-500" : "text-red-500"}
                       />
                     </td>
-                    <td className={classes}>
-                      <div className="font-normal"
-                      >
-                        {member.address}
-                      </div>
-                    </td>
+                    
                     <td className={classes}>
                       <div className="font-normal"
                       >

@@ -8,7 +8,7 @@ import Trainers from "./pages/Trainers"
 import Plans from "./pages/Plans"
 import Admin from "./pages/Admin"
 import Equipment from "./pages/Equipment"
-import { LogIn, Membership } from "./pages"
+import { Attendance, LogIn, Membership } from "./pages"
 import ProtectedRoutes from "./utils/ProtectedRoutes"
 
 
@@ -40,7 +40,7 @@ function App() {
           <Route path="/plans" element={<Plans />} />
           <Route path="/equipment" element={<Equipment />} />
           <Route path="/membership" element={<Membership />} />
-          <Route path="/attendance" element={<Equipment />} />
+          <Route path="/attendance" element={<Attendance />} />
           </Route>
 
 
