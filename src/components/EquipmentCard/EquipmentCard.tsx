@@ -35,7 +35,7 @@ const EquipmentCard = ({ image, CardType, CardManufacturer, CardTitle }: Props) 
                         </button>
                         <button
                             className="bg-red-600 hover:bg-[#d03e3e] text-white font-bold py-2 px-4 border border-red-700 rounded flex justify-center gap-3">
-                            <FaPlus />
+                            
                             Remove
                         </button>
                     </div>

@@ -19,7 +19,7 @@ const TABLE_HEAD = ["Image", "Name", "Email", "Phone", "Address", "Actions"];
 
 const AdminTable = (props: Props) => {
 
-    const { data: admins, error, isLoading } = useGetAdminsQuery();
+    const { data: admins, error, isLoading,refetch } = useGetAdminsQuery();
     
    const search = useSelector(selectSearch);
    const dispatch2= useDispatch();
@@ -86,6 +86,7 @@ const AdminTable = (props: Props) => {
                     //await addAdmin(formData)
                    // console.log(formData);
                     await dispatch(registerAdmin(formData))
+                    refetch()
                 }catch(error){
                     console.log(error)
                 }

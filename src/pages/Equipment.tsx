@@ -1,9 +1,11 @@
 import EquipmentCard from '@/components/EquipmentCard'
 import useEquipment from '@/hooks/equipmentHooks/useEquipment';
 import equipment from '@/services/equipment';
+import { useGetEquipmentsQuery } from '@/store/equipmentSlice';
 import { Equipments } from '@/utils/types';
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 
 type Props = {}
@@ -14,12 +16,16 @@ const Equipment = (props: Props) => {
   const [filteredEquipment, setFilteredEquipment] = useState<Equipments[]>();
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-    const filteredEquipment = equipmentData.data?.filter(equipment => equipment.name.toLowerCase().includes(event.target.value.toLowerCase()));
+    const filteredEquipment = equipment?.filter(machine => machine.name.toLowerCase().includes(event.target.value.toLowerCase()));
     setFilteredEquipment(filteredEquipment);
   }
 
 
-  const equipmentData = useEquipment();
+  //const equipmentData = useEquipment();
+  const {data:equipment, isError}=useGetEquipmentsQuery();
+  console.log(equipment)
+
+  console.log(useGetEquipmentsQuery());
 
   return (
     <>
@@ -37,13 +43,13 @@ const Equipment = (props: Props) => {
       <section className="bg-gray-2 pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px] flex justify-center">
         <div className="container">
           <div className="grid gap-5 sm:grid-cols-4 lg:grid-cols-3">
-            {((filteredEquipment || equipmentData.data || [])).map((equipment) => (
+            {((filteredEquipment || equipment || [])).map((machine:Equipments) => (
               <EquipmentCard
-                key={equipment.id} // Make sure to include a unique key for each element in the array
-                image={equipment.image || "https://i.ibb.co/r2zns1m/image-01.jpg"} // Use actual property from equipment data
-                CardTitle={equipment.name || "Default Title"} // Replace with actual property
-                CardManufacturer={equipment.manufacturer || "Default Description"} // Replace with actual property
-                CardType={equipment.type}
+                key={machine.id} 
+                image={machine.image || "https://i.ibb.co/r2zns1m/image-01.jpg"} 
+                CardTitle={machine.name || "Default Title"} 
+                CardManufacturer={machine.manufacturer || "Default Description"} 
+                CardType={machine.type}
               />
             ))}
           </div>
