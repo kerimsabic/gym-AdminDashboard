@@ -1,6 +1,6 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Chip } from "@material-tailwind/react";
-import { useMemo, useState } from 'react'
+import {  useState } from 'react'
 import { MdDelete } from "react-icons/md";
 import { MdOutlineManageAccounts } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
@@ -9,7 +9,7 @@ import UserDetail from "../UserDetail";
 import { FaRegEye } from "react-icons/fa";
 import { Member, StatusType } from "@/utils/types";
 import MemberForm from "../MemberForm";
-import { useAddMemberMutation, useDeleteMemberMutation, useGetMemberPaginQuery, useGetMembersQuery, useUpdateMemberMutation } from "@/store/memberSlice";
+import { useAddMemberMutation, useDeleteMemberMutation, useGetMembersQuery, useUpdateMemberMutation } from "@/store/memberSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSearch } from "@/store";
 import { setSearch } from "@/store/trainersSlice";
@@ -37,7 +37,7 @@ const MembersTable = (props: Props) => {
   };*/
 
 
-  const { data: members, isLoading, isError } = useGetMembersQuery(undefined);
+  const { data: members, isLoading, isError, isSuccess } = useGetMembersQuery(undefined);
   const [currentPage, setCurrentPage] = useState(0);
   const pageSize = 6;
   const startIndex = currentPage * pageSize;
@@ -88,6 +88,9 @@ const MembersTable = (props: Props) => {
     try {
       if (window.confirm(`Are you sure you want to delete this MEMBER:   "${firstName.toUpperCase() + " " + lastName.toUpperCase()}"`)) {
         await deleteMember({ id: id })
+        if (isSuccess) {
+          window.confirm("Member successfully deleted")
+      }
       }
     } catch (error) {
       console.error('Error deleting member:', error);
@@ -127,6 +130,9 @@ const MembersTable = (props: Props) => {
             try {
               console.log(formData)
               await addMember(formData)
+              if (isSuccess) {
+                window.confirm("Member successfully added")
+              }
               console.log(typeof (formData.numberOfMonths))
             } catch (error) {
               console.log(error)
@@ -149,8 +155,8 @@ const MembersTable = (props: Props) => {
 
       <div className="w-[80%] mx-auto flex md:justify-center max-md:w-[95%] mt-10">
         <div className=" w-full  max-md:overflow-x-scroll lg:overflow-x-scroll " >
-          <div className="w-full flex  mb-5 justify-between">
-            <div className="w-[50%]  max-sm:hidden flex items-center">
+          <div className="w-full flex max-xs:flex-col mb-5 justify-between">
+            <div className="w-[50%]   flex items-center">
               <input
                 type="text"
                 placeholder="Search..."
@@ -189,10 +195,10 @@ const MembersTable = (props: Props) => {
               </tr>
             </thead>
             <tbody>
-            {(members || []).filter((member) =>
-            member.firstName.toLowerCase().includes(search.toLowerCase()) ||
-            member.lastName.toLowerCase().includes(search.toLowerCase())
-          ).slice(startIndex, endIndex).map((member, index) => {
+              {(members || []).filter((member) =>
+                member.firstName.toLowerCase().includes(search.toLowerCase()) ||
+                member.lastName.toLowerCase().includes(search.toLowerCase())
+              ).slice(startIndex, endIndex).map((member, index) => {
                 const isLast = index === members!.length - 1;
                 const classes = isLast ? "p-4 border-b border-blue-gray-50" : "p-4 border-b border-blue-gray-50";
 

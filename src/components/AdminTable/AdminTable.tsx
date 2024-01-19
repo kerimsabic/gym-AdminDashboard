@@ -126,8 +126,8 @@ const AdminTable = (props: Props) => {
             )}
             <div className="w-[80%]  mx-auto flex md:justify-center max-md:w-[95%] mt-10 ">
                 <div className=" w-full  max-md:overflow-x-scroll  " >
-                    <div className="w-full flex  mb-5 justify-between ">
-                        <div className="w-[50%]  max-sm:hidden flex items-center shadow-sm">
+                    <div className="w-full flex max-xs:flex-col mb-5 justify-between ">
+                        <div className="w-[50%]   flex items-center shadow-sm">
                             <input
                                 type="text"
                                 placeholder="Search..."
