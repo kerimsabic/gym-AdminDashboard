@@ -1,8 +1,6 @@
-import React from 'react'
 
-type Props = {}
 
-const planDetail = (props: Props) => {
+const planDetail = () => {
   return (
     <div>planDetail</div>
   )

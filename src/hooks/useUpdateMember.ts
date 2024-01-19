@@ -1,6 +1,6 @@
 import { MemberService } from "@/services";
 import { Member } from "@/utils/types";
-import { error } from "console";
+
 import { useMutation, useQueryClient } from "react-query";
 
 export function useUpdateMember(){

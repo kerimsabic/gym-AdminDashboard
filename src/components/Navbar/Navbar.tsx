@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import Sidebar from '../Sidebar';
 import { Link } from 'react-router-dom';
 import { CgGym } from 'react-icons/cg';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
 import { VscAccount } from "react-icons/vsc";
-import AccountInfo from '../AccountInfo';
 import { useDispatch, useSelector, } from 'react-redux';
 import { RootState } from '@/store';
 import { logout } from '@/store/authSlice';

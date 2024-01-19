@@ -1,9 +1,9 @@
 import { usePlans } from '@/hooks/planHooks';
-import { useMember } from '@/hooks/useMember';
+
 import { useGetMemberIdQuery } from '@/store/memberSlice';
 import { useUpdateMembershipMutation } from '@/store/membershipSlice';
 import { StatusType } from '@/utils/types';
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IoClose } from 'react-icons/io5';
 
@@ -17,16 +17,16 @@ export type MembershipForm = {
 }
 
 const UserDetail = ({ selectedUserId, closeUserDetail }: Props) => {
-    const { data: member, error } = useGetMemberIdQuery(selectedUserId);
+    const { data: member } = useGetMemberIdQuery(selectedUserId);
     //const userData = useMember(selectedUserId)
 
     const planData = usePlans();
     const [selectedPlanId, setSelectedPlanId] = useState<string>('');
     const [selectedNumber, setSelectedNumber] = useState<number>(1);
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm()
+    const {   } = useForm()
     const[updateMembership]=useUpdateMembershipMutation();
 
-    const handleFormSubmit: SubmitHandler<MembershipForm> = (data) => {
+   /* const handleFormSubmit: SubmitHandler<MembershipForm> = (data) => {
         const formDataWithUserType = {
             ...data,
             trainingPlanId: selectedPlanId,
@@ -42,7 +42,7 @@ const UserDetail = ({ selectedUserId, closeUserDetail }: Props) => {
         catch (error) {
             console.error("Error updating member:", error);
         }
-    };
+    };*/
 
     return (
 

@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { AiOutlineAreaChart, AiOutlineBarChart, AiOutlineCalendar, AiOutlineMenu, AiOutlineShoppingCart, AiOutlineStock } from "react-icons/ai";
+
+import {  NavLink } from 'react-router-dom'
+import { AiOutlineAreaChart, AiOutlineBarChart, AiOutlineCalendar, AiOutlineStock } from "react-icons/ai";
 import { CgGym } from "react-icons/cg";
 
 import { link } from 'fs';
@@ -13,7 +13,7 @@ import { RiStockLine } from 'react-icons/ri';
 import { MenuSection } from '@/utils/types';
 import { GrUserAdmin } from "react-icons/gr";
 import { IoFitness } from "react-icons/io5";
-import { IoIosCloseCircleOutline } from "react-icons/io";
+
 
 
 

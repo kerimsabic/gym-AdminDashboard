@@ -1,6 +1,6 @@
 import { PlanService } from "@/services";
-import { Member, TrainingPlan } from "@/utils/types";
-import { error } from "console";
+import {  TrainingPlan } from "@/utils/types";
+
 import { useMutation, useQueryClient } from "react-query";
 
 export function useUpdatePlan(){

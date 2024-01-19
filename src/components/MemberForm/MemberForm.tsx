@@ -3,10 +3,10 @@ import  { useEffect, useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 import {  Member, StatusType, UserType } from '@/utils/types';
 import usePlans from '@/hooks/planHooks/usePlans';
-import * as yup from 'yup'
+
 
 import { useTrainerQuery } from "@/store/trainersSlice";
-import { yupResolver } from "@hookform/resolvers/yup";
+
 
 
 
@@ -40,7 +40,7 @@ export type MemebrRegistrationForm = {
     numOfMonths?:number;
 
 }
-const phoneRegExp: RegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+/*const phoneRegExp: RegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 const schema = yup.object({
     firstName: yup.string().required("First name is required"),
     lastName: yup.string().required("Last name is required"),
@@ -54,11 +54,11 @@ const schema = yup.object({
 
 
 
-})
+})*/
 
 const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: Props) => {
 
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm<MemebrRegistrationForm>({
+    const { register, handleSubmit,  setValue } = useForm<MemebrRegistrationForm>({
         //resolver: yupResolver(schema),
     });
 
@@ -173,7 +173,7 @@ const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: P
                             <label className="pb-5 peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Training Plan</label>
                             <select onChange={(e) => {
                                  const selectedValue = e.target.value;
-                                 const result = planData.data?.find((x) => x.id === selectedValue);
+                                 //const result = planData.data?.find((x) => x.id === selectedValue);
                                 setSelectedPlanId(selectedValue||'')
 
 

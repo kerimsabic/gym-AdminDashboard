@@ -10,12 +10,12 @@ import usePlans from '@/hooks/usePlans'
 import useDeletePlans from '@/hooks/planHooks/useDeletePlans'
 
 
-type Props = {}
+
 
 
 const TABLE_HEAD = ["Plan Name",  "Description","Price", "Status", "Actions"];
 
-const PlansTable = (props: Props) => {
+const PlansTable = () => {
 
     const plansData = usePlans();
 

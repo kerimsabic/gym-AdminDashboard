@@ -10,10 +10,10 @@ import TrainersForm from '../TrainersForm';
 import { useAddTrainerMutation } from '@/store/trainersSlice';
 import { TrainerRegistrationForm } from '../TrainersForm/TrainersForm';
 
-type Props = {}
+
 const TABLE_HEAD = ["Image", "Name", "Email", "Number","Address", "Edit"];
 
-const TrainersTable = (props: Props) => {
+const TrainersTable = () => {
 
    const{data}=useTrainerQuery(undefined);
    const search = useSelector(selectSearch);
