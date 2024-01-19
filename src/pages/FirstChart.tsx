@@ -1,6 +1,6 @@
 import { useGetOfflineMembersQuery, useGetOnlineMembersQuery } from '@/store/memberSlice';
-import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import  { useEffect, useRef } from 'react'
+
 import Chart from 'chart.js/auto';
 
 interface MyWindow extends Window {
@@ -10,9 +10,9 @@ interface MyWindow extends Window {
 
   declare const window: MyWindow;
   
-  type Props = {};
+
   
-  const FirstChart = (props: Props) => {
+  const FirstChart = () => {
     const { data: onlineMem } = useGetOnlineMembersQuery();
     const { data: offlineMem } = useGetOfflineMembersQuery();
     const onlineMembersCount = onlineMem?.length || 0;

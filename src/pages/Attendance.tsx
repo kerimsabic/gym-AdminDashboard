@@ -15,7 +15,7 @@ const TABLE_HEAD = ["Image", "Name", "Email", "Status", "Attendace"];
 
 const Attendance = (props: Props) => {
 
-    const { data, isLoading, isError, refetch } = useGetMembersQuery(undefined);
+    const { data, /*isLoading, isError,*/ refetch } = useGetMembersQuery(undefined);
     const search = useSelector(selectSearch);
     const dispatch = useDispatch();
     const [markAttendace, isSuccess] = useAddAttendanceMutation();

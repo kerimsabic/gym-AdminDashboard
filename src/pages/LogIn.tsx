@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup"
+
+
 import { AppDispatch, RootState } from "../store"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -14,10 +14,10 @@ export type LogInFormData = {
     password: string;
 }
 
-const schema = yup.object({
+/*const schema = yup.object({
     email: yup.string().email().required('Email is required'),
     password: yup.string().required('Password is required').min(6),
-})
+})*/
 
 const LogIn = (props: Props) => {
 
@@ -25,7 +25,7 @@ const LogIn = (props: Props) => {
        // resolver: yupResolver(schema)
     });
     const navigate = useNavigate()
-    const { loading, userToken, error } = useSelector((state: RootState) => state.auth)
+    const { /*loading*/ userToken, error } = useSelector((state: RootState) => state.auth)
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {

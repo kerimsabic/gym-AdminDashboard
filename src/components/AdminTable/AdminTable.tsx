@@ -1,7 +1,7 @@
-import { useGetAdminsQuery, useDeleteAdminMutation, useAddAdminMutation, useUpdateAdminMutation, useGetAdminsPaginQuery } from '@/store/adminSlice';
+import { useGetAdminsQuery, useDeleteAdminMutation, useUpdateAdminMutation } from '@/store/adminSlice';
 import { Admin } from '@/utils/types';
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
-import { useMemo, useState } from 'react';
+import {  useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { MdDelete, MdOutlineManageAccounts } from 'react-icons/md';
 import AdminsForm from '../AdminsForm';
@@ -13,11 +13,11 @@ import { registerAdmin } from '@/store/authSlice';
 
 
 
-type Props = {}
+
 
 const TABLE_HEAD = ["Image", "Name", "Email", "Phone", "Address", "Actions"];
 
-const AdminTable = (props: Props) => {
+const AdminTable = () => {
 
     const { data: admins, error, isLoading, refetch } = useGetAdminsQuery();
     const [currentPage, setCurrentPage] = useState(0);
@@ -41,10 +41,10 @@ const AdminTable = (props: Props) => {
     const search = useSelector(selectSearch);
     const dispatch2 = useDispatch();
     const [deleteAdmin] = useDeleteAdminMutation();
-    const [addAdmin] = useAddAdminMutation();
+    //const [addAdmin] = useAddAdminMutation();
     const [updateAdmin] = useUpdateAdminMutation();
 
-    const [page, setPage] = useState(1)
+    //const [page, setPage] = useState(1)
 
     const [isAddFormVisible, setAddFormVisible] = useState(false);
     const handleCancelAdd = () => { setAddFormVisible(false); };

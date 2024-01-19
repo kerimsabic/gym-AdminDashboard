@@ -1,7 +1,7 @@
 
-import { TrainingPlan } from '@/utils/types';
+
 //import { Card, Chip, Typography } from '@material-tailwind/react';
-import React, { ChangeEvent, useEffect, useState } from 'react'
+
 /*import { MdDelete, MdOutlineManageAccounts } from 'react-icons/md';
 import { IoSettings } from "react-icons/io5";
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
@@ -11,23 +11,23 @@ import PlansModal from '@/components/PlansForm';
 import { PlanService } from '@/services';*/
 import PlansTable from '@/components/PlansTable';
 
-const TABLE_HEAD = ["Plan Name", "Price","Description", "Status", "Actions"];
 
-const countActiveTrainingPlans = (plans: TrainingPlan[]): number => {
+
+/*const countActiveTrainingPlans = (plans: TrainingPlan[]): number => {
   return plans.reduce((count, plan) => (plan.statusType ? count + 1 : count), 0);
 };
 const countInactiveTrainingPlans = (plans: TrainingPlan[]): number => {
   return plans.reduce((count, plan) => (!plan.statusType ? count + 1 : count), 0);
-};
+};*/
 
 type Props = {}
 
 const Plans = (props: Props) => {
 
-  const [plans, setPlans] = useState<TrainingPlan[]>([]);
+  //const [plans, setPlans] = useState<TrainingPlan[]>([]);
 
-  const activePlansCount: number = countActiveTrainingPlans(plans);
-  const inactivePlansCount: number = countInactiveTrainingPlans(plans);
+  /*const activePlansCount: number = countActiveTrainingPlans(plans);
+  const inactivePlansCount: number = countInactiveTrainingPlans(plans);*/
 
 
   return (

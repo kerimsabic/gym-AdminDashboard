@@ -2,8 +2,6 @@ import { AdminsRegistrationForm } from "@/components/AdminsForm/AdminsForm"
 import { LogInFormData } from "@/pages/LogIn"
 import appAxios from "@/services/appAxios"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { useGetAdminsQuery } from "./adminSlice"
-import { userInfo } from "os"
 //import { useAddAdminMutation } from "./adminSlice"
 
 //const [addAdmin]=useAddAdminMutation();
@@ -16,9 +14,9 @@ const initialState = {
     success: false,
 }
 
-const userToken = localStorage.getItem('userToken')
+/*const userToken = localStorage.getItem('userToken')
     ? localStorage.getItem('userToken')
-    : null
+    : null*/
 
 
     export const registerAdmin = createAsyncThunk(

@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL,  } from "@/utils/data";
-import { Membership } from "@/utils/types";
+
 
 
 export const attendanceApi = createApi({
     reducerPath: 'attendanceApi',
-    baseQuery: (args, api, extraOptions) => {
+    baseQuery: (args, api:any, extraOptions) => {
         const { userToken } = api.getState().auth; // Assuming the auth slice has userToken
         const headers = {
           'authorization':`Bearer ${userToken}`
@@ -36,7 +36,7 @@ export const attendanceApi = createApi({
         }),
         getAttendanceId: builder.query<any, string>({
             query: (id) => `/attendance/${id}`,
-            providesTags: (result, error, id) => [{ type: "attendanceApi", id }],
+            providesTags: (_result, _error, id) => [{ type: "attendanceApi", id }],
         }),
         
         updateAttendace: builder.mutation({

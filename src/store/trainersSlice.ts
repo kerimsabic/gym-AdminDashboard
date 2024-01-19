@@ -10,7 +10,7 @@ import {  createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";  //ov
 
 export const trainerApi=createApi({
     reducerPath:"trainerApi",
-    baseQuery: (args, api, extraOptions) => {
+    baseQuery: (args, api:any, extraOptions) => {
       const { userToken } = api.getState().auth; // Assuming the auth slice has userToken
       const headers = {
         'authorization':`Bearer ${userToken}`

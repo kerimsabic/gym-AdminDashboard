@@ -1,7 +1,7 @@
-import { Equipment } from "@/utils/types"
+import { Equipments } from "@/utils/types"
 import appAxios from "./appAxios"
 
-const getEquipment=async():Promise<Equipment[]>=>{
+const getEquipment=async():Promise<Equipments[]>=>{
     return await appAxios.get('/equipment/').then(result=>result.data)
 }
 
@@ -9,14 +9,14 @@ const getEquipmentId=async(id:string)=>{
     return (await appAxios.get(`/equipment/${id}`)).data;
 }
 
-const addEquipment=async(equipment:Equipment): Promise<Equipment>=>{
+const addEquipment=async(equipment:Equipments): Promise<Equipments>=>{
     return await  appAxios.post("/equipment/add", equipment).then((result)=>{return result.data})
 }
 
 const deleteEqipment=async(id:String)=>{
     return await appAxios.delete(`/equipment/${id}`)
 }
-const updateEquipment=async(equipment:Equipment)=>{
+const updateEquipment=async(equipment:Equipments)=>{
     return await appAxios.put(`/equipment/${equipment.id}`, equipment);
 }
 

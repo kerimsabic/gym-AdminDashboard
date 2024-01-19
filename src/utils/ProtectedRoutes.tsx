@@ -1,13 +1,13 @@
 import { RootState } from '@/store'
-import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import {  useSelector } from 'react-redux'
+import { NavLink, Outlet } from 'react-router-dom'
 //import { loginfulfileld } from '@/store/authSlice';
 
-type Props = {}
 
-const ProtectedRoutes = (props: Props) => {
+
+const ProtectedRoutes = () => {
     const { userToken } = useSelector((state: RootState) => state.auth);
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
    
 
    /* useEffect(() => {

@@ -1,6 +1,5 @@
 import MembersTable from '@/components/MembersTable'
-import UserDetail from '@/components/UserDetail/UserDetail'
-import React, { useState } from 'react'
+import  { useState } from 'react'
 
 type Props = {
   setUserId: (value: string) => void;

@@ -6,7 +6,7 @@ import { Membership } from "@/utils/types";
 
 export const membershipApi = createApi({
     reducerPath: 'membershipApi',
-    baseQuery: (args, api, extraOptions) => {
+    baseQuery: (args, api:any, extraOptions) => {
         const { userToken } = api.getState().auth; // Assuming the auth slice has userToken
         const headers = {
           'authorization':`Bearer ${userToken}`
@@ -32,7 +32,7 @@ export const membershipApi = createApi({
         }),
         getMembershipMemberId: builder.query<Membership, string>({
             query: (id) => `/membership/member/${id}`,
-            providesTags: (result, error, id) => [{ type: "membershipApi", id }],
+            providesTags: (_result, _error, id) => [{ type: "membershipApi", id }],
         }),
         
         updateMembership: builder.mutation({

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import Sidebar from "./components/Sidebar"
+import {  useState } from "react"
+import {  Route, Routes } from "react-router-dom"
+
 import Home from "./pages/Home"
 import Navbar from "./components/Navbar"
 import Members from "./pages/Members"
@@ -14,7 +14,7 @@ import ProtectedRoutes from "./utils/ProtectedRoutes"
 
 function App() {
 
-  const [activeMenu, setActiveMenu] = useState<boolean>(true);
+  //const [activeMenu, setActiveMenu] = useState<boolean>(true);
 
   return (
     <div className="flex flex-col">

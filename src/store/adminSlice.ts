@@ -10,12 +10,12 @@ interface ListResponse<Member> {
     data: Member[]
   }
 
-const userToken = localStorage.getItem('userToken') || '';
+//const userToken = localStorage.getItem('userToken') || '';
 
 
 export const adminSlice = createApi({
     reducerPath: 'admins',
-    baseQuery: (args, api, extraOptions) => {
+    baseQuery: (args, api:any, extraOptions) => {
         const { userToken } = api.getState().auth; // Assuming the auth slice has userToken
         const headers = {
           'authorization':`Bearer ${userToken}`

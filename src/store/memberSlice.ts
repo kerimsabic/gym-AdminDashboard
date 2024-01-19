@@ -1,8 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL,  } from "@/utils/data";
 import { Member } from "@/utils/types";
-import { useSelector, useStore } from "react-redux";
-import { RootState } from ".";
 
 
 
@@ -10,7 +8,7 @@ import { RootState } from ".";
 
 export const membersApi = createApi({
     reducerPath: 'membersApi',
-    baseQuery: (args, api, extraOptions) => {
+    baseQuery: (args, api:any, extraOptions) => {
         const { userToken } = api.getState().auth; // Assuming the auth slice has userToken
         const headers = {
           'authorization':`Bearer ${userToken}`
@@ -48,7 +46,7 @@ export const membersApi = createApi({
         }),
         getMemberId: builder.query<Member, string>({
             query: (id) => `/members/${id}`,
-            providesTags: (result, error, id) => [{ type: "membersApi", id }],
+            providesTags: (_result, _error, id) => [{ type: "membersApi", id }],
         }),
         
         updateMember: builder.mutation({
