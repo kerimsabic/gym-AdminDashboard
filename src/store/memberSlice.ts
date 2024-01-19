@@ -26,6 +26,10 @@ export const membersApi = createApi({
             query: () => "/members/",
             providesTags: ["membersApi"],
         }),
+        getMemberPagin: builder.query<Member[], number | void>({
+            query: () => `/members/pagination/?page=0&pageSize=6`, // Set pageSize to 6
+            providesTags: ["membersApi"],
+          }),
         addMember: builder.mutation({
             query: (data) => ({
                 url: "/auth/registerMember",
@@ -57,7 +61,7 @@ export const membersApi = createApi({
 
 
 // Export hooks for usage in components
-export const { useGetMembersQuery, useAddMemberMutation, useUpdateMemberMutation, useDeleteMemberMutation, useGetMemberIdQuery } = membersApi;
+export const { useGetMembersQuery, useAddMemberMutation, useUpdateMemberMutation, useDeleteMemberMutation, useGetMemberIdQuery, useGetMemberPaginQuery } = membersApi;
 
 
 export default membersApi;

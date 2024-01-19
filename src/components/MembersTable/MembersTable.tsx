@@ -9,7 +9,7 @@ import UserDetail from "../UserDetail";
 import { FaRegEye } from "react-icons/fa";
 import { Member, StatusType } from "@/utils/types";
 import MemberForm from "../MemberForm";
-import { useAddMemberMutation, useDeleteMemberMutation, useGetMembersQuery, useUpdateMemberMutation } from "@/store/memberSlice";
+import { useAddMemberMutation, useDeleteMemberMutation, useGetMemberPaginQuery, useGetMembersQuery, useUpdateMemberMutation } from "@/store/memberSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSearch } from "@/store";
 import { setSearch } from "@/store/trainersSlice";
@@ -17,7 +17,7 @@ import { MemebrRegistrationForm } from "../MemberForm/MemberForm";
 
 type Props = {}
 
-const TABLE_HEAD = ["Image", "Name", "Email", "Status","Phone", "Edit"];
+const TABLE_HEAD = ["Image", "Name", "Email", "Status", "Phone", "Edit"];
 
 const MembersTable = (props: Props) => {
 
@@ -37,7 +37,36 @@ const MembersTable = (props: Props) => {
   };*/
 
 
-  const { data, isLoading, isError } = useGetMembersQuery(undefined);
+  const { data: members, isLoading, isError } = useGetMembersQuery(undefined);
+  const [currentPage, setCurrentPage] = useState(0);
+  const pageSize = 6;
+  const startIndex = currentPage * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  const totalPages = members ? Math.floor(members.length / pageSize) : 0;
+
+  const handleNextPage = () => {
+    if (members) {
+      setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.floor(members.length / pageSize)));
+    }
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
+  };
+
+  //const { data: members, error, isError, isLoading } = useGetMemberPaginQuery();
+
+  //console.log(members?.length)
+  /*const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
+  };
+  console.log(members)*/
+
+
   const search = useSelector(selectSearch);
   const dispatch = useDispatch();
   const [deleteMember] = useDeleteMemberMutation();
@@ -66,9 +95,9 @@ const MembersTable = (props: Props) => {
   };
 
 
-  const filteredMembers = useMemo(() => (
-    (data || []).filter((member) => member.firstName.toLowerCase().includes(search.toLowerCase()) || member.lastName.toLowerCase().includes(search.toLowerCase()))
-  ), [data, search])
+  /*const filteredMembers = useMemo(() => (
+    (members || []).filter((member) => member.firstName.toLowerCase().includes(search.toLowerCase()) || member.lastName.toLowerCase().includes(search.toLowerCase()))
+  ), [members, search])*/
 
 
 
@@ -98,7 +127,7 @@ const MembersTable = (props: Props) => {
             try {
               console.log(formData)
               await addMember(formData)
-              console.log(typeof(formData.numberOfMonths))
+              console.log(typeof (formData.numberOfMonths))
             } catch (error) {
               console.log(error)
             }
@@ -126,7 +155,7 @@ const MembersTable = (props: Props) => {
                 type="text"
                 placeholder="Search..."
                 value={search}
-                onChange={(event)=>{
+                onChange={(event) => {
                   dispatch(setSearch(event.target.value))
                 }}
                 className="border p-2 w-full"
@@ -134,7 +163,7 @@ const MembersTable = (props: Props) => {
               <MagnifyingGlassIcon className="h-6 w-6 ml-2 text-gray-500" />
             </div>
 
-            <button onClick={() => {setAddFormVisible(true); setSelectedMember(null)}}
+            <button onClick={() => { setAddFormVisible(true); setSelectedMember(null) }}
               className="bg-blue-500 hover:bg-[#191d4f] text-white font-bold py-2 px-4 border border-blue-700 rounded flex items-center gap-3">
               <FaPlus />
               Add Member
@@ -160,8 +189,11 @@ const MembersTable = (props: Props) => {
               </tr>
             </thead>
             <tbody>
-              {(filteredMembers)?.map((member,index) => {
-                const isLast = index ===data!.length - 1;
+            {(members || []).filter((member) =>
+            member.firstName.toLowerCase().includes(search.toLowerCase()) ||
+            member.lastName.toLowerCase().includes(search.toLowerCase())
+          ).slice(startIndex, endIndex).map((member, index) => {
+                const isLast = index === members!.length - 1;
                 const classes = isLast ? "p-4 border-b border-blue-gray-50" : "p-4 border-b border-blue-gray-50";
 
                 return (
@@ -187,7 +219,7 @@ const MembersTable = (props: Props) => {
                         className={member.statusType === StatusType.ONLINE ? "text-green-500" : "text-red-500"}
                       />
                     </td>
-                    
+
                     <td className={classes}>
                       <div className="font-normal"
                       >
@@ -197,7 +229,7 @@ const MembersTable = (props: Props) => {
                     <td className={classes}>
                       <div className="text-3xl flex justify-between gap-2"
                       >
-                        <button className="text-red-700" onClick={() => handleDeleteClick(member.id!,member.firstName,member.lastName)}><MdDelete /></button>
+                        <button className="text-red-700" onClick={() => handleDeleteClick(member.id!, member.firstName, member.lastName)}><MdDelete /></button>
                         <button className="text-blue-900" onClick={() => handleEditMember(member)}><MdOutlineManageAccounts /></button>
                         <button className="text-green-900" onClick={() => { setSelectedUserId(member.id!); setMemberDetail(true) }}><FaRegEye /></button>
 
@@ -208,6 +240,23 @@ const MembersTable = (props: Props) => {
               })}
             </tbody>
           </table>
+          <div className="w-[80%] mx-auto flex justify-between mt-4">
+            <button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 0}
+              className="bg-blue-500 hover:bg-[#191d4f] text-white font-bold py-2 px-4 border border-blue-700 rounded"
+            >
+              Previous Page
+            </button>
+            <div>{currentPage}...{totalPages}</div>
+            <button
+              onClick={handleNextPage}
+              disabled={!members || endIndex >= members.length}
+              className="bg-blue-500 hover:bg-[#191d4f] text-white font-bold py-2 px-4 border border-blue-700 rounded"
+            >
+              Next Page
+            </button>
+          </div>
         </div>
       </div>
 
