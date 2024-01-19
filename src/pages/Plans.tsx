@@ -1,14 +1,14 @@
-import Table from '@/components/MembersTable'
+
 import { TrainingPlan } from '@/utils/types';
-import { Card, Chip, Typography } from '@material-tailwind/react';
+//import { Card, Chip, Typography } from '@material-tailwind/react';
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { MdDelete, MdOutlineManageAccounts } from 'react-icons/md';
+/*import { MdDelete, MdOutlineManageAccounts } from 'react-icons/md';
 import { IoSettings } from "react-icons/io5";
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { FaPlus } from 'react-icons/fa';
 import PlansModal from '@/components/PlansForm';
 
-import { PlanService } from '@/services';
+import { PlanService } from '@/services';*/
 import PlansTable from '@/components/PlansTable';
 
 const TABLE_HEAD = ["Plan Name", "Price","Description", "Status", "Actions"];
@@ -33,7 +33,7 @@ const Plans = (props: Props) => {
   return (
     <>
       
-      <div className=' mx-auto mt-10 mb-10 h-full w-[100%]'>
+     {/*  <div className=' mx-auto mt-10 mb-10 h-full w-[100%]'>
 
         <div className="grid grid-cols-3 gap-4 max-md:flex maxflex-col">
           <div className=' border-solid border-2 border-black  flex flex-col shadow-2xl rounded-3xl bg-[#191d4f] hover:bg-white'>
@@ -63,7 +63,7 @@ const Plans = (props: Props) => {
             </div>
           </div>
         </div>
-      </div>
+      </div>*/}
 
         <PlansTable />
 

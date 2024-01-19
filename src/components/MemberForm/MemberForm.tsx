@@ -1,11 +1,12 @@
 import { SubmitHandler, useForm } from "react-hook-form"
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { IoClose } from 'react-icons/io5'
-import { FormMode, Member, StatusType, UserType } from '@/utils/types';
-import { useUpdateMember } from '@/hooks/useUpdateMember';
-import { useQueryClient } from 'react-query';
+import {  Member, StatusType, UserType } from '@/utils/types';
 import usePlans from '@/hooks/planHooks/usePlans';
-import useTrainers from '@/hooks/trainerHooks/useTrainers';
+import * as yup from 'yup'
+
+import { useTrainerQuery } from "@/store/trainersSlice";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 
 
@@ -20,25 +21,40 @@ export type MemebrRegistrationForm = {
 
     firstName: string;
     lastName: string;
-    userType: UserType
+    //userType: UserType
     email: string;
-    userName: string;
+    username: string;
     image?: string;
-    qrCode: string;
-    trainerEmail: string;
-    TrainerImage: string;
-    trainerName: string;
-    trainerId: string;
-    trainerUserType: UserType.TRAINER;   //ovo mozda samo treba UserType pa poslije staviti trener
+    qrCode?: string|null;
+    trainerEmail?: string|null;
+    TrainerImage?: string|null;
+    trainerName?: string|null;
+    trainerId?: string|null;
+    //trainerUserType?: undefined;   //ovo mozda samo treba UserType pa poslije staviti trener
     address: string;
     phone: string;
-    statusType: StatusType
+    statusType?: StatusType
     password: string;
-    trainingPlanName: string;
-    trainingPlanId: string;
-    numOfMonths:number;
+    trainingPlanName?: string;
+    trainingPlanId?: string;
+    numOfMonths?:number;
 
 }
+const phoneRegExp: RegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+const schema = yup.object({
+    firstName: yup.string().required("First name is required"),
+    lastName: yup.string().required("Last name is required"),
+    //userType: yup.string().required(),
+    email: yup.string().email().required('Email is required'),
+    username: yup.string().required('Username is required'),
+    phone: yup.string().matches(phoneRegExp, "Phone number is not valid").required("Phone number is required"),
+    password: yup.string().min(6).required(),
+    address: yup.string().required(),
+    image:yup.string().optional(),
+
+
+
+})
 
 const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: Props) => {
 
@@ -52,7 +68,7 @@ const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: P
                 const validKey = key as keyof MemebrRegistrationForm;
                 setValue(validKey, initialData[validKey]);
             });
-            
+            setSelectedPlanId(initialData.trainingPlanId || '');
         }
     }, [initialData, setValue]);
 
@@ -61,6 +77,7 @@ const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: P
         const formDataWithUserType = {
             ...data,
             userType: UserType.MEMBER,
+            statusType:StatusType.OFFLINE,
             trainingPlanId:selectedPlanId,
             trainerId:selectedTrainerId,
             numOfMonths:selectedNumber, 
@@ -70,10 +87,12 @@ const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: P
                 formDataWithUserType.password = initialData.password;
             }
             if (initialData) {
-                const updatedMember = { ...initialData, ...formDataWithUserType };
+                const updatedMember = {  ...formDataWithUserType };
                 updatedMember.password = formDataWithUserType.password || initialData.password;
-               // setSelectedPlanId(updatedMember.trainingPlanId);
+                setSelectedPlanId(updatedMember.trainingPlanId);
               //  setSelectedTrainerId(updatedMember.trainerId);
+              console
+                console.log(updatedMember)
                 onUpdateMember(updatedMember);       //mogu stavit '?'
             }
             else {
@@ -94,36 +113,9 @@ const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: P
     const [selectedPlanId, setSelectedPlanId] = useState<string>('');
     const[selectedNumber, setSelectedNumber]=useState<number>(1);
 
-    const trainerData = useTrainers();
+    const {data:trainers} = useTrainerQuery(undefined);
     //console.log(trainerData)
     const [selectedTrainerId, setSelectedTrainerId] = useState<string|null>(null);
-
-
-    /* const createMember = useCreateMember();
-     const handleCreateMemberSubmit: SubmitHandler<Member> = (data) => {
-         data.trainingPlanId = selectedPlanId;
-         data.trainerId = selectedTrainerId;
-         createMember.mutate(data);
-     };*/
-
-    //const { register, handleSubmit } = useForm<Member>();
-
-    /* const updateMember = useUpdateMember();
-     const handleUpdateMemberSubmit: SubmitHandler<Member> = (data) => {
-         updateMember.mutate({ ...data });
-     }*/
-
-
-    /* if (createMember.isSuccess) {
-         const queryClinet = useQueryClient()
- 
-         queryClinet.invalidateQueries({ queryKey: ["members"] })
- 
-         closeModal(false);
- 
-     }*/
-
-
 
 
     return (
@@ -147,7 +139,7 @@ const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: P
                             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
                         </div>
                         <div className="relative z-0 w-full mb-5 group">
-                            <input type="password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("password")} />
+                            <input type="password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("password", { required: !!initialData })} />
                             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
                         </div>
                         
@@ -167,7 +159,7 @@ const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: P
                                 <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number</label>
                             </div>
                             <div className="relative z-0 w-full mb-5 group">
-                                <input type="text" id="floating_username" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required {...register("userName")} />
+                                <input type="text" id="floating_username" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required {...register("username")} />
                                 <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Username</label>
                             </div>
                         </div>
@@ -180,9 +172,9 @@ const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: P
                         <div className="relative z-0 w-full mb-5 group pt-5">
                             <label className="pb-5 peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Training Plan</label>
                             <select onChange={(e) => {
-                                const result = planData.data?.find((x) => x.id === e.target.value);
-                                console.log(result)
-                                setSelectedPlanId(result!.id)
+                                 const selectedValue = e.target.value;
+                                 const result = planData.data?.find((x) => x.id === selectedValue);
+                                setSelectedPlanId(selectedValue||'')
 
 
                             }}
@@ -215,16 +207,15 @@ const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: P
                         <div className="relative z-0 w-full mb-5 group pt-5">
                             <label className="pb-5 peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Trainer</label>
                             <select onChange={(e) => {
-                                const result = trainerData.data?.find((trainer) => trainer.id === e.target.value);
+                                const result = trainers?.find((trainer) => trainer.id === e.target.value);
                                 console.log(result)
-
-                                setSelectedTrainerId(result.id)
+                                setSelectedTrainerId(result?.id)
                             }}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="" disabled selected>
                                     Select a Trainer
                                 </option>
-                                {trainerData.data?.map((trainer) => {
+                                {trainers?.map((trainer) => {
                                     return <option className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
                                     key={trainer.id} value={trainer.id}>{trainer.firstName + " " + trainer.lastName} 
                                     </option>

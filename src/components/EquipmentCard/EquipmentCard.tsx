@@ -1,4 +1,4 @@
-import { useDeleteEquipmentMutation } from "@/store/equipmentSlice";
+import { useDeleteEquipmentMutation, useServiceEquipmentMutation } from "@/store/equipmentSlice";
 import { FaPlus } from "react-icons/fa";
 import { useState } from "react";
 
@@ -18,19 +18,30 @@ const EquipmentCard = ({
   CardTitle,
 }: Props) => {
   const [deleteMachine, { isLoading }] = useDeleteEquipmentMutation();
+  const [serviceMachine]= useServiceEquipmentMutation();
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const handleDeleteClick = async (id:string) => {
+  const handleDeleteClick =  (machineId:string) => {
     try {
-        
       setShowConfirmation(false);
       console.log(id)
-      await deleteMachine({ id: id });
+       deleteMachine({ id: machineId });
+        
     } catch (error) {
       console.error('Error deleting member:', error);
     
     }
   };
+
+  const handleServiceClick= async (machineId:string)=>{
+    try{
+      if (window.confirm(`Are you sure you want to service this machine`)) {
+        await serviceMachine({ id: machineId })
+      }
+    }catch(error){
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -50,6 +61,7 @@ const EquipmentCard = ({
           </p>
           <div className="flex flex-col">
             <button
+              onClick={()=>handleServiceClick(id)}
               className="bg-blue-500 hover:bg-[#191d4f] text-white font-bold py-2 px-4 border border-blue-700 rounded flex justify-center gap-3 mb-5"
             >
               <FaPlus />

@@ -24,12 +24,14 @@ const TrainersTable = (props: Props) => {
 
    const [isAddFormVisible, setAddFormVisible] = useState(false);
    const handleCancelAdd = () => { setAddFormVisible(false);};
+   //const [editMode, setEditMode]=useState<boolean>(false);
 
    const [selectedTrainer, setSelectedTrainer] = useState<TrainerRegistrationForm | null>(null);
 
     const handleEditTrainer = (trainer: Trainer) => {
       setSelectedTrainer(trainer);
       setAddFormVisible(true);
+      //setEditMode(true)
     };
 
 
@@ -66,18 +68,20 @@ const TrainersTable = (props: Props) => {
             
             initialData={selectedTrainer}
             onUpdateTrainer={async (formData)=>{
-                console.log(formData.id)
+               
                 try{
                     await updateTrainer({id:formData.id, data:formData})
+                    console.log(formData.password)
                 } catch(error){
                     console.log(error)
                 }
                 setAddFormVisible(false);
             }}
+            //isEditMode={editMode}
         />
         )}
-    <div className="w-[80%]  mx-auto flex md:justify-center max-md:w-[95%] mt-10 ">
-        <div className=" w-full  max-md:overflow-x-scroll  " >
+    <div className="w-[85%]  mx-auto flex md:justify-center max-md:w-[95%] mt-10 ">
+        <div className=" w-full  max-md:overflow-x-scroll overflow-x-auto " >
             <div className="w-full flex  mb-5 justify-between ">
                 <div className="w-[50%]  max-sm:hidden flex items-center shadow-sm">
                     <input
@@ -92,7 +96,7 @@ const TrainersTable = (props: Props) => {
                     <MagnifyingGlassIcon className="h-6 w-6 ml-2 text-gray-500 shadow-sm" />
                 </div>
 
-                <button onClick={() => {setAddFormVisible(true);setSelectedTrainer(null)}}
+                <button onClick={() => {setAddFormVisible(true);setSelectedTrainer(null);/*setEditMode(false)*/}}
                     className="bg-blue-500 hover:bg-[#191d4f] text-white font-bold py-2 px-4 border border-blue-700 rounded flex items-center gap-3">
                     <FaPlus />
                     Add Trainer

@@ -10,14 +10,16 @@ type Props = {
     onSubmitTrainer: (formData: TrainerRegistrationForm) => void;
     onUpdateTrainer: (formData: Trainer) => void;
     initialData?: Trainer |TrainerRegistrationForm| null | undefined
+    //isEditMode:boolean
 }
+
 
 export type TrainerRegistrationForm = {
     firstName: string;
     lastName: string;
     //userType: UserType
     email: string;
-    userName: string;
+    username: string;
     image?: string;
     address: string;
     phone: string;
@@ -29,7 +31,7 @@ const schema = yup.object({
     lastName: yup.string().required("Last name is required"),
     //userType: yup.string().required(),
     email: yup.string().email().required('Email is required'),
-    userName: yup.string().required('Username is required'),
+    username: yup.string().required('Username is required'),
     phone: yup.string().matches(phoneRegExp, "Phone number is not valid").required("Phone number is required"),
     password: yup.string().min(6).required(),
     address: yup.string().required(),
@@ -40,7 +42,7 @@ const schema = yup.object({
 })
 
 
-const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData }: Props) => {
+const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData, /*isEditMode*/ }: Props) => {
 
     const { register, handleSubmit, formState: { errors }, setValue } = useForm<TrainerRegistrationForm>({
         resolver: yupResolver(schema),
@@ -55,22 +57,30 @@ const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData 
         }
     }, [initialData, setValue]);
 
+    //const isEditMode=!!initialData;
+
 
     const handleFormSubmit: SubmitHandler<TrainerRegistrationForm> = (data) => {
         const formDataWithUserType = {
             ...data,
             userType: UserType.TRAINER,
+            //password:data.password
         };
         /* console.log(formDataWithUserType);
          console.log("helo")*/
         try {
-            if (initialData && !data.password) {
+           /* if (initialData && !data.password) {
                 // Set the existing password
                 formDataWithUserType.password = initialData.password;
-            }
+            }*/
+            const newPassword = data.password;
             if (initialData) {
-                const updatedTrainer = { ...initialData, ...formDataWithUserType };
-                updatedTrainer.password= formDataWithUserType.password||initialData.password;
+                const updatedTrainer = {
+                    ...initialData,
+                    ...formDataWithUserType,
+                    password: newPassword ? newPassword : '',
+                };
+                //updatedTrainer.password= formDataWithUserType.password;
                 onUpdateTrainer(updatedTrainer);
             }
             else {
@@ -81,6 +91,7 @@ const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData 
             console.error("Error updating trainer:", error);
         }
     };
+
 
 
     return (
@@ -95,7 +106,7 @@ const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData 
                         </button>
                     </div>
 
-                    <h1 className='pb-5 flex justify-center font-bold text-lg text-blue-600'>Admin Form</h1>
+                    <h1 className='pb-5 flex justify-center font-bold text-lg text-blue-600'>Trainer Form</h1>
 
                     <form className="max-w-md mx-auto bg-[#ffffff]" onSubmit={handleSubmit(handleFormSubmit)}>
                         <div className="relative z-0 w-full mb-5 group">
@@ -109,17 +120,22 @@ const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData 
                             {errors.lastName && <small style={{ color: "red" }}>{errors.lastName.message}</small>}
                             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last Name</label>
                         </div>
+                        <div className="relative z-0 w-full mb-5 group">
+                            <input type="text" id="floating_username" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-non focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("username")} />
+                            {errors.username && <small style={{ color: "red" }}>{errors.username.message}</small>}
+                            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Username</label>
+                        </div>
 
                         <div className="relative z-0 w-full mb-5 group">
                             <input type="text" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-non focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("email")} />
                             {errors.email && <small style={{ color: "red" }}>{errors.email.message}</small>}
                             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email</label>
                         </div>
-                        {initialData ? null :(<div className="relative z-0 w-full mb-5 group">
+                        <div className="relative z-0 w-full mb-5 group">
                             <input type="password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-non focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("password")} />
                             {errors.password && <small style={{ color: "red" }}>{errors.password.message}</small>}
                             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
-                        </div>)}
+                        </div>
                         
 
                         <div className="relative z-0 w-full mb-5 group">
@@ -135,11 +151,11 @@ const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData 
                             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone Number</label>
                         </div>
 
-                      {/*  <div className="relative z-0 w-full mb-5 group">
+                        <div className="relative z-0 w-full mb-5 group">
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Image</label>
-                            <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" />
+                            <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" {...register("image")} />
                             <div className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help">A profile picture is optional</div>
-                        </div>*/}
+                        </div>
 
                         <div className="flex justify-between">
                             <button

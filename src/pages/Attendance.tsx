@@ -29,11 +29,11 @@ const Attendance = (props: Props) => {
                 const data = {
                     memberId: member.id!
                 };
-                markAttendace(data);
+                await markAttendace(data);
                 if (isSuccess) {
                     window.confirm("Attendance successfully added")
                 }
-                refetch();              //refetc da bi refresovali tabelu da bi se vidjelo online ili oflline
+                await refetch();              //refetc da bi refresovali tabelu da bi se vidjelo online ili oflline
             }
         } catch (error) {
             console.error('Error marking attendance:', error);

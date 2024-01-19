@@ -35,7 +35,7 @@ export const adminSlice = createApi({
         }),
         updateAdmin: builder.mutation({
             query: ({ id, data }) => ({
-                url: `/users/${id}`,
+                url: `/auth/updateAdmin/${id}`,
                 method: "PUT",
                 body: data,
             }),

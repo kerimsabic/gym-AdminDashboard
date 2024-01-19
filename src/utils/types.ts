@@ -22,22 +22,22 @@ export type Member = {
   id?: string;
   firstName: string;
   lastName: string;
-  userType: UserType
+  userType?: UserType
   email: string;
-  userName: string;
+  username: string;
   image?: string;
-  qrCode: string;
-  trainerEmail: string;
-  TrainerImage: string;
-  trainerName: string;
-  trainerId: string;
-  trainerUserType: UserType.TRAINER;   //ovo mozda samo treba UserType pa poslije staviti trener
+  qrCode?: string|null;
+  trainerEmail?: string|null;
+  TrainerImage?: string|null;
+  trainerName?: string|null;
+  trainerId?: string|null;
+  //trainerUserType: UserType.TRAINER;   //ovo mozda samo treba UserType pa poslije staviti trener
   address: string;
   phone: string;
-  statusType: StatusType
+  statusType?: StatusType|undefined
   password: string
-  trainingPlanName: string;
-  trainingPlanId: string
+  trainingPlanName?: string;
+  trainingPlanId?: string
   numOfMonths: number
 
 }
@@ -48,7 +48,7 @@ export type Admin = {
   lastName: string;
   userType?: UserType | undefined;
   email: string;
-  userName: string;
+  username: string;
   image?: string;
   address: string;
   phone: string;
@@ -62,7 +62,7 @@ export type Trainer = {
   firstName: string;
   lastName: string;
   email: string;
-  userName: string;
+  username: string;
   address: string;
   phone: string;
   statusType?: StatusType
