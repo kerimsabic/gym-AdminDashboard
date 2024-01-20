@@ -1,9 +1,9 @@
 import Table from '@/components/MembersTable'
-import React from 'react'
 
-type Props = {}
 
-const Home = (props: Props) => {
+
+
+const Home = () => {
   return (
     <div>
       <Table />

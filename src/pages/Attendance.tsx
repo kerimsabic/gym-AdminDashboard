@@ -9,11 +9,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaRegCalendarPlus } from "react-icons/fa";
 import { useAddAttendanceMutation } from '@/store/attendanceSlice';
 
-type Props = {}
+
 
 const TABLE_HEAD = ["Image", "Name", "Email", "Status", "Attendace"];
 
-const Attendance = (props: Props) => {
+const Attendance = () => {
 
     const { data, /*isLoading, isError,*/ refetch } = useGetMembersQuery(undefined);
     const search = useSelector(selectSearch);

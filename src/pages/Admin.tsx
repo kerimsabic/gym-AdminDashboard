@@ -2,10 +2,10 @@
 import AdminTable from '@/components/AdminTable';
 
 
-type Props = {}
 
 
-const Admin = (props: Props) => {
+
+const Admin = () => {
 
   
   return (

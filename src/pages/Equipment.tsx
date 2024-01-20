@@ -4,9 +4,9 @@ import { Equipments } from '@/utils/types';
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { useState } from 'react';
 
-type Props = {};
 
-const Equipment = (props: Props) => {
+
+const Equipment = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { data: equipment, isError, isLoading } = useGetEquipmentsQuery();
 

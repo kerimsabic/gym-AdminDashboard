@@ -1,9 +1,9 @@
 import TrainersTable from '@/components/TrainersTable';
 
-type Props = {}
 
 
-const Trainers = (props: Props) => {
+
+const Trainers = () => {
   return (
       <div>
         <TrainersTable/>

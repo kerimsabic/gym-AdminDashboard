@@ -20,9 +20,9 @@ const countInactiveTrainingPlans = (plans: TrainingPlan[]): number => {
   return plans.reduce((count, plan) => (!plan.statusType ? count + 1 : count), 0);
 };*/
 
-type Props = {}
 
-const Plans = (props: Props) => {
+
+const Plans = () => {
 
   //const [plans, setPlans] = useState<TrainingPlan[]>([]);
 

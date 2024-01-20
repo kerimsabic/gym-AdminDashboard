@@ -1,10 +1,9 @@
 import { usePlans } from '@/hooks/planHooks';
 
 import { useGetMemberIdQuery } from '@/store/memberSlice';
-import { useUpdateMembershipMutation } from '@/store/membershipSlice';
 import { StatusType } from '@/utils/types';
 import  { useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form';
+import {  useForm } from 'react-hook-form';
 import { IoClose } from 'react-icons/io5';
 
 type Props = {
@@ -21,10 +20,10 @@ const UserDetail = ({ selectedUserId, closeUserDetail }: Props) => {
     //const userData = useMember(selectedUserId)
 
     const planData = usePlans();
-    const [selectedPlanId, setSelectedPlanId] = useState<string>('');
-    const [selectedNumber, setSelectedNumber] = useState<number>(1);
+    const [, setSelectedPlanId] = useState<string>('');
+    const [, setSelectedNumber] = useState<number>(1);
     const {   } = useForm()
-    const[updateMembership]=useUpdateMembershipMutation();
+    //const[updateMembership]=useUpdateMembershipMutation();
 
    /* const handleFormSubmit: SubmitHandler<MembershipForm> = (data) => {
         const formDataWithUserType = {
@@ -127,9 +126,10 @@ const UserDetail = ({ selectedUserId, closeUserDetail }: Props) => {
                         </label>
                         <select
                             onChange={(e) => {
-                                const result = planData.data?.find((x) => x.id === e.target.value);
-                                console.log(result);
-                                setSelectedPlanId(result!.id);
+                                const selectedValue = e.target.value;
+                                //const result = planData.data?.find((x) => x.id === e.target.value);
+                                //console.log(result);
+                                setSelectedPlanId(selectedValue);
                             }}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         >

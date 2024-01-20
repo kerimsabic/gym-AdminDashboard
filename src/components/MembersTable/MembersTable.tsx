@@ -4,7 +4,6 @@ import {  useState } from 'react'
 import { MdDelete } from "react-icons/md";
 import { MdOutlineManageAccounts } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
-import { useMember } from "@/hooks/useMember";
 import UserDetail from "../UserDetail";
 import { FaRegEye } from "react-icons/fa";
 import { Member, StatusType } from "@/utils/types";
@@ -13,13 +12,13 @@ import { useAddMemberMutation, useDeleteMemberMutation, useGetMembersQuery, useU
 import { useDispatch, useSelector } from "react-redux";
 import { selectSearch } from "@/store";
 import { setSearch } from "@/store/trainersSlice";
-import { MemebrRegistrationForm } from "../MemberForm/MemberForm";
 
-type Props = {}
+
+
 
 const TABLE_HEAD = ["Image", "Name", "Email", "Status", "Phone", "Edit"];
 
-const MembersTable = (props: Props) => {
+const MembersTable = () => {
 
   /* const [searchTerm, setSearchTerm] = useState('');
    const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
@@ -76,7 +75,7 @@ const MembersTable = (props: Props) => {
   const [isAddFormVisible, setAddFormVisible] = useState(false);
   const handleCancelAdd = () => { setAddFormVisible(false); };
 
-  const [selectedMember, setSelectedMember] = useState<MemebrRegistrationForm | null>(null);
+  const [selectedMember, setSelectedMember] = useState<Member |  null>(null);
 
   const handleEditMember = (member: Member) => {
     setSelectedMember(member);
@@ -105,7 +104,7 @@ const MembersTable = (props: Props) => {
 
 
   const [selectedUserId, setSelectedUserId] = useState<string | null>('');
-  const userData = useMember(selectedUserId)
+  //const userData = useMember(selectedUserId)  hook no longer
   const [memberDetail, setMemberDetail] = useState(false);
 
 

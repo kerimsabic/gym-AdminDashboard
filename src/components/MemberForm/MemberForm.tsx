@@ -37,7 +37,7 @@ export type MemebrRegistrationForm = {
     password: string;
     trainingPlanName?: string;
     trainingPlanId?: string;
-    numOfMonths?:number;
+    numOfMonths?:number|undefined;
 
 }
 /*const phoneRegExp: RegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -208,8 +208,13 @@ const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: P
                             <label className="pb-5 peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Trainer</label>
                             <select onChange={(e) => {
                                 const result = trainers?.find((trainer) => trainer.id === e.target.value);
-                                console.log(result)
-                                setSelectedTrainerId(result?.id)
+                                if(result){
+                                    setSelectedTrainerId(result.id!)
+                                }
+                                else{
+                                    setSelectedTrainerId(null)
+                                }
+                                
                             }}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="" disabled selected>

@@ -22,7 +22,7 @@ export const configureAxiosInterceptors = () => {
     });
   };
 
-function errorHandler(error: any): any {
+function errorHandler(_error: any): any {
     throw new Error("Function not implemented.");
 }
   

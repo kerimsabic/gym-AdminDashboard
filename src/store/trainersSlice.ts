@@ -1,6 +1,6 @@
 import { BASE_URL, /*token*/ } from "@/utils/data";
 import { Trainer } from "@/utils/types";
-import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {  createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";  //ovje treabao dodati /react poslije query
 
 

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { login } from "@/store/authSlice";
 import { useEffect } from "react";
 
-type Props = {}
+
 
 export type LogInFormData = {
     email: string;
@@ -19,7 +19,7 @@ export type LogInFormData = {
     password: yup.string().required('Password is required').min(6),
 })*/
 
-const LogIn = (props: Props) => {
+const LogIn = () => {
 
     const { register, handleSubmit } = useForm<LogInFormData>({
        // resolver: yupResolver(schema)
