@@ -57,6 +57,14 @@ export const membersApi = createApi({
             }),
             invalidatesTags: ["membersApi"],
         }),
+        updateMemberMembershipSpecial: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/members/membership/${id}`,
+                method: "PUT",
+                body: data,
+            }),
+            invalidatesTags: ["membersApi"],
+        }),
         deleteMember: builder.mutation({
             query: ({ id }) => ({ url: `/members/${id}`, method: "DELETE" }),
             invalidatesTags: ["membersApi"],
@@ -67,7 +75,7 @@ export const membersApi = createApi({
 
 
 // Export hooks for usage in components
-export const { useGetMembersQuery, useAddMemberMutation, useUpdateMemberMutation, useDeleteMemberMutation, useGetMemberIdQuery, useGetMemberPaginQuery, useGetOfflineMembersQuery, useGetOnlineMembersQuery } = membersApi;
+export const { useGetMembersQuery, useAddMemberMutation, useUpdateMemberMutation, useDeleteMemberMutation, useGetMemberIdQuery, useGetMemberPaginQuery, useGetOfflineMembersQuery, useGetOnlineMembersQuery, useUpdateMemberMembershipSpecialMutation } = membersApi;
 
 
 export default membersApi;

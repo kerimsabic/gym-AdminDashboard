@@ -4,7 +4,7 @@ import { setSearch } from '@/store/trainersSlice';
 import { Member, StatusType } from '@/utils/types';
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { Chip } from '@material-tailwind/react';
-import { useMemo } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { FaRegCalendarPlus } from "react-icons/fa";
 import { useAddAttendanceMutation } from '@/store/attendanceSlice';
@@ -15,7 +15,25 @@ const TABLE_HEAD = ["Image", "Name", "Email", "Status", "Attendace"];
 
 const Attendance = () => {
 
-    const { data, /*isLoading, isError,*/ refetch } = useGetMembersQuery(undefined);
+    //const { data, /*isLoading, isError,*/ refetch } = useGetMembersQuery(undefined);
+    const { data: members, refetch } = useGetMembersQuery(undefined);
+    const [currentPage, setCurrentPage] = useState(0);
+    const pageSize = 6;
+    const startIndex = currentPage * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    const totalPages = members ? Math.floor(members.length / pageSize) : 0;
+
+    const handleNextPage = () => {
+        if (members) {
+            setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.floor(members.length / pageSize)));
+        }
+    };
+
+    const handlePreviousPage = () => {
+        setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
+    };
+
     const search = useSelector(selectSearch);
     const dispatch = useDispatch();
     const [markAttendace, isSuccess] = useAddAttendanceMutation();
@@ -41,9 +59,9 @@ const Attendance = () => {
     };
 
 
-    const filteredMembers = useMemo(() => (
+    /*const filteredMembers = useMemo(() => (
         (data || []).filter((member) => member.firstName.toLowerCase().includes(search.toLowerCase()) || member.lastName.toLowerCase().includes(search.toLowerCase()))
-    ), [data, search])
+    ), [data, search])*/
 
     return (
         <div className="w-[80%] mx-auto flex md:justify-center max-md:w-[95%] mt-10">
@@ -81,8 +99,11 @@ const Attendance = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {(filteredMembers)?.map((member, index) => {
-                            const isLast = index === data!.length - 1;
+                        {(members || []).filter((member) =>
+                            member.firstName.toLowerCase().includes(search.toLowerCase()) ||
+                            member.lastName.toLowerCase().includes(search.toLowerCase())
+                        ).slice(startIndex, endIndex).map((member, index) => {
+                            const isLast = index === members!.length - 1;
                             const classes = isLast ? "p-4 border-b border-blue-gray-50" : "p-4 border-b border-blue-gray-50";
 
                             return (
@@ -111,7 +132,8 @@ const Attendance = () => {
                                     <td className={classes}>
                                         <div className="text-3xl flex justify-center gap-2"
                                         >
-                                            <button className="text-green-700 " onClick={() => { handleMarkAttendance(member) }}><FaRegCalendarPlus />
+                                            <button className="text-green-700 hover:text-blue-400 " onClick={() => { handleMarkAttendance(member) }}><FaRegCalendarPlus />
+                                                <span className='text-sm'>Attend</span>
                                             </button>
                                         </div>
                                     </td>
@@ -120,6 +142,23 @@ const Attendance = () => {
                         })}
                     </tbody>
                 </table>
+                <div className="w-[80%] mx-auto flex justify-between mt-4">
+                    <button
+                        onClick={handlePreviousPage}
+                        disabled={currentPage === 0}
+                        className="bg-blue-500 hover:bg-[#191d4f] text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                    >
+                        Previous Page
+                    </button>
+                    <div>{currentPage}...{totalPages}</div>
+                    <button
+                        onClick={handleNextPage}
+                        disabled={!members || endIndex >= members.length}
+                        className="bg-blue-500 hover:bg-[#191d4f] text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                    >
+                        Next Page
+                    </button>
+                </div>
             </div>
         </div>
     )

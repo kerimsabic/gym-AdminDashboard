@@ -19,7 +19,7 @@ export const membershipApi = createApi({
     tagTypes: ["membershipApi"],
     endpoints: (builder) => ({
         getMemberships: builder.query<Membership[], void>({
-            query: () => "/membership/",
+            query: () => "/memberships/",
             providesTags: ["membershipApi"],
         }),
         addMembership: builder.mutation({
@@ -31,7 +31,7 @@ export const membershipApi = createApi({
             invalidatesTags: ["membershipApi"],
         }),
         getMembershipMemberId: builder.query<Membership, string>({
-            query: (id) => `/membership/member/${id}`,
+            query: (id) => `/memberships/member/${id}`,
             providesTags: (_result, _error, id) => [{ type: "membershipApi", id }],
         }),
         

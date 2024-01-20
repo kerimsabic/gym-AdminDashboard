@@ -91,11 +91,22 @@ export type Equipments = {
 
 export type Membership = {
   id: string;
-  member: Member;
+ /* member: Member;
   startDate: Date;
   endDate: Date;
   trainingPlan: TrainingPlan;
-  statusType: StatusType;
+  statusType: StatusType;*/
+
+  memberId:string
+  memberName: string,
+    memberEmail: string,
+    memberImage: string,
+    startDate: Date,
+    endDate: Date,
+    trainingPlanId: string,
+    trainingPlanName: string,
+    trainingPlanPrice: string,
+    statusType: StatusType
 }
 
 
