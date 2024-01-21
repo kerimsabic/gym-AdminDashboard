@@ -10,7 +10,7 @@ import store from './store'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: 2,
+      retry: 5,
     },
   },
 });
