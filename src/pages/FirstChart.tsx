@@ -3,7 +3,7 @@ import { useGetAttendanceQuery } from '@/store/attendanceSlice';
 import { useGetOfflineMembersQuery, useGetOnlineMembersQuery } from '@/store/memberSlice';
 import { Attendance } from '@/utils/types';
 import { useEffect, useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, Label } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
 
 
 
@@ -23,7 +23,7 @@ const SecondChart = () => {
 
 
   const { data: attendanceData } = useGetAttendanceQuery();
-  const [chartData, setChartData] = useState<ChartData[]>([]);
+  const [, setChartData] = useState<ChartData[]>([]);
 
   type ChartData = {
     date: string;
