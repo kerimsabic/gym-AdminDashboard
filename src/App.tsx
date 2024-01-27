@@ -6,7 +6,7 @@ import Trainers from "./pages/Trainers"
 import Plans from "./pages/Plans"
 import Admin from "./pages/Admin"
 import Equipment from "./pages/Equipment"
-import { Attendance, FirstChart, LogIn, Membership } from "./pages"
+import { Attendance, FirstChart, LogIn, Membership, SecondChart } from "./pages"
 import ProtectedRoutes from "./utils/ProtectedRoutes"
 
 
@@ -44,6 +44,7 @@ function App() {
 
           {/* charts  */}
           <Route path="/line" element={<FirstChart />} />
+          <Route path="/area" element={<SecondChart />} />
         </Routes>
       </div>
     </div>

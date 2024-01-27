@@ -61,7 +61,7 @@ interface MyWindow extends Window {
     }, [onlineMem, offlineMem, onlineMembersCount, offlineMembersCount]);
   
     return (
-      <div className='w-[80%] h-[50%]'>
+      <div className='w-[80%] h-[50%]  flex  items-center justify-center'>
         <canvas ref={chartRef} width={400} height={300} />
       </div>
     );

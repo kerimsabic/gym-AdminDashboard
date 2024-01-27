@@ -8,6 +8,8 @@ import { FaPlus } from 'react-icons/fa'
 import { Chip } from '@material-tailwind/react'
 import usePlans from '@/hooks/usePlans'
 import useDeletePlans from '@/hooks/planHooks/useDeletePlans'
+import { PlanRegisterForm } from '../PlansForm/PlansForm'
+import { useCreatePlans } from '@/hooks/planHooks'
 
 
 
@@ -18,6 +20,7 @@ const TABLE_HEAD = ["Plan Name",  "Description","Price", "Status", "Actions"];
 const PlansTable = () => {
 
     const plansData = usePlans();
+    const createPlan = useCreatePlans();
 
     const deletePlans = useDeletePlans();
     const handleDeletePlan=(id:string,name:string)=>{
@@ -44,9 +47,21 @@ const PlansTable = () => {
       setOpenForm(true);
     };
 
+   
+
     return (
         <>
-        {openForm && <PlansForm closeForm={setOpenForm} initialData={selectedPlan} />}
+        {openForm && 
+          <PlansForm closeForm={setOpenForm} 
+          initialData={selectedPlan} 
+          onSubmitMember={async(data:PlanRegisterForm)=>{
+          createPlan.mutate(data);
+          if (createPlan.isSuccess){
+            
+              window.confirm("Plan successfully added")
+          }
+          }
+          }/>}
         <div className="w-[80%]  mx-auto flex md:justify-center max-md:w-[95%] mt-10 ">
           <div className=" w-full  max-md:overflow-x-scroll  " >
             <div className="w-full flex  mb-5 justify-between ">

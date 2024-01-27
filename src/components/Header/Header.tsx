@@ -1,5 +1,4 @@
 
-
 type Props = {
   category:string;
   title:string;

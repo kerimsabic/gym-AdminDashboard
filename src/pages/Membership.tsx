@@ -2,7 +2,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Chip } from "@material-tailwind/react";
 import { useState } from 'react'
 import { MdOutlineManageAccounts } from "react-icons/md";
-import {  StatusType } from "@/utils/types";
+import { StatusType } from "@/utils/types";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSearch } from "@/store";
 import { setSearch } from "@/store/trainersSlice";
@@ -11,7 +11,7 @@ import MembershipDetail from "@/components/MembershipDetail";
 import { useUpdateMemberMembershipSpecialMutation } from "@/store/memberSlice";
 import { MembershipForm } from "@/components/MembershipDetail/MembershipDetail";
 
-const TABLE_HEAD = [ "Name", "Email", "Plan","Status", "Edit"];
+const TABLE_HEAD = ["Name", "Email", "Plan", "Status", "Edit"];
 
 
 const Membership = () => {
@@ -40,18 +40,18 @@ const Membership = () => {
 
     const search = useSelector(selectSearch);
     const dispatch = useDispatch();
-    const [updateMembership, isSuccess]=useUpdateMemberMembershipSpecialMutation();
+    const [updateMembership, isSuccess] = useUpdateMemberMembershipSpecialMutation();
 
     /*const [selectedMember, setSelectedMember] = useState<Member | null>(null);
     const [membershipDetail, setMembershipDetail] = useState(false);*/
     const [selectedUserId, setSelectedUserId] = useState<string | null>('');
-    const [, setSelectedMembership]= useState<string>('')
+    const [, setSelectedMembership] = useState<string>('')
     const [memberDetail, setMemberDetail] = useState(false);
 
-    
 
 
-  
+
+
 
 
     /*const filteredMembers = useMemo(() => (
@@ -78,7 +78,7 @@ const Membership = () => {
     return (
         <>
 
-
+            <div className='flex justify-center'>Memberships</div>
             <div className="w-[80%] mx-auto flex md:justify-center max-md:w-[95%] mt-10">
                 <div className=" w-full  max-md:overflow-x-scroll lg:overflow-x-scroll " >
                     <div className="w-full flex max-xs:flex-col mb-5 justify-between">
@@ -118,8 +118,8 @@ const Membership = () => {
                         </thead>
                         <tbody>
                             {(memberships || []).filter((membership) =>
-                                membership.memberName.toLowerCase().includes(search.toLowerCase()) 
-                                
+                                membership.memberName.toLowerCase().includes(search.toLowerCase())
+
                             ).slice(startIndex, endIndex).map((membership, index) => {
                                 const isLast = index === memberships!.length - 1;
                                 const classes = isLast ? "p-4 border-b border-blue-gray-50" : "p-4 border-b border-blue-gray-50";
@@ -148,13 +148,13 @@ const Membership = () => {
                                             />
                                         </td>
 
-                                        
+
                                         <td className={classes}>
-                                            <div className="text-3xl flex justify-center ">  
-                                                <button className="text-blue-900 hover:text-blue-400" onClick={() => { setSelectedUserId(membership.memberId);setSelectedMembership(membership.id); setMemberDetail(true) }}><MdOutlineManageAccounts />
-                                                <span className="text-sm">Edit </span>
+                                            <div className="text-3xl flex justify-center ">
+                                                <button className="text-blue-900 hover:text-blue-400" onClick={() => { setSelectedUserId(membership.memberId); setSelectedMembership(membership.id); setMemberDetail(true) }}><MdOutlineManageAccounts />
+                                                    <span className="text-sm">Edit </span>
                                                 </button>
-                                    
+
                                             </div>
                                         </td>
                                     </tr>
@@ -190,7 +190,7 @@ const Membership = () => {
                         try {
                             console.log(formData);
                             await updateMembership({ id: formData.userId, data: formData });
-                            if(isSuccess){
+                            if (isSuccess) {
                                 window.confirm("Successfully updated memberhsip")
                                 refetch();
                             }

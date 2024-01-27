@@ -10,7 +10,6 @@ type Props = {
     onSubmitTrainer: (formData: TrainerRegistrationForm) => void;
     onUpdateTrainer: (formData: Trainer) => void;
     initialData?: Trainer |TrainerRegistrationForm| null | undefined
-    //isEditMode:boolean
 }
 
 
@@ -42,7 +41,7 @@ const schema = yup.object({
 })
 
 
-const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData, /*isEditMode*/ }: Props) => {
+const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData, }: Props) => {
 
     const { register, handleSubmit, formState: { errors }, setValue } = useForm<TrainerRegistrationForm>({
         resolver: yupResolver(schema),
@@ -57,30 +56,26 @@ const TrainersForm = ({ onSubmitTrainer, onCancel, onUpdateTrainer, initialData,
         }
     }, [initialData, setValue]);
 
-    //const isEditMode=!!initialData;
+ 
 
 
     const handleFormSubmit: SubmitHandler<TrainerRegistrationForm> = (data) => {
         const formDataWithUserType = {
             ...data,
             userType: UserType.TRAINER,
-            //password:data.password
+           
         };
-        /* console.log(formDataWithUserType);
-         console.log("helo")*/
+       
         try {
-           /* if (initialData && !data.password) {
-                // Set the existing password
-                formDataWithUserType.password = initialData.password;
-            }*/
+          
             const newPassword = data.password;
             if (initialData) {
                 const updatedTrainer = {
                     ...initialData,
                     ...formDataWithUserType,
-                    password: newPassword ? newPassword : '',
+                    password: newPassword ,
                 };
-                //updatedTrainer.password= formDataWithUserType.password;
+               
                 onUpdateTrainer(updatedTrainer);
             }
             else {

@@ -10,6 +10,7 @@ const Admin = () => {
   
   return (
       <div>
+       <div className='flex justify-center'>Admins</div>
         <AdminTable/>
       </div>
     )

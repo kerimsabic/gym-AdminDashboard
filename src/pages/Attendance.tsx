@@ -64,6 +64,8 @@ const Attendance = () => {
     ), [data, search])*/
 
     return (
+        <>
+        <div className='flex justify-center'>Attendance</div>
         <div className="w-[80%] mx-auto flex md:justify-center max-md:w-[95%] mt-10">
             <div className=" w-full  max-md:overflow-x-scroll lg:overflow-x-scroll " >
                 <div className="w-full flex  mb-5 justify-between">
@@ -161,6 +163,7 @@ const Attendance = () => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 

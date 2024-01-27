@@ -35,10 +35,10 @@ export const trainerApi=createApi({
           invalidatesTags: ["trainerApi"],
         }),
         updateTrainer: builder.mutation({
-          query: ({ id, data:{firstName, lastName, email, address, phone} }) => ({ 
+          query: ({ id, data }) => ({ 
               url: `/trainers/${id}`,
               method: "PUT",
-              body: {firstName, lastName, email, address, phone}
+              body: data
           }),
           invalidatesTags: ["trainerApi"],
       }),

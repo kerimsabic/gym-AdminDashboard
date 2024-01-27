@@ -127,9 +127,7 @@ const MembershipDetail = ({ selectedUserId, closeMembershipDetail, onSubmitForm 
                     <form className='grid md:grid-cols-3 md:gap-8 max-md:grid-cols-3 max-sm:grid-cols-1 ' onSubmit={handleSubmit(handleFormSubmit)}>
                         {/* Training Plan Dropdown */}
                         <div className="relative mb-5 group pt-5">
-                            <label className="pb-5 peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                Training Plan
-                            </label>
+                           
                             <select
                                 onChange={(e) => {
                                     const selectedValue = e.target.value;
@@ -155,10 +153,9 @@ const MembershipDetail = ({ selectedUserId, closeMembershipDetail, onSubmitForm 
                         </div>
 
                         {/* Number of Months Dropdown */}
+                        
                         <div className="relative mb-5 group pt-5">
-                            <label className="pb-5 peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 ">
-                                Number of Months
-                            </label>
+                           <p className='absolute top-0'>Months</p>
                             <select
                                 onChange={(e) => {
                                     const selectedValue = parseInt(e.target.value, 10);

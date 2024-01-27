@@ -8,6 +8,7 @@ const Members = () => {
   return (
     <> 
     <div>
+    <div className='flex justify-center'>Members</div>
       <MembersTable />
     </div>
     </>  

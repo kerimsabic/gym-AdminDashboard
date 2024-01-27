@@ -19,7 +19,7 @@ const TrainersTable = () => {
    const search = useSelector(selectSearch);
    const dispatch= useDispatch();
    const [deleteTrainer]= useDeleteTrainerMutation();
-   const [addTrainer]=useAddTrainerMutation();
+   const [addTrainer, isSuccess]=useAddTrainerMutation();
    const [updateTrainer]=useUpdateTrainerMutation();
 
    const [isAddFormVisible, setAddFormVisible] = useState(false);
@@ -57,9 +57,11 @@ const TrainersTable = () => {
         <TrainersForm
             onCancel={handleCancelAdd}
             onSubmitTrainer={async (formData) => {
-                try{
-                    
+                try{ 
                     await addTrainer(formData)
+                    if (isSuccess) {
+                        window.confirm("Trainer successfully added")
+                      }
                 }catch(error){
                     console.log(error)
                 }
@@ -71,6 +73,9 @@ const TrainersTable = () => {
                
                 try{
                     await updateTrainer({id:formData.id, data:formData})
+                    if (isSuccess) {
+                        window.confirm("Trainer updated added")
+                      }
                     console.log(formData.password)
                 } catch(error){
                     console.log(error)

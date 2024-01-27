@@ -101,9 +101,7 @@ const AdminTable = () => {
                 <AdminsForm
                     onCancel={handleCancelAdd}
                     onSubmitAdmin={async (formData) => {
-                        try {
-                            //await addAdmin(formData)
-                            // console.log(formData);
+                        try {                          
                             await dispatch(registerAdmin(formData))
                             refetch()
                         } catch (error) {

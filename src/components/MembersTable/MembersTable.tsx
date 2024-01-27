@@ -132,7 +132,6 @@ const MembersTable = () => {
               if (isSuccess) {
                 window.confirm("Member successfully added")
               }
-              console.log(typeof (formData.numberOfMonths))
             } catch (error) {
               console.log(error)
             }
@@ -144,6 +143,9 @@ const MembersTable = () => {
             console.log(formData.id)
             try {
               await updateMember({ id: formData.id, data: formData })
+              if (isSuccess) {
+                window.confirm(`Member ${formData.firstName} successfully updated`)
+              }
             } catch (error) {
               console.log(error)
             }

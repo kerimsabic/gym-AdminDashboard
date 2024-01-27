@@ -1,4 +1,4 @@
-import useCreatePlans from '@/hooks/planHooks/useCreatePlans';
+
 import { StatusType, TrainingPlan } from '@/utils/types';
 import  { useEffect, } from 'react';
 import { IoClose } from 'react-icons/io5';
@@ -10,6 +10,7 @@ import { useUpdatePlan } from '@/hooks/planHooks/useUpdatePlan';
 type Props = {
   closeForm: (value: boolean) => void;
   initialData?:TrainingPlan|null
+  onSubmitMember: (formData: PlanRegisterForm) => void;
 };
 
 const schema = yup.object(
@@ -28,24 +29,21 @@ export type PlanRegisterForm = {
   statusType: StatusType;
 }
 
-const PlansForm = ({ closeForm, initialData }: Props) => {
+const PlansForm = ({ closeForm, initialData, onSubmitMember }: Props) => {
 
 
   const { register, handleSubmit,setValue, formState: { errors } } = useForm<PlanRegisterForm>({
     resolver: yupResolver(schema)
   })
 
-  const createPlan = useCreatePlans();
+
   const updatePlan = useUpdatePlan();
 
 
-  if (createPlan.isSuccess){
-    closeForm(false);
-  }
+ 
 
   
   useEffect(() => {
-     
     if (initialData) {
       Object.keys(initialData).forEach((key) => {
         const validKey = key as keyof PlanRegisterForm;
@@ -55,7 +53,7 @@ const PlansForm = ({ closeForm, initialData }: Props) => {
   }, [initialData, setValue]);
 
   const handleFormSubmittion: SubmitHandler<PlanRegisterForm> = async (data) => {
-    
+
     try {
       if(initialData){
         const updatedPlan = { ...initialData, ...data };
@@ -63,12 +61,28 @@ const PlansForm = ({ closeForm, initialData }: Props) => {
         closeForm(false);
       }
       else{
-        createPlan.mutate(data);
+         onSubmitMember(data)
+         closeForm(false)
       }
      
     } catch (error) {
       console.error("Error updating plan:", error);
     }
+    
+   /* try {
+      if(initialData){
+        const updatedPlan = { ...initialData, ...data };
+        await updatePlan.mutateAsync(updatedPlan);
+        closeForm(false);
+      }
+      else{
+         createPlan.mutate(data);
+      }
+     
+    } catch (error) {
+      console.error("Error updating plan:", error);
+    }*/
+
   };
 
 
@@ -126,7 +140,7 @@ const PlansForm = ({ closeForm, initialData }: Props) => {
               >
                 Cancel
               </button>
-              <input type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" disabled={createPlan.isLoading} value={createPlan.isLoading ? "Creating..." : "Submit"} />
+              <input type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  />
             </div>
           </form>
         </div>
