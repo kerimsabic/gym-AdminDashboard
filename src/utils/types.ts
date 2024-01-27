@@ -109,6 +109,16 @@ export type Membership = {
     statusType: StatusType
 }
 
+export type Attendance = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  userType: string;
+  email: string;
+  image: string | null;
+  date: string;
+}
+
 
 export enum FormMode {
   ADD = 'add',

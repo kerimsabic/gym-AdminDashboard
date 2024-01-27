@@ -42,18 +42,18 @@ const Navbar = () => {
           </Link>
         </div>
         
-        <div className='flex items-center justify-center h-[90px]   text-white ml-10'>
+        <div className='flex items-center justify-end h-[90px] w-full  text-white '>
           <div className='flex flex-col'>
-          <button className='flex  text-3xl justify-center'><VscAccount /></button>
+          <button className='flex  text-2xl justify-center'><VscAccount /></button>
           {!userToken ? 
           (
             <Link to="/login">
-              <span>LogIn</span>
+              <span className='text-sm w-full'>Sign in</span>
             </Link>) 
             : 
           (
             <Link to="/login">
-              <button  onClick={()=>{dispatch(logout()); }} className='text-red-500 flex justify-center items-center'><span className='text-xl'>Log out</span></button>
+              <button  onClick={()=>{dispatch(logout()); }} className='text-red-500 flex justify-center items-center'><span className='text-sm'>Log out</span></button>
             </Link>
           ) }
           </div>
