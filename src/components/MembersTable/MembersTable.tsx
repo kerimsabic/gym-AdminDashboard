@@ -127,11 +127,16 @@ const MembersTable = () => {
           onCancel={handleCancelAdd}
           onSubmitMember={async (formData: any) => {
             try {
-              console.log(formData)
+             if(formData.trainingPlanId==""){
+                alert("Training plan not selected, member NOT created");
+             }
+             else{
               await addMember(formData)
               if (isSuccess) {
                 window.confirm("Member successfully added")
               }
+             }
+              
             } catch (error) {
               console.log(error)
             }
