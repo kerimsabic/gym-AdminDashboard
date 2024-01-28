@@ -4,8 +4,6 @@ import { Equipments } from '@/utils/types';
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { useState } from 'react';
 
-
-
 const Equipment = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { data: equipment, isError, isLoading } = useGetEquipmentsQuery();
@@ -36,16 +34,20 @@ const Equipment = () => {
           {isError && <p>Error loading equipment data.</p>}
           {!isLoading && !isError && (
             <div className="grid gap-5 sm:grid-cols-4 lg:grid-cols-3">
-              {filteredEquipment.map((machine: Equipments) => (
-                <EquipmentCard
-                  key={machine.id}
-                  image={machine.image || 'https://i.ibb.co/r2zns1m/image-01.jpg'}
-                  CardTitle={machine.name || 'Default Title'}
-                  CardManufacturer={machine.manufacturer || 'Default Description'}
-                  CardType={machine.type}
-                  id={machine.id.toString()}
-                />
-              ))}
+              {filteredEquipment.map((machine: Equipments) => {
+                const lastService = machine.serviceHistory ? machine.serviceHistory[machine.serviceHistory.length - 1] : 'No service history';
+                const lastServiceDate=lastService.substring(0,10)
+                return (
+                  <EquipmentCard
+                    key={machine.id}
+                    image={machine.image || 'https://i.ibb.co/r2zns1m/image-01.jpg'}
+                    CardTitle={machine.name || 'Default Title'}
+                    CardManufacturer={machine.manufacturer || 'Default Description'}
+                    CartDate={lastServiceDate}
+                    id={machine.id.toString()}
+                  />
+                );
+              })}
             </div>
           )}
         </div>

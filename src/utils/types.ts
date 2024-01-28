@@ -86,7 +86,7 @@ export type Equipments = {
   type: string;
   manufacturer: string;
   image: string;
-  serviceHistroy: Date[];
+  serviceHistory: string[];
 }
 
 export type Membership = {

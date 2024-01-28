@@ -7,18 +7,18 @@ type Props = {
   image: any;
   CardManufacturer: string;
   CardTitle: string;
-  CardType: string;
+  CartDate: string;
 };
 
 const EquipmentCard = ({
   id,
   image,
-  CardType,
+  CartDate,
   CardManufacturer,
   CardTitle,
 }: Props) => {
   const [deleteMachine, { isLoading }] = useDeleteEquipmentMutation();
-  const [serviceMachine]= useServiceEquipmentMutation();
+  const [serviceMachine, isSuccess]= useServiceEquipmentMutation();
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleDeleteClick =  (machineId:string) => {
@@ -37,6 +37,9 @@ const EquipmentCard = ({
     try{
       if (window.confirm(`Are you sure you want to service this machine`)) {
         await serviceMachine({ id: machineId })
+        if(isSuccess){
+          window.confirm("Successfully marked service of the machine")
+        }
       }
     }catch(error){
       console.log(error)
@@ -56,8 +59,9 @@ const EquipmentCard = ({
           <p className="mb-7 text-base leading-relaxed text-body-color dark:text-dark-6">
             {CardManufacturer}
           </p>
-          <p className="mb-7 text-base leading-relaxed text-body-color dark:text-dark-6">
-            {CardType}
+          <p className=" flex flex-col mb-7 text-base leading-relaxed text-body-color dark:text-dark-6">
+             <span className="font-semibold">Last Service</span> 
+            {CartDate}
           </p>
           <div className="flex flex-col">
             <button
