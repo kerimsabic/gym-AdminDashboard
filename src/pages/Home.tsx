@@ -22,7 +22,7 @@ const Home = () => {
   const totalAdmins = admins?.length;
   const totalTrainers = trainers?.length;
   const totalPlans=plans?.length;
-  const totalEquipment=equipment.length;
+  const totalEquipment=equipment?.length;
 
   return (
     <>
