@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { AiOutlineAreaChart, AiOutlineBarChart, AiOutlineCalendar, AiOutlineMenu, AiOutlineShoppingCart, AiOutlineStock } from "react-icons/ai";
+
+import {  NavLink } from 'react-router-dom'
+import { AiOutlineAreaChart, AiOutlineBarChart, AiOutlineCalendar, AiOutlineStock } from "react-icons/ai";
 import { CgGym } from "react-icons/cg";
 
 import { link } from 'fs';
@@ -13,7 +13,7 @@ import { RiStockLine } from 'react-icons/ri';
 import { MenuSection } from '@/utils/types';
 import { GrUserAdmin } from "react-icons/gr";
 import { IoFitness } from "react-icons/io5";
-import { IoIosCloseCircleOutline } from "react-icons/io";
+
 
 
 
@@ -115,7 +115,7 @@ const Sidebar = (props: Props) => {
 
   return (
 
-    <div  className={`overflow-x-auto kerim transition-all bg-[#191d4f] duration-700 ease-in-out absolute w-[300px] left-0 top-[100px]  ${props.isActive ? 'left-[-300px]' : 'left-0'}`}>
+    <div  className={`overflow-x-auto kerim transition-all bg-[#191d4f] duration-700 ease-in-out absolute w-[300px] left-0 top-[90px]  ${props.isActive ? 'left-[-300px]' : 'left-0'}`}>
           <div>
             {links.map((item) => (
               <div key={item.title}>

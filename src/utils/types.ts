@@ -8,28 +8,121 @@ export type MenuSection = {
   links: Link[];
 }
 
+export enum StatusType {
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
+}
+export enum UserType {
+  ADMIN = 'ADMIN',
+  TRAINER = 'TRAINER',
+  MEMBER = 'MEMBER'
+}
+
 export type Member = {
-  img: string;
-  name: string;
+  id?: string;
+  firstName: string;
+  lastName: string;
+  userType?: UserType
   email: string;
-  status: boolean;
-  plan:string;
-  id:string
+  username: string;
+  image?: string;
+  qrCode?: string|null;
+  trainerEmail?: string|null;
+  TrainerImage?: string|null;
+  trainerName?: string|null;
+  trainerId?: string|null;
+  //trainerUserType: UserType.TRAINER;   //ovo mozda samo treba UserType pa poslije staviti trener
+  address: string;
+  phone: string;
+  statusType?: StatusType|undefined
+  password: string
+  trainingPlanName?: string;
+  trainingPlanId?: string
+  numOfMonths: number
+
+}
+
+export type Admin = {
+  id?: string;
+  firstName: string;
+  lastName: string;
+  userType?: UserType | undefined;
+  email: string;
+  username: string;
+  image?: string;
+  address: string;
+  phone: string;
+  statusType: StatusType
+  password: string
+
 }
 
 export type Trainer = {
-  img: string;
-  name: string;
+  id?: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  status: boolean;
+  username: string;
+  address: string;
+  phone: string;
+  statusType?: StatusType
+  password: string
+  members?: Member[]
+  image?: string
+  userType?: UserType;
 }
 
-export type TrainingPlan ={
-  planName: string;
+export type TrainingPlan = {
+  id?: string;
+  name: string;
+  description: string;
   price: string;
-  numOfUsers: number;
-  status: boolean;
+  statusType: StatusType;
 }
 
+export type Equipments = {
+  id: string;
+  name: string;
+  type: string;
+  manufacturer: string;
+  image: string;
+  serviceHistory: string[];
+}
+
+export type Membership = {
+  id: string;
+ /* member: Member;
+  startDate: Date;
+  endDate: Date;
+  trainingPlan: TrainingPlan;
+  statusType: StatusType;*/
+
+  memberId:string
+  memberName: string,
+    memberEmail: string,
+    memberImage: string,
+    startDate: Date,
+    endDate: Date,
+    trainingPlanId: string,
+    trainingPlanName: string,
+    trainingPlanPrice: string,
+    statusType: StatusType
+}
+
+export type Attendance = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  userType: string;
+  email: string;
+  image: string | null;
+  date: string;
+}
+
+
+export enum FormMode {
+  ADD = 'add',
+  EDIT = 'edit',
+}
 
 
