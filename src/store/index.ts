@@ -14,7 +14,7 @@ const store = configureStore({
         admins:adminSlice.reducer,
         trainerApi:trainerApi.reducer,
         membersApi:membersApi.reducer,
-        search:searchSlice.reducer,
+        search:searchSlice.reducer, 
         attendanceApi: attendanceApi.reducer,
         equipmentApi:equipmentApi.reducer,
         membershipApi:membershipApi.reducer,
