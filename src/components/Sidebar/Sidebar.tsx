@@ -5,9 +5,8 @@ import { CgGym } from "react-icons/cg";
 
 import { link } from 'fs';
 
-import { BsKanban, BsBarChart } from 'react-icons/bs';
+import { BsKanban, } from 'react-icons/bs';
 import { FiEdit, FiPieChart } from 'react-icons/fi';
-import { GiLouvrePyramid } from 'react-icons/gi';
 import { IoMdContacts } from 'react-icons/io';
 import { RiStockLine } from 'react-icons/ri';
 import { MenuSection } from '@/utils/types';
