@@ -88,18 +88,6 @@ export const links: MenuSection[] = [
         name: 'financial',
         icon: <RiStockLine />,
       },
-      {
-        name: 'color-mapping',
-        icon: <BsBarChart />,
-      },
-      {
-        name: 'pyramid',
-        icon: <GiLouvrePyramid />,
-      },
-      {
-        name: 'stacked',
-        icon: <AiOutlineBarChart />,
-      },
     ],
   },
 ];
