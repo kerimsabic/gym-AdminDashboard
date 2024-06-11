@@ -28,7 +28,7 @@ export const trainerApi=createApi({
         }),
         addTrainer: builder.mutation({
           query:(data)=>({
-            url: '/auth/register',
+            url: '/auth/registerTrainer',
             method:'POST',
             body: data
           }),

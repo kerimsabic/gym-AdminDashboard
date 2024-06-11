@@ -1,7 +1,7 @@
 import { useGetAdminsQuery, useDeleteAdminMutation, useUpdateAdminMutation } from '@/store/adminSlice';
 import { Admin } from '@/utils/types';
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
-import {  useState } from 'react';
+import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { MdDelete, MdOutlineManageAccounts } from 'react-icons/md';
 import AdminsForm from '../AdminsForm';
@@ -101,7 +101,7 @@ const AdminTable = () => {
                 <AdminsForm
                     onCancel={handleCancelAdd}
                     onSubmitAdmin={async (formData) => {
-                        try {                          
+                        try {
                             await dispatch(registerAdmin(formData))
                             refetch()
                         } catch (error) {
@@ -172,9 +172,16 @@ const AdminTable = () => {
                                 return (
                                     <tr key={admin.id} >
                                         <td className={classes}>
-                                            <div className="font-normal">
-                                                {admin.image}
-                                            </div>
+                                            <img
+                                                src={admin.image}
+                                                alt={admin.firstName}
+                                                onError={(e) => {
+                                                    e.currentTarget.onerror = null;
+                                                    e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='black'/%3E%3C/svg%3E";
+                                                }}
+                                                className="w-[50px] h-[50px] rounded-full"
+                                            />
+                                            
                                         </td>
                                         <td className={classes}>
                                             <div className="font-normal">

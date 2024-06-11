@@ -159,7 +159,7 @@ const MembersTable = () => {
         />
       )}
 
-      <div className="w-[80%] mx-auto flex md:justify-center max-md:w-[95%] mt-10">
+      <div className="w-[100%] mx-auto flex md:justify-center max-md:w-[95%] mt-10">
         <div className=" w-full  max-md:overflow-x-scroll lg:overflow-x-scroll " >
           <div className="w-full flex max-xs:flex-col mb-5 justify-between">
             <div className="w-[50%]   flex items-center">
@@ -258,7 +258,7 @@ const MembersTable = () => {
               disabled={currentPage === 0}
               className="bg-blue-500 hover:bg-[#191d4f] text-white font-bold py-2 px-4 border border-blue-700 rounded"
             >
-              Previous Page
+              <span>test</span>
             </button>
             <div>{currentPage}...{totalPages}</div>
             <button
