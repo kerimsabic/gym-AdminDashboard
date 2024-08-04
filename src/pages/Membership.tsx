@@ -193,6 +193,7 @@ const Membership = () => {
                             if (isSuccess) {
                                 window.confirm("Successfully updated memberhsip")
                                 refetch();
+                                window.location.reload();
                             }
                         } catch (error) {
                             console.error(error);

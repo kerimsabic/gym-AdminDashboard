@@ -39,7 +39,7 @@ const MembershipDetail = ({ selectedUserId, closeMembershipDetail, onSubmitForm 
         };
         try {
             onSubmitForm(formDataWithUserType);
-            //console.log(formDataWithUserType);
+           
 
         }
         catch (error) {
