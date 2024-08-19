@@ -1,9 +1,10 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import { Member } from '@/utils/types';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useAddMemberImageMutation } from "@/store/memberSlice";
 
 const phoneRegExp: RegExp = /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
 
@@ -48,8 +49,34 @@ const EditMemberForm = ({ onCancel, onUpdateMember, initialData }: EditMemberFor
         }
     }, [initialData, setValue]);
 
-    const handleFormSubmit: SubmitHandler<MemberFormValues> = (data: any) => {
-        onUpdateMember(data);
+    const [addImage] = useAddMemberImageMutation();
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const handleFileChange = (e : any) => {
+        setSelectedFile(e.target.files[0]);
+      };
+
+    const handleFormSubmit: SubmitHandler<MemberFormValues> = async (data: any) => {
+        let imageUrl: string | undefined = undefined;
+
+        try {
+          const result = await addImage(selectedFile);
+        
+          if ('data' in result) {
+           
+            imageUrl = result.data.url;
+            console.log('Image URL:', imageUrl);
+          } else {
+          
+            console.error('Error fetching image URL:', result.error);
+          }
+        } catch (error) {
+          console.error('An unexpected error occurred while uploading the image:', error);
+        }
+        const formDataWithImage = {
+            ...data,
+            image: imageUrl
+        };
+        onUpdateMember(formDataWithImage);
     };
 
     return (
@@ -117,9 +144,9 @@ const EditMemberForm = ({ onCancel, onUpdateMember, initialData }: EditMemberFor
                         </div>
 
                         <div className="relative z-0 w-full mb-5 group">
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Image</label>
-                            <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" />
-                            <div className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help">A profile picture is optional</div>
+                           {/*  <input type="file" ref={fileInputRef} className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />*/}
+                           <input type="file" accept="image/*" onChange={handleFileChange} className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
+                            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Upload Photo</label>
                         </div>
 
                         <div className='flex justify-between'>

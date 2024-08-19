@@ -8,6 +8,7 @@ import usePlans from '@/hooks/planHooks/usePlans';
 import { useTrainerQuery } from "@/store/trainersSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
+import { useAddMemberImageMutation } from "@/store/memberSlice";
 
 
 
@@ -47,14 +48,14 @@ const schema = yup.object({
     username: yup.string().required('Username is required'),
     phone: yup.string().matches(phoneRegExp, "Phone number is not valid").required("Phone number is required"),
     password: yup.string().min(5).required(),
-    address: yup.string().required('Addres is required'),
+    address: yup.string().required(),
     //image:yup.string().optional(),
 
 
 
 })
 
-const MemberForm = ({ onCancel, onSubmitMember,  initialData }: Props) => {
+const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: Props) => {
 
     const { register, handleSubmit,  setValue, formState: { errors } } = useForm<MemebrRegistrationForm>({
         resolver: yupResolver(schema),
@@ -70,8 +71,35 @@ const MemberForm = ({ onCancel, onSubmitMember,  initialData }: Props) => {
         }
     }, [initialData, setValue]);
 
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-    const handleFormSubmit: SubmitHandler<MemebrRegistrationForm> = (data) => {
+
+    const [addImage] = useAddMemberImageMutation();
+  
+    const handleFileChange = (e : any) => {
+      setSelectedFile(e.target.files[0]);
+    };
+
+
+    const handleFormSubmit: SubmitHandler<MemebrRegistrationForm> = async (data) => {
+
+        let imageUrl: string | undefined = undefined;
+
+        try {
+          const result = await addImage(selectedFile);
+        
+          if ('data' in result) {
+           
+            imageUrl = result.data.url;
+            console.log('Image URL:', imageUrl);
+          } else {
+          
+            console.error('Error fetching image URL:', result.error);
+          }
+        } catch (error) {
+          console.error('An unexpected error occurred while uploading the image:', error);
+        }
+
         const formDataWithUserType = {
             ...data,
             userType: UserType.MEMBER,
@@ -79,14 +107,25 @@ const MemberForm = ({ onCancel, onSubmitMember,  initialData }: Props) => {
             trainingPlanId:selectedPlanId,
             trainerId:selectedTrainerId,
             numOfMonths:selectedNumber, 
+            image: imageUrl
         };
         try {
-           
-           
-           
+            if (initialData && !data.password) {
+                formDataWithUserType.password = initialData.password;
+            }
+            if (initialData) {
+                const updatedMember = {  ...formDataWithUserType };
+                updatedMember.password = formDataWithUserType.password || initialData.password;
+                setSelectedPlanId(updatedMember.trainingPlanId);
+              //  setSelectedTrainerId(updatedMember.trainerId);
+              console
+                console.log(updatedMember)
+                onUpdateMember(updatedMember);       //mogu stavit '?'
+            }
+            else {
                 onSubmitMember(formDataWithUserType);
                 console.log(formDataWithUserType);
-            
+            }
         }
         catch (error) {
             console.error("Error updating member:", error);
@@ -124,35 +163,32 @@ const MemberForm = ({ onCancel, onSubmitMember,  initialData }: Props) => {
                         <div></div>
                         <div className="relative z-0 w-full mb-5 group">
                             <input type="email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("email")} />
-                            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
                             {errors.email && <small style={{ color: "red" }}>{errors.email.message}</small>}
+                            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
                         </div>
                         <div className="relative z-0 w-full mb-5 group">
-                            <input type="password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("password", { required: !!initialData })} />                          
-                            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
+                            <input type="password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("password", { required: !!initialData })} />
                             {errors.password && <small style={{ color: "red" }}>{errors.password.message}</small>}
+                            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
                         </div>
                         
                         <div className="grid md:grid-cols-2 md:gap-6">
                             <div className="relative z-0 w-full mb-5 group">
                                 <input type="text" id="floating_first_name" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("firstName")} />
-                               
-                                <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
                                 {errors.firstName && <small style={{ color: "red" }}>{errors.firstName.message}</small>}
+                                <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
                             </div>
                             <div className="relative z-0 w-full mb-5 group">
                                 <input type="text" id="floating_last_name" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("lastName")} />
-                               
+                                {errors.lastName && <small style={{ color: "red" }}>{errors.lastName.message}</small>}
                                 <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
-                                {errors.lastName && <small style={{ color: "red" }}>{errors.lastName.message}</small>}                          
                             </div>
                         </div>
                         <div className="grid md:grid-cols-2 md:gap-6">
                             <div className="relative z-0 w-full mb-5 group">
                                 <input type="tel" pattern="[0-9]{3}[0-9]{3}[0-9]{3}|[0-9]{3}-[0-9]{3}-[0-9]{3}|[0-9]{3} [0-9]{3} [0-9]{3}" id="floating_phone" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("phone")} />
-                                
-                                <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number</label>
                                 {errors.phone && <small style={{ color: "red" }}>{errors.phone.message}</small>}
+                                <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number</label>
                             </div>
                             <div className="relative z-0 w-full mb-5 group">
                                 <input type="text" id="floating_username" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("username")} />
@@ -163,9 +199,8 @@ const MemberForm = ({ onCancel, onSubmitMember,  initialData }: Props) => {
 
                         <div className="relative z-0 w-full mb-5 group">
                             <input type="address" id="floating_address" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  {...register("address")} />
-                           
-                            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Address</label>
                             {errors.address && <small style={{ color: "red" }}>{errors.address.message}</small>}
+                            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Address</label>
                         </div>
 
                         <div className="relative z-0 w-full mb-5 group pt-5">
@@ -227,9 +262,9 @@ const MemberForm = ({ onCancel, onSubmitMember,  initialData }: Props) => {
                         </div>
 
                         <div className="relative z-0 w-full mb-5 group">
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Image</label>
-                            <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" />
-                            <div className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help">A profile picture is optional</div>
+                           {/*  <input type="file" ref={fileInputRef} className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />*/}
+                           <input type="file" accept="image/*" onChange={handleFileChange} className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
+                            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Upload Photo</label>
                         </div>
 
                         <div className='flex justify-between'>

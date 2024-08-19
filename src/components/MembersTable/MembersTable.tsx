@@ -26,7 +26,7 @@ const MembersTable = () => {
 
   const { data: members, isLoading, isError, isSuccess } = useGetMembersQuery(undefined);
   const [currentPage, setCurrentPage] = useState(0);
-  const pageSize = 3;
+  const pageSize = 6;
   const startIndex = currentPage * pageSize;
   const endIndex = startIndex + pageSize;
 
@@ -205,11 +205,26 @@ const MembersTable = () => {
                 const isLast = index === members!.length - 1;
                 const classes = isLast ? "p-4 border-b border-blue-gray-50" : "p-4 border-b border-blue-gray-50";
 
+                const extractId = (url : string | undefined) => {
+                  const match = url?.match(/id=([^&]*)/);
+                  return match ? match[1] : null;
+                };
+                
+                const memberPhotoUrl = member.image; // This is the full URL
+                const photoId = extractId(memberPhotoUrl); // Extract the ID
+                
+                const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photoId}&sz=w50`;
+
                 return (
                   <tr key={member.id} >
                     <td className={classes}>
-                      <div className="flex items-center justify-center w-16 h-16 rounded-full bg-black overflow-hidden">
-                        <img src={member.image} alt={member.firstName} className="object-cover w-full h-full" />
+                      <div className="rounded-xl">
+                        <img
+
+                          src={thumbnailUrl}
+                          alt={member.firstName}
+                          className="object-cover w-full h-full rounded-full"
+                        />
                       </div>
                     </td>
                     <td className={classes}>

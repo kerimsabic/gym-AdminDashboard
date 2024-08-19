@@ -77,13 +77,31 @@ export const membersApi = createApi({
             }),
             invalidatesTags: ["membersApi"],
         }),
+
+        addMemberImage: builder.mutation<{ url: string }, File|any>({
+            query: (file) => {
+                const formData = new FormData();
+                formData.append('image', file);
+        
+                return {
+                    url: `/users/uploadImage`, // Ensure correct URL
+                    method: 'POST',
+                    body: formData,
+                    // Do not set 'Content-Type' header; browser sets it automatically
+                };
+            },
+           /* transformResponse: (response: { url: string }) => {
+                return response; // Assuming the response has a URL
+            },*/
+            invalidatesTags: ['membersApi'],
+        }),
     })
 })
 
 
 
 // Export hooks for usage in components
-export const { useGetMembersQuery, useAddMemberMutation, useUpdateMemberMutation, useDeleteMemberMutation, useGetMemberIdQuery, useGetMemberPaginQuery, useGetOfflineMembersQuery, useGetOnlineMembersQuery, useUpdateMemberMembershipSpecialMutation, useUpdateMemberPasswordMutation } = membersApi;
+export const { useGetMembersQuery, useAddMemberMutation, useUpdateMemberMutation, useDeleteMemberMutation, useGetMemberIdQuery, useGetMemberPaginQuery, useGetOfflineMembersQuery, useGetOnlineMembersQuery, useUpdateMemberMembershipSpecialMutation, useUpdateMemberPasswordMutation, useAddMemberImageMutation } = membersApi;
 
 
 export default membersApi;
