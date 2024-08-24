@@ -21,18 +21,13 @@ export const equipmentApi = createApi({
             query: () => "/equipment/",
             providesTags: ["equipmentApi"],
         }),
-        addAttendance: builder.mutation({
+        addEquipment: builder.mutation({
             query: (data) => ({
                 url: "/equipment/add",
                 method: "POST",
-                body: {
-                    memberId: data.memberId
-                },
-                
-                
+                body: data              
             }),
-            invalidatesTags: ["equipmentApi"],
-           
+            invalidatesTags: ["equipmentApi"],      
         }),
         getEquipmentId: builder.query<any, string>({
             query: (id) => `/equipment/${id}`,
@@ -65,7 +60,7 @@ export const equipmentApi = createApi({
 
 
 // Export hooks for usage in components
-export const { useGetEquipmentsQuery, useAddAttendanceMutation, useUpdateEquipmentMutation, useGetEquipmentIdQuery, useDeleteEquipmentMutation, useServiceEquipmentMutation } = equipmentApi;
+export const { useGetEquipmentsQuery, useAddEquipmentMutation, useUpdateEquipmentMutation, useGetEquipmentIdQuery, useDeleteEquipmentMutation, useServiceEquipmentMutation } = equipmentApi;
 
 
 export default equipmentApi;

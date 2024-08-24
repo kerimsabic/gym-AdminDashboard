@@ -28,7 +28,7 @@ const LogIn = () => {
     const { /*loading*/ userToken, error } = useSelector((state: RootState) => state.auth)
     const dispatch = useDispatch<AppDispatch>();
 
-    const [helpBoxOpen, setHelpBoxOpen] = useState(true);
+    const [helpBoxOpen, setHelpBoxOpen] = useState(false);
 
     useEffect(() => {
         if (userToken) {
