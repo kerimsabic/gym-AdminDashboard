@@ -78,23 +78,24 @@ export const membersApi = createApi({
             invalidatesTags: ["membersApi"],
         }),
 
-        addMemberImage: builder.mutation<{ url: string }, File|any>({
+        addMemberImage: builder.mutation({
             query: (file) => {
                 const formData = new FormData();
                 formData.append('image', file);
         
                 return {
-                    url: `/users/uploadImage`, // Ensure correct URL
+                    url: `/users/uploadImageAzure`, // Ensure correct URL
                     method: 'POST',
                     body: formData,
                     // Do not set 'Content-Type' header; browser sets it automatically
                 };
             },
-           /* transformResponse: (response: { url: string }) => {
-                return response; // Assuming the response has a URL
-            },*/
+            transformResponse: (response: any) => {
+                return response;  // Assuming the response has a URL
+            },
             invalidatesTags: ['membersApi'],
         }),
+        
     })
 })
 

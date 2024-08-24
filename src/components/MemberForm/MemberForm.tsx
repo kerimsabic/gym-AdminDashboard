@@ -84,20 +84,24 @@ const MemberForm = ({ onCancel, onSubmitMember, onUpdateMember, initialData }: P
     const handleFormSubmit: SubmitHandler<MemebrRegistrationForm> = async (data) => {
 
         let imageUrl: string | undefined = undefined;
-
         try {
-          const result = await addImage(selectedFile);
-        
-          if ('data' in result) {
-           
-            imageUrl = result.data.url;
-            console.log('Image URL:', imageUrl);
-          } else {
-          
-            console.error('Error fetching image URL:', result.error);
-          }
-        } catch (error) {
-          console.error('An unexpected error occurred while uploading the image:', error);
+            // Check if a file is selected
+            if (selectedFile) {
+                // Attempt to upload the image and handle the result
+                const result: any = await addImage(selectedFile).unwrap(); // Use unwrap to handle errors
+
+                // Check if result is an object with data
+                if ('error' in result) {
+                    console.error('An unexpected error occurred while uploading the image:', result.error);
+                } else {
+                    // Assuming result is the URL as a string
+                    imageUrl = result.imageUrl; // Store the URL
+                    console.log('Image URL:', imageUrl);
+                }
+            }
+        } catch (error: any) {
+            console.error('An unexpected error occurred while uploading the image:', error);
+
         }
 
         const formDataWithUserType = {

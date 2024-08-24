@@ -205,25 +205,16 @@ const MembersTable = () => {
                 const isLast = index === members!.length - 1;
                 const classes = isLast ? "p-4 border-b border-blue-gray-50" : "p-4 border-b border-blue-gray-50";
 
-                const extractId = (url : string | undefined) => {
-                  const match = url?.match(/id=([^&]*)/);
-                  return match ? match[1] : null;
-                };
-                
-                const memberPhotoUrl = member.image; // This is the full URL
-                const photoId = extractId(memberPhotoUrl); // Extract the ID
-                
-                const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photoId}&sz=w50`;
-
+               
                 return (
                   <tr key={member.id} >
                     <td className={classes}>
                       <div className="rounded-xl">
                         <img
 
-                          src={thumbnailUrl}
+                          src={member.image}
                           alt={member.firstName}
-                          className="object-cover w-full h-full rounded-full"
+                          className="object-cover w-[80px] h-[80px] rounded-full m-auto"
                         />
                       </div>
                     </td>
