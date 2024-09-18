@@ -1,13 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form"
-import  { useEffect, useState } from 'react'
+import  {  useState } from 'react'
 import { IoClose } from 'react-icons/io5'
-import {  Member, StatusType, UserType } from '@/utils/types';
-import usePlans from '@/hooks/planHooks/usePlans';
+import {   StatusType, UserType } from '@/utils/types';
 
 
-import { useTrainerQuery } from "@/store/trainersSlice";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup"
 import { useAddMemberImageMutation } from "@/store/memberSlice";
 
 
@@ -32,7 +28,7 @@ export type AddEquipmentForm = {
 
 
 const EquipmentForm = ({ onCancel, onSubmitEquipment }: Props) => {
-    const { register, handleSubmit, formState: { errors } } = useForm<AddEquipmentForm>({
+    const { register, handleSubmit } = useForm<AddEquipmentForm>({
       
     });
 
