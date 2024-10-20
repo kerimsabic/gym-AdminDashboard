@@ -28,7 +28,7 @@ export const trainerApi=createApi({
         }),
         addTrainer: builder.mutation({
           query:(data)=>({
-            url: '/auth/register',
+            url: '/auth/registerTrainer',
             method:'POST',
             body: data
           }),
@@ -67,17 +67,6 @@ export const searchSlice = createSlice({
 export const { setSearch } = searchSlice.actions;
 
 
-/*export const selectTrainer = createSelector(
-    (state: RootState) =>
-      trainerApi.endpoints.getTrainers.select(undefined)(state)?.data,
-    (state: RootState) => state.search.search,
-    (trainer, search) =>
-      (trainer || [])
-        .filter((trainer) =>
-            trainer.name.toLowerCase().includes(search.toLowerCase())
-        )
-       
-  );*/
 export default trainerApi;
 
 

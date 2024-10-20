@@ -19,7 +19,7 @@ const Membership = () => {
     const { data: memberships, isLoading, isError, refetch } = useGetMembershipsQuery(undefined);
 
     const [currentPage, setCurrentPage] = useState(0);
-    const pageSize = 4;
+    const pageSize = 5;
     const startIndex = currentPage * pageSize;
     const endIndex = startIndex + pageSize;
 
@@ -193,6 +193,7 @@ const Membership = () => {
                             if (isSuccess) {
                                 window.confirm("Successfully updated memberhsip")
                                 refetch();
+                                window.location.reload();
                             }
                         } catch (error) {
                             console.error(error);

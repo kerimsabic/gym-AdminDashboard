@@ -18,7 +18,7 @@ const Attendance = () => {
     //const { data, /*isLoading, isError,*/ refetch } = useGetMembersQuery(undefined);
     const { data: members, refetch } = useGetMembersQuery(undefined);
     const [currentPage, setCurrentPage] = useState(0);
-    const pageSize = 6;
+    const pageSize = 5;
     const startIndex = currentPage * pageSize;
     const endIndex = startIndex + pageSize;
 
@@ -36,32 +36,36 @@ const Attendance = () => {
 
     const search = useSelector(selectSearch);
     const dispatch = useDispatch();
-    const [markAttendace, isSuccess] = useAddAttendanceMutation();
+    const [markAttendance] = useAddAttendanceMutation();
 
     const handleMarkAttendance = async (member: Member) => {
         try {
             const result = window.confirm(
                 `Are you sure you want to mark attendance for this MEMBER: "${member.firstName.toUpperCase()} ${member.lastName.toUpperCase()}"`
             );
+    
             if (result) {
                 const data = {
                     memberId: member.id!
                 };
-                await markAttendace(data);
-                if (isSuccess) {
-                    window.confirm("Attendance successfully added")
-                }
-                await refetch();              //refetc da bi refresovali tabelu da bi se vidjelo online ili oflline
+
+                await markAttendance(data).unwrap();
+
+                window.alert("Attendance successfully added");
+                await refetch(); 
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error marking attendance:', error);
+    
+            if (error?.status === 404 && error?.data?.message === 'Membership expired') {
+                window.alert("Attendance cannot be marked because the membership has expired.");
+            } else {
+                window.alert("An unexpected error occurred while marking attendance.");
+            }
         }
     };
 
 
-    /*const filteredMembers = useMemo(() => (
-        (data || []).filter((member) => member.firstName.toLowerCase().includes(search.toLowerCase()) || member.lastName.toLowerCase().includes(search.toLowerCase()))
-    ), [data, search])*/
 
     return (
         <>

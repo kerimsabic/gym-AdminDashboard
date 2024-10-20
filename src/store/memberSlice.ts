@@ -69,13 +69,40 @@ export const membersApi = createApi({
             query: ({ id }) => ({ url: `/members/${id}`, method: "DELETE" }),
             invalidatesTags: ["membersApi"],
         }),
+        updateMemberPassword: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/members/changePassword/${id}`,
+                method: "PUT",
+                body: data,
+            }),
+            invalidatesTags: ["membersApi"],
+        }),
+
+        addMemberImage: builder.mutation({
+            query: (file) => {
+                const formData = new FormData();
+                formData.append('image', file);
+        
+                return {
+                    url: `/users/uploadImageAzure`, // Ensure correct URL
+                    method: 'POST',
+                    body: formData,
+                    // Do not set 'Content-Type' header; browser sets it automatically
+                };
+            },
+            transformResponse: (response: any) => {
+                return response;  // Assuming the response has a URL
+            },
+            invalidatesTags: ['membersApi'],
+        }),
+        
     })
 })
 
 
 
 // Export hooks for usage in components
-export const { useGetMembersQuery, useAddMemberMutation, useUpdateMemberMutation, useDeleteMemberMutation, useGetMemberIdQuery, useGetMemberPaginQuery, useGetOfflineMembersQuery, useGetOnlineMembersQuery, useUpdateMemberMembershipSpecialMutation } = membersApi;
+export const { useGetMembersQuery, useAddMemberMutation, useUpdateMemberMutation, useDeleteMemberMutation, useGetMemberIdQuery, useGetMemberPaginQuery, useGetOfflineMembersQuery, useGetOnlineMembersQuery, useUpdateMemberMembershipSpecialMutation, useUpdateMemberPasswordMutation, useAddMemberImageMutation } = membersApi;
 
 
 export default membersApi;

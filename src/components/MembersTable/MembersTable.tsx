@@ -1,6 +1,6 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Chip } from "@material-tailwind/react";
-import {  useState } from 'react'
+import { useState } from 'react'
 import { MdDelete } from "react-icons/md";
 import { MdOutlineManageAccounts } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
@@ -8,6 +8,7 @@ import UserDetail from "../UserDetail";
 import { FaRegEye } from "react-icons/fa";
 import { Member, StatusType } from "@/utils/types";
 import MemberForm from "../MemberForm";
+import EditMemberForm from "../MemberForm/MemberEditForm";
 import { useAddMemberMutation, useDeleteMemberMutation, useGetMembersQuery, useUpdateMemberMutation } from "@/store/memberSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSearch } from "@/store";
@@ -20,25 +21,12 @@ const TABLE_HEAD = ["Image", "Name", "Email", "Status", "Phone", "Edit"];
 
 const MembersTable = () => {
 
-  /* const [searchTerm, setSearchTerm] = useState('');
-   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-   const userData = useMember(selectedUserId)
-   const [memberDetail, setMemberDetail] = useState(false);*/
-  /*const [filteredMembers, setFilteredMembers] = useState<Member[] | null>(null);
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-    const filteredMembers = membersData.data?.filter(member =>
-      member.firstName.toLowerCase().includes(event.target.value.toLowerCase())
-      ||
-      member.lastName.toLowerCase().includes(event.target.value.toLowerCase())
-    );
-    setFilteredMembers(filteredMembers!);
-  };*/
+
 
 
   const { data: members, isLoading, isError, isSuccess } = useGetMembersQuery(undefined);
   const [currentPage, setCurrentPage] = useState(0);
-  const pageSize = 6;
+  const pageSize = 5;
   const startIndex = currentPage * pageSize;
   const endIndex = startIndex + pageSize;
 
@@ -54,16 +42,7 @@ const MembersTable = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
   };
 
-  //const { data: members, error, isError, isLoading } = useGetMemberPaginQuery();
 
-  //console.log(members?.length)
-  /*const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
-  };
-  console.log(members)*/
 
 
   const search = useSelector(selectSearch);
@@ -73,13 +52,14 @@ const MembersTable = () => {
   const [updateMember] = useUpdateMemberMutation();
 
   const [isAddFormVisible, setAddFormVisible] = useState(false);
-  const handleCancelAdd = () => { setAddFormVisible(false); };
+  const handleCancelAdd = () => { setAddFormVisible(false); setIsEditFormVisible(false) };
+  const [isEditFormVisible, setIsEditFormVisible] = useState(false);
 
-  const [selectedMember, setSelectedMember] = useState<Member |  null>(null);
+  const [selectedMember, setSelectedMember] = useState<Member | null | any>(null);
 
   const handleEditMember = (member: Member) => {
     setSelectedMember(member);
-    setAddFormVisible(true);
+    setIsEditFormVisible(true);
   };
 
 
@@ -89,7 +69,7 @@ const MembersTable = () => {
         await deleteMember({ id: id })
         if (isSuccess) {
           window.confirm("Member successfully deleted")
-      }
+        }
       }
     } catch (error) {
       console.error('Error deleting member:', error);
@@ -97,9 +77,7 @@ const MembersTable = () => {
   };
 
 
-  /*const filteredMembers = useMemo(() => (
-    (members || []).filter((member) => member.firstName.toLowerCase().includes(search.toLowerCase()) || member.lastName.toLowerCase().includes(search.toLowerCase()))
-  ), [members, search])*/
+
 
 
 
@@ -127,16 +105,16 @@ const MembersTable = () => {
           onCancel={handleCancelAdd}
           onSubmitMember={async (formData: any) => {
             try {
-             if(formData.trainingPlanId==""){
+              if (formData.trainingPlanId == "") {
                 alert("Training plan not selected, member NOT created");
-             }
-             else{
-              await addMember(formData)
-              if (isSuccess) {
-                window.confirm("Member successfully added")
               }
-             }
-              
+              else {
+                await addMember(formData)
+                if (isSuccess) {
+                  window.confirm("Member successfully added")
+                }
+              }
+
             } catch (error) {
               console.log(error)
             }
@@ -159,7 +137,26 @@ const MembersTable = () => {
         />
       )}
 
-      <div className="w-[80%] mx-auto flex md:justify-center max-md:w-[95%] mt-10">
+      {isEditFormVisible && (
+        <EditMemberForm
+          onCancel={handleCancelAdd}
+          initialData={selectedMember}
+          onUpdateMember={async (formData) => {
+            console.log(formData.id)
+            try {
+              await updateMember({ id: formData.id, data: formData })
+              if (isSuccess) {
+                window.confirm(`Member ${formData.firstName} successfully updated`)
+              }
+            } catch (error) {
+              console.log(error)
+            }
+            setIsEditFormVisible(false);
+          }}
+        />
+      )}
+
+      <div className="w-[100%] mx-auto flex md:justify-center max-md:w-[95%] mt-10">
         <div className=" w-full  max-md:overflow-x-scroll lg:overflow-x-scroll " >
           <div className="w-full flex max-xs:flex-col mb-5 justify-between">
             <div className="w-[50%]   flex items-center">
@@ -208,11 +205,17 @@ const MembersTable = () => {
                 const isLast = index === members!.length - 1;
                 const classes = isLast ? "p-4 border-b border-blue-gray-50" : "p-4 border-b border-blue-gray-50";
 
+               
                 return (
                   <tr key={member.id} >
                     <td className={classes}>
-                      <div className="flex items-center justify-center w-16 h-16 rounded-full bg-black overflow-hidden">
-                        <img src={member.image} alt={member.firstName} className="object-cover w-full h-full" />
+                      <div className="rounded-xl">
+                        <img
+
+                          src={member.image}
+                          alt={member.firstName}
+                          className="object-cover w-[80px] h-[80px] rounded-full m-auto"
+                        />
                       </div>
                     </td>
                     <td className={classes}>
@@ -258,7 +261,7 @@ const MembersTable = () => {
               disabled={currentPage === 0}
               className="bg-blue-500 hover:bg-[#191d4f] text-white font-bold py-2 px-4 border border-blue-700 rounded"
             >
-              Previous Page
+              <span>Previous Page</span>
             </button>
             <div>{currentPage}...{totalPages}</div>
             <button

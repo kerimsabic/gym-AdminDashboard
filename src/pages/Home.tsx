@@ -5,6 +5,7 @@ import { useGetAdminsQuery } from '@/store/adminSlice'
 import { useGetEquipmentsQuery } from '@/store/equipmentSlice';
 import { useGetMembersQuery } from '@/store/memberSlice'
 import { useTrainerQuery } from '@/store/trainersSlice';
+import { SecondChart } from '.';
 
 
 
@@ -22,7 +23,7 @@ const Home = () => {
   const totalAdmins = admins?.length;
   const totalTrainers = trainers?.length;
   const totalPlans=plans?.length;
-  const totalEquipment=equipment.length;
+  const totalEquipment=equipment?.length;
 
   return (
     <>
@@ -85,7 +86,7 @@ const Home = () => {
         </div>
         <div className=' '>
           <div className=''>
-            <AttendaceChart />
+            <SecondChart />
           </div>
         </div>
       </div>
