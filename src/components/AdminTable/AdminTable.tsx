@@ -21,7 +21,7 @@ const AdminTable = () => {
 
     const { data: admins, error, isLoading, refetch } = useGetAdminsQuery();
     const [currentPage, setCurrentPage] = useState(0);
-    const pageSize = 6;
+    const pageSize = 4;
     const startIndex = currentPage * pageSize;
     const endIndex = startIndex + pageSize;
 

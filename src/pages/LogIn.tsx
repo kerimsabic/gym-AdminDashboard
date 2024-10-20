@@ -65,8 +65,8 @@ const LogIn = () => {
                 <div className="absolute bottom-10 right-2  bg-blue-600 p-6 drop-shadow-2xl rounded-lg text-white">
                     <button onClick={() => setHelpBoxOpen(!helpBoxOpen)} className="text-right">X</button>
                     <p className="font-extrabold">IMPORTANT: Once you click sign in wait about 1-2min for server to start and sing in again!</p>
-                    <p>Email: nekiadmin@stu.ibu.edu.ba</p>
-                    <p>Password: nekiadmin</p>
+                    <p>Email: kerimAdmin@gmail.com</p>
+                    <p>Password: admin</p>
                     <p>Admin privileges</p>
                 </div>
             }

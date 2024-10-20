@@ -26,7 +26,7 @@ const MembersTable = () => {
 
   const { data: members, isLoading, isError, isSuccess } = useGetMembersQuery(undefined);
   const [currentPage, setCurrentPage] = useState(0);
-  const pageSize = 6;
+  const pageSize = 5;
   const startIndex = currentPage * pageSize;
   const endIndex = startIndex + pageSize;
 
